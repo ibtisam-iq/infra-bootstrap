@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # ╔══════════════════════════════════════════════════════════════════╗
-# ║    SilverInit - Kubernetes Node Setup                            ║
+# ║    infra-bootstrap - Kubernetes Node Setup                            ║
 # ║    (c) 2025 Muhammad Ibtisam Iqbal                               ║
-# ║    License: MIT | 🌐 https://github.com/ibtisam-iq/SilverInit    ║
+# ║    License: MIT | 🌐 https://github.com/ibtisam-iq/infra-bootstrap    ║
 # ╚══════════════════════════════════════════════════════════════════╝
 
 # 🚀 Description:
@@ -17,7 +17,7 @@
 # ==================================================
 # 🛠️ Setup: Run as root (or with sudo privileges)
 # Usage:
-#   curl -sL https://raw.githubusercontent.com/ibtisam-iq/SilverInit/main/K8s-Node-Init.sh | sudo bash
+#   curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/K8s-Node-Init.sh | sudo bash
 # ==================================================
 
 set -e  # Exit on error
@@ -31,7 +31,7 @@ YELLOW="\033[1;33m"
 BLUE="\033[1;34m"
 NC="\033[0m" # No Color
 
-REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/SilverInit/main"
+REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main"
 
 # ✅ Dynamically source cluster-params.sh
 eval "$(curl -sL "$REPO_URL/cluster-params.sh")"
@@ -106,5 +106,5 @@ echo -e "${GREEN}\n🎉 Happy Kuberneting! 🚀${NC}"
 # ==================================================
 # 🎉 Setup Complete! Thank You! 🙌
 # ==================================================
-echo -e "\n\033[1;33m✨  Thank you for choosing SilverInit - Muhammad Ibtisam 🚀\033[0m\n"
+echo -e "\n\033[1;33m✨  Thank you for choosing infra-bootstrap - Muhammad Ibtisam 🚀\033[0m\n"
 echo -e "\033[1;32m💡 Automation is not about replacing humans; it's about freeing them to be more human—to create, innovate, and lead. \033[0m\n"

@@ -6,7 +6,7 @@ if [[ "$1" == "--clear" ]]; then
 fi
 
 # ╔═══════════════════════════════════╗
-# │ SilverInit – CNI Network Utility  │
+# │ infra-bootstrap – CNI Network Utility  │
 # ╚═══════════════════════════════════╝
 
 # ───── COLORS ─────
@@ -22,11 +22,11 @@ trap 'echo -e "\n${RED}❌ Script interrupted. Exiting...${RESET}"; exit 1' INT
 
 # ───── HEADER ─────
 function print_header() {
-  echo -e "${BOLD}${CYAN}SilverInit – CNI Network Setup Utility${RESET}"
+  echo -e "${BOLD}${CYAN}infra-bootstrap – CNI Network Setup Utility${RESET}"
   echo
   echo -e "${CYAN}Author   : Muhammad Ibtisam Iqbal"
   echo -e "Version  : v1.0"
-  echo -e "Repo     : https://github.com/ibtisam-iq/SilverInit"
+  echo -e "Repo     : https://github.com/ibtisam-iq/infra-bootstrap"
   echo -e "License  : MIT${RESET}\n"
 }
 
@@ -169,12 +169,12 @@ function main() {
 
   
   case "$choice" in
-    1|"") install_cni "Calico"  "https://raw.githubusercontent.com/ibtisam-iq/SilverInit/main/calico-setup.sh" ;;
-    2)     install_cni "Flannel" "https://raw.githubusercontent.com/ibtisam-iq/SilverInit/main/flannel-setup.sh" ;;
-    3)     install_cni "Weave"   "https://raw.githubusercontent.com/ibtisam-iq/SilverInit/main/weave-setup.sh" ;;
+    1|"") install_cni "Calico"  "https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/calico-setup.sh" ;;
+    2)     install_cni "Flannel" "https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/flannel-setup.sh" ;;
+    3)     install_cni "Weave"   "https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/weave-setup.sh" ;;
     *)
       echo -e "${RED}⚠️ Invalid input. Defaulting to Calico.${RESET}"
-      install_cni "Calico"  "https://raw.githubusercontent.com/ibtisam-iq/SilverInit/main/calico-setup.sh"
+      install_cni "Calico"  "https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/calico-setup.sh"
       ;;
   esac
   

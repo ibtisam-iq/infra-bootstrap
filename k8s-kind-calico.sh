@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ╔══════════════════════════════════════════════════╗
-# ║     SilverInit - Kind Cluster Setup Using Calico ║
+# ║     infra-bootstrap - Kind Cluster Setup Using Calico ║
 # ║     (c) 2025 Muhammad Ibtisam Iqbal              ║
 # ║     License: MIT                                 ║
 # ╚══════════════════════════════════════════════════╝
@@ -15,9 +15,9 @@
 #   - ✅ kind installation
 #
 # 🚀 Usage:
-#   curl -sL https://raw.githubusercontent.com/ibtisam-iq/SilverInit/main/k8s-kind-calico.sh | sudo bash
+#   curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/k8s-kind-calico.sh | sudo bash
 #
-# 📜 License: MIT | 🌐 https://github.com/ibtisam-iq/SilverInit
+# 📜 License: MIT | 🌐 https://github.com/ibtisam-iq/infra-bootstrap
 
 set -e  # Exit immediately if a command fails
 set -o pipefail  # Ensure failures in piped commands are detected
@@ -26,7 +26,7 @@ set -o pipefail  # Ensure failures in piped commands are detected
 trap 'echo -e "\n\033[1;31m❌ Error occurred at line $LINENO. Exiting...\033[0m\n" && exit 1' ERR
 
 # Define the repository URL
-REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/SilverInit/main"
+REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main"
 
 # List of scripts to execute
 SCRIPTS=(
@@ -114,4 +114,4 @@ echo -e "💡 Also: kind export kubeconfig --name ibtisam\n"
 # ==================================================
 # 🎉 Setup Complete! Thank You! 🙌
 # ==================================================
-echo -e "\n\033[1;33m✨ Thank you for choosing SilverInit - Muhammad Ibtisam 🚀\033[0m\n"
+echo -e "\n\033[1;33m✨ Thank you for choosing infra-bootstrap - Muhammad Ibtisam 🚀\033[0m\n"

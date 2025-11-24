@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ╔════════════════════════════════════════════════════════╗
-# ║      SilverInit - System Update & Information          ║
+# ║      infra-bootstrap - System Update & Information          ║
 # ║      (c) 2025 Muhammad Ibtisam Iqbal                   ║
 # ║      License: MIT                                      ║
 # ╚════════════════════════════════════════════════════════╝
@@ -22,7 +22,7 @@
 #   --no-update  : Skip system update
 #   -h | --help  : Show this help menu
 #
-# 📜 License: MIT | 🌐 https://github.com/ibtisam-iq/SilverInit
+# 📜 License: MIT | 🌐 https://github.com/ibtisam-iq/infra-bootstrap
 
 
 set -e  # Exit immediately if a command fails
@@ -42,7 +42,7 @@ RESET=$(tput sgr0)
 # 🛠️ Configuration
 # -------------------------------
 LOG_FILE="/var/log/sysinfo.log"
-REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/SilverInit/main"
+REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main"
 QUIET_MODE=false
 SKIP_UPDATE=false
 
@@ -145,5 +145,5 @@ divider
 # ==================================================
 # 🎉 Setup Complete! Thank You! 🙌
 # ==================================================
-echo -e "\n\033[1;33m✨  Thank you for choosing SilverInit - Muhammad Ibtisam 🚀\033[0m\n"
+echo -e "\n\033[1;33m✨  Thank you for choosing infra-bootstrap - Muhammad Ibtisam 🚀\033[0m\n"
 echo -e "\033[1;32m💡 Automation is not about replacing humans; it's about freeing them to be more human—to create, innovate, and lead. \033[0m\n"

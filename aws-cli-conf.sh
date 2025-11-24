@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# SilverInit - AWS CLI Installation and Configuration Script
+# infra-bootstrap - AWS CLI Installation and Configuration Script
 # -------------------------------------------------
 # This script installs AWS CLI v2 on Linux and configures it with your AWS credentials.
 # It also removes any existing AWS CLI v1 configuration files.
@@ -8,7 +8,7 @@
 # Exit immediately if a command fails
 set -e
 
-REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/SilverInit/main"
+REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main"
 
 echo -e "\n🚀 Running preflight.sh script to ensure that system meets the requirements to install AWS CLI v2..."
 bash <(curl -sL "$REPO_URL/preflight.sh") || { echo "❌ Failed to execute preflight.sh. Exiting..."; exit 1; }
@@ -130,5 +130,5 @@ fi
 # ==================================================
 # 🎉 Setup Complete! Thank You! 🙌
 # ==================================================
-echo -e "\n\033[1;33m✨  Thank you for choosing SilverInit - Muhammad Ibtisam 🚀\033[0m\n"
+echo -e "\n\033[1;33m✨  Thank you for choosing infra-bootstrap - Muhammad Ibtisam 🚀\033[0m\n"
 echo -e "\033[1;32m💡 Automation is not about replacing humans; it's about freeing them to be more human—to create, innovate, and lead. \033[0m\n"

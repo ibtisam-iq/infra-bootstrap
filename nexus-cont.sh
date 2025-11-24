@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# SilverInit - Nexus Container Setup Script
+# infra-bootstrap - Nexus Container Setup Script
 # -------------------------------------------------
 # This script installs and runs Nexus container on Linux.
 
@@ -10,7 +10,7 @@ set -o pipefail  # Ensure failures in piped commands are detected
 # Handle script failures
 trap 'echo -e "\n\033[1;31m❌ Error occurred at line $LINENO. Exiting...\033[0m\n" && exit 1' ERR
 
-REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/SilverInit/main"
+REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main"
 
 # ==================================================
 # 🛠️ Preflight Check
@@ -102,5 +102,5 @@ echo -e "\n📌 Note: It may take a few minutes for Nexus container to start com
 # ==================================================
 # 🎉 Setup Complete! Thank You! 🙌
 # ==================================================
-echo -e "\n\033[1;33m✨  Thank you for choosing SilverInit - Muhammad Ibtisam 🚀\033[0m\n"
+echo -e "\n\033[1;33m✨  Thank you for choosing infra-bootstrap - Muhammad Ibtisam 🚀\033[0m\n"
 echo -e "\033[1;32m💡 Automation is not about replacing humans; it's about freeing them to be more human—to create, innovate, and lead. \033[0m\n"
