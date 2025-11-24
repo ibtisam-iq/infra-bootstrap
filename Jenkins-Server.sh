@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ╔══════════════════════════════════════════════════╗
-# ║          SilverInit - Jenkins Server Setup       ║
+# ║          infra-bootstrap - Jenkins Server Setup       ║
 # ║          (c) 2025 Muhammad Ibtisam Iqbal         ║
 # ║          License: MIT                            ║
 # ╚══════════════════════════════════════════════════╝
@@ -18,9 +18,9 @@
 #   - ✅ Trivy security scanner setup
 #
 # 🚀 Usage:
-#   curl -sL https://raw.githubusercontent.com/ibtisam-iq/SilverInit/main/Jenkins-Server.sh | sudo bash
+#   curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/Jenkins-Server.sh | sudo bash
 #
-# 📜 License: MIT | 🌐 https://github.com/ibtisam-iq/SilverInit
+# 📜 License: MIT | 🌐 https://github.com/ibtisam-iq/infra-bootstrap
 
 set -e  # Exit immediately if a command fails
 set -o pipefail  # Ensure failures in piped commands are detected
@@ -29,7 +29,7 @@ set -o pipefail  # Ensure failures in piped commands are detected
 trap 'echo -e "\n\033[1;31m❌ Error occurred at line $LINENO. Exiting...\033[0m\n" && exit 1' ERR
 
 # Define the repository URL
-REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/SilverInit/main"
+REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main"
 
 # List of scripts to execute
 SCRIPTS=(
@@ -80,5 +80,5 @@ echo -e "\n\033[1;33m🔄 Jenkins user is added to docker group, please run this
 # ==================================================
 # 🎉 Setup Complete! Thank You! 🙌
 # ==================================================
-echo -e "\n\033[1;33m✨  Thank you for choosing SilverInit - Muhammad Ibtisam 🚀\033[0m\n"
+echo -e "\n\033[1;33m✨  Thank you for choosing infra-bootstrap - Muhammad Ibtisam 🚀\033[0m\n"
 echo -e "\033[1;32m💡 Automation is not about replacing humans; it's about freeing them to be more human—to create, innovate, and lead. \033[0m\n"

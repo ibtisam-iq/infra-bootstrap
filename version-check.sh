@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ╔════════════════════════════════════════════════════════╗
-# ║               SilverInit - Version Check               ║
+# ║               infra-bootstrap - Version Check               ║
 # ║               (c) 2025 Muhammad Ibtisam Iqbal          ║
 # ║               License: MIT                             ║
 # ╚════════════════════════════════════════════════════════╝
@@ -12,7 +12,7 @@ set -e  # Exit immediately if a command fails
 set -o pipefail  # Ensure failures in piped commands are detected
 # trap 'echo -e "\n\e[1;31m❌ Error occurred at line $LINENO. Exiting...\e[0m\n" && exit 1' ERR  # Handle script failures
 
-REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/SilverInit/main"
+REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main"
 
 # Log Function (Print & Save to Log File)
 log() {

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ==================================================
-# SilverInit - Ansible Setup
+# infra-bootstrap - Ansible Setup
 # --------------------------------------------------
 # This script installs Ansible on Ubuntu or Linux Mint.
 # Author: Muhammad Ibtisam Iqbal
@@ -17,7 +17,7 @@ set -o pipefail  # Ensure failures in piped commands are detected
 # Handle script failures
 trap 'echo -e "\n❌ Error occurred at line $LINENO. Exiting...\n" && exit 1' ERR
 
-REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/SilverInit/main"
+REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main"
 
 # ==================================================
 # 🛠️ Preflight Check
@@ -66,5 +66,5 @@ echo -e "\n\033[1;32m🎉 Ansible setup completed successfully. Happy Automating
 # ==================================================
 # 🎉 Setup Complete! Thank You! 🙌
 # ==================================================
-echo -e "\n\033[1;33m✨  Thank you for choosing SilverInit - Muhammad Ibtisam 🚀\033[0m\n"
+echo -e "\n\033[1;33m✨  Thank you for choosing infra-bootstrap - Muhammad Ibtisam 🚀\033[0m\n"
 echo -e "\033[1;32m💡 Automation is not about replacing humans; it's about freeing them to be more human—to create, innovate, and lead. \033[0m\n"

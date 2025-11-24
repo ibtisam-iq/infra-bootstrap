@@ -11,13 +11,13 @@ trap 'echo -e "\n❌ Error occurred at line $LINENO. Exiting...\n" && exit 1' ER
 
 # 🔗 Fetch dynamic cluster environment variables
 echo -e "\n\033[1;36m🔗 Fetching cluster environment variables...\033[0m"
-eval "$(curl -sL https://raw.githubusercontent.com/ibtisam-iq/SilverInit/main/cluster-params.sh)"
+eval "$(curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/cluster-params.sh)"
 
 echo -e "📦 POD_CIDR being configured: $POD_CIDR"
 echo -e "🔖 WEAVE_VERSION being configured: \033[1;33m$K8S_VERSION\033[0m"
 
 # 🔄 Start Kubernetes services
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/SilverInit/main/k8s-start-services.sh | sudo bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/k8s-start-services.sh | sudo bash
 
 # 🚀 Deploying Weave CNI
 echo -e "\n\033[1;34m🚀 Deploying Weave network plugin...\033[0m"

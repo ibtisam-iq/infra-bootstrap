@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# SilverInit - kind Installation Script
+# infra-bootstrap - kind Installation Script
 # -------------------------------------------------
 # This script installs kind on Linux.
 
@@ -11,7 +11,7 @@ set -o pipefail  # Ensure failures in piped commands are detected
 # Handle script failures
 trap 'echo -e "\n\033[1;31m❌ Error occurred at line $LINENO. Exiting...\033[0m\n" && exit 1' ERR
 
-REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/SilverInit/main"
+REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main"
 
 echo -e "\n🚀 Running preflight.sh script to ensure that system meets the requirements to install kind binary..."
 bash <(curl -sL "$REPO_URL/preflight.sh") || { echo "❌ Failed to execute preflight.sh. Exiting..."; exit 1; }

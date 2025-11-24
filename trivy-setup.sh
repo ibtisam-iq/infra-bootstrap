@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# SilverInit - Trivy Setup
+# infra-bootstrap - Trivy Setup
 # -------------------------------------------------
 # This script installs Trivy on Ubuntu or its derivatives.
 
@@ -8,7 +8,7 @@
 # Exit immediately if a command fails
 set -e  
 
-REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/SilverInit/main"
+REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main"
 
 echo -e "\n🚀 Running preflight.sh script to ensure that system meets the requirements to install Trivy..."
 bash <(curl -sL "$REPO_URL/preflight.sh") || { echo "❌ Failed to execute preflight.sh. Exiting..."; exit 1; }
@@ -33,5 +33,5 @@ fi
 # ==================================================
 # 🎉 Setup Complete! Thank You! 🙌
 # ==================================================
-echo -e "\n\033[1;33m✨  Thank you for choosing SilverInit - Muhammad Ibtisam 🚀\033[0m\n"
+echo -e "\n\033[1;33m✨  Thank you for choosing infra-bootstrap - Muhammad Ibtisam 🚀\033[0m\n"
 echo -e "\033[1;32m💡 Automation is not about replacing humans; it's about freeing them to be more human—to create, innovate, and lead. \033[0m\n"

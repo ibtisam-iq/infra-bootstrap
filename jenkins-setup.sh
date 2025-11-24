@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # -------------------------------------------------
-# SilverInit - Jenkins Server Setup
+# infra-bootstrap - Jenkins Server Setup
 # -------------------------------------------------
 # 📌 Description: This script installs Jenkins on Ubuntu or Linux Mint.
 # 📌 Usage      : sudo bash jenkins-setup.sh [options]
@@ -24,7 +24,7 @@ trap 'echo -e "\n❌ Error occurred at line $LINENO. Exiting...\n" && exit 1' ER
 # -------------------------------
 # 🛠️ Configuration
 # -------------------------------
-REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/SilverInit/main"
+REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main"
 QUIET_MODE=false
 SKIP_UPDATE=false
 
@@ -178,5 +178,5 @@ divider
 # ==================================================
 # 🎉 Setup Complete! Thank You! 🙌
 # ==================================================
-echo -e "\n\033[1;33m✨  Thank you for choosing SilverInit - Muhammad Ibtisam 🚀\033[0m\n"
+echo -e "\n\033[1;33m✨  Thank you for choosing infra-bootstrap - Muhammad Ibtisam 🚀\033[0m\n"
 echo -e "\033[1;32m💡 Automation is not about replacing humans; it's about freeing them to be more human—to create, innovate, and lead. \033[0m\n"

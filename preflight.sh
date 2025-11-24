@@ -1,14 +1,14 @@
 #!/bin/bash
 
 # ╔══════════════════════════════════════════════════╗
-# ║          SilverInit - Preflight Checks           ║
+# ║          infra-bootstrap - Preflight Checks           ║
 # ║          (c) 2025 Muhammad Ibtisam Iqbal         ║
 # ║          License: MIT                            ║
 # ╚══════════════════════════════════════════════════╝
 # 
 # 📌 Description:
 # This script ensures that the system meets the requirements for running 
-# other SilverInit scripts. It performs:
+# other infra-bootstrap scripts. It performs:
 #   - ✅ Root user verification
 #   - ✅ Checking required dependencies (curl, bash)
 #   - ✅ Internet connectivity check
@@ -16,9 +16,9 @@
 #   - ✅ Architecture validation (x86_64 / amd64)
 #
 # 🚀 Usage:
-#   curl -sL https://raw.githubusercontent.com/ibtisam-iq/SilverInit/main/preflight.sh | sudo bash
+#   curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/preflight.sh | sudo bash
 #
-# 📜 License: MIT | 🌐 https://github.com/ibtisam-iq/SilverInit
+# 📜 License: MIT | 🌐 https://github.com/ibtisam-iq/infra-bootstrap
 #
 
 set -e  # Exit immediately if a command fails
@@ -34,7 +34,7 @@ RED=$(tput setaf 1)
 RESET=$(tput sgr0)
 
 echo -e "\n${YELLOW}========================================${RESET}"
-echo -e "🚀 ${GREEN}SilverInit - System Preflight Checks${RESET}"
+echo -e "🚀 ${GREEN}infra-bootstrap - System Preflight Checks${RESET}"
 echo -e "${YELLOW}========================================${RESET}\n"
 
 # Ensure the script is running as root
