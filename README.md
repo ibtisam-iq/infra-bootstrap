@@ -1,140 +1,3 @@
-# infra-bootstrap
-
-## Kubernetes Node Initialization
-
-```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/K8s-Node-Init.sh | sudo bash
-```
-
-## Kubernetes First Control Plane Initialization
-
-```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/K8s-Control-Plane-Init.sh | sudo bash
-```
----
-
-## Kubernetes Cluster Initialization with `Kind`
-
-- **Create a cluster named `ibtisam` with 1 control plane node and 1 worker node, and default CNI (Flannel)**
-```bash
-curl -s https://raw.githubusercontent.com/ibtisam-iq/SilverKube/main/kind-config-file.yaml | kind create cluster --config -
-```
-
-- **Create a cluster named `ibtisam` with 1 control plane node and 1 worker, and Calico CNI**
-
-```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/k8s-kind-calico.sh | sudo bash
-```
-
-## Jumpbox Server Initialization
-
-```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/Jumpbox.sh | sudo bash
-```
-
-## Jenkins Server Initialization
-
-```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/Jenkins-Server.sh | sudo bash
-```
-
-### Jenkins
-
-```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/jenkins-setup.sh | sudo bash
-```
-
-### Docker
-
-```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/docker-setup.sh | sudo bash
-```
-
-### Ansible
-
-```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/ansible-setup.sh | sudo bash
-```
-
-### Terraform
-
-```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/terraform-setup.sh | sudo bash
-```
-
-### AWS CLI
-
-```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/aws-cli-conf.sh | sudo bash
-```
-
-### Kubectl & Eksctl
-
-```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/kubectl-and-eksctl.sh | sudo bash
-```
-
-### SonarQube Container
-
-```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/sonarqube-cont.sh | sudo bash
-```
-
-### Nexus Container
-
-```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/nexus-cont.sh | sudo bash
-```
-
-### Containerd
-
-```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/containerd-setup.sh | sudo bash
-```
-
-### Helm
-
-```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/helm-setup.sh | sudo bash
-```
-
-### Trivy
-
-``` bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/trivy-setup.sh | sudo bash
-```
-
-### CNI
-
-```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/k8s-cni-setup.sh | bash
-```
-
-### Get System Information
-
-```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/sys-info-and-update.sh | sudo bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/sys-info-and-update.sh | sudo bash -s -- -q
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/sys-info-and-update.sh | sudo bash -s -- --no-update
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/sys-info-and-update.sh | sudo bash -s -- -h
-```
-
-### Installed Packages Version Check
-
-```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/version-check.sh | sudo bash
-```
-
-
-
-
-
-Here is your **fully rewritten, senior-engineer level README**.
-This is clean, honest, technical, trustable, and production-safe.
-You can **copy–paste this directly** into your `README.md`.
-
----
-
 # ⚙️ infra-bootstrap
 
 <p align="center">
@@ -142,325 +5,390 @@ You can **copy–paste this directly** into your `README.md`.
   <img src="https://img.shields.io/badge/Scripting-Bash-black?style=for-the-badge&logo=gnu-bash" />
   <img src="https://img.shields.io/badge/Kubernetes-Automation-blue?style=for-the-badge&logo=kubernetes" />
   <img src="https://img.shields.io/badge/DevOps-Bootstrapping-green?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/License-MIT-purple?style=for-the-badge" />
 </p>
 
 ---
 
 ## Overview
 
-`infra-bootstrap` is a **Bash-based infrastructure bootstrapping system** built to automate the repetitive setup of DevOps tools and Kubernetes environments in short-lived lab or cloud instances.
+`infra-bootstrap` is a **Bash-based infrastructure bootstrapping framework** designed to rapidly provision DevOps tooling and Kubernetes environments in disposable lab and cloud instances.
 
-This project was created to solve a real engineering problem:
-
-> Spending more time installing infrastructure than actually learning or building.
-
-It focuses on **speed, repeatability, and system-level control** for lab and learning environments.
+It provides modular, repeatable automation scripts for creating consistent infrastructure without manual setup overhead.
 
 ---
 
-## Target Audience
+## Scope
 
 This project is designed for:
 
-* DevOps learners
-* Home-lab engineers
-* Cloud sandbox users
-* Engineers practicing Kubernetes and CI/CD setups
+* Learning environments
+* Dev/test labs
+* Cloud sandboxes
+* Disposable VMs
 
-It is **not designed for enterprise production systems**.
-
----
-
-## System Architecture
-
-```
-infra-bootstrap/
-│
-├── Kubernetes Layer
-│   ├── Node initialization
-│   ├── Control-plane setup
-│   ├── CNI configuration
-│
-├── Container Runtime Layer
-│   ├── Docker installation
-│   ├── Containerd configuration
-│
-├── CI/CD Layer
-│   ├── Jenkins server bootstrap
-│   ├── SonarQube container setup
-│   ├── Nexus repository bootstrap
-│
-├── Security Layer
-│   ├── Trivy vulnerability scanner
-│
-└── Utility Layer
-    ├── System preflight checks
-    ├── Cleanup scripts
-    ├── Version verification
-```
-
-This structure ensures modular and repeatable environment bootstrapping.
+**Not intended for enterprise production systems.**
 
 ---
 
-## What This Project Does
+## Prerequisites
 
-With a single command, it can:
+This project is designed to run on:
 
-* Bootstrap Kubernetes nodes and control planes
-* Install Docker and Containerd
-* Deploy Jenkins, SonarQube, and Nexus
-* Configure Kubernetes networking (Calico, Flannel, Weave)
-* Prepare jumpbox servers
-* Perform system readiness checks
-* Create consistent, repeatable DevOps lab environments
+- Ubuntu 20.04 / 22.04 / 24.04
+- Ubuntu-based distributions (Linux Mint, Pop!_OS, Debian derivatives)
 
-All scripts are modular and designed for **repeatable lab use**.
+### System Requirements
+
+- Fresh VM or clean system (recommended)
+- Root or sudo privileges
+- Stable internet connectivity
+- `curl` installed
+- `bash` shell available
+
+### Supported Platforms
+
+✅ Ubuntu  
+✅ Linux Mint  
+✅ Debian-based distros  
+
+❌ CentOS  
+❌ RHEL  
+❌ SUSE  
+
+This project assumes a clean, disposable system environment.
 
 ---
 
 ## Engineering Approach
 
-This project intentionally uses **Bash scripting** instead of Ansible because:
+This project intentionally uses **Bash scripting instead of Ansible**.
 
-* Faster execution for personal lab environments
-* No external dependency overhead
-* Direct system-level control during cluster initialization
+This was a deliberate engineering decision based on the project goals:
 
-This is a **learning-focused automation framework**, not an enterprise orchestration replacement.
+- Faster execution in lab environments
+- No dependency bootstrapping required
+- Full visibility into system-level changes
+- Direct control of package and service state
+
+This project is optimized for:
+
+- Speed of provisioning
+- Learning by system-level interaction
+- Rapid rebuild of disposable infrastructure
+
+For enterprise-grade infrastructure, tools such as **Ansible, Terraform, and GitOps** are more appropriate.
+
+---
+
+## Design & Execution Model
+
+infra-bootstrap is designed as a modular infrastructure bootstrapping framework, not a sequential automation pipeline.
+
+Each script in this repository is:
+
+- Self-contained and independently executable
+- Safe to run in isolation
+- Designed to manage its own prerequisites
+- Built for repeatable, disposable environments
+
+There is no forced execution order.
+
+Users are expected to run only the scripts they require for their specific use case.
+
+Where applicable, scripts follow idempotent behavior to avoid system breakage and allow safe re-runs.
+
+The project is intentionally Bash-based to maximize speed, visibility, and system-level control rather than acting as a full enterprise orchestration system.
 
 ---
 
-## Quick Start
+## Automated Infrastructure Tooling
 
-> ⚠️ These scripts are designed for test VMs and disposable lab environments.  
-> Do **not** run on production systems.
+A structured collection of scripts for provisioning infrastructure components and DevOps environments.
 
+### 1️⃣ Kubernetes Infrastructure
 
-## 📦 Installation Index (Tool Catalog)
-
-Use the expandable sections below to quickly find and install any tool or server.
-
----
+#### Local / Lightweight Clusters
 
 <details>
-<summary><strong>☸️ Kubernetes Cluster Bootstrap</strong></summary>
-
-| Tool | Purpose | Command |
-|------|---------|---------|
-| K8s Worker Node | Initializes a Kubernetes Worker Node | `curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/K8s-Node-Init.sh \| sudo bash` |
-| K8s Control Plane | Initializes Kubernetes Control Plane | `curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/K8s-Control-Plane-Init.sh \| sudo bash` |
-| Kubernetes CNI | Installs Cluster Networking (CNI) | `curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/k8s-cni-setup.sh \| sudo bash` |
-
-</details>
-
----
-
-<details>
-<summary><strong>🧭 Jumpbox Server (Admin Access Server)</strong></summary>
-
-| Tool Installed | Purpose | Command |
-|----------------|---------|---------|
-| Jumpbox Server | Installs: Terraform, Ansible, kubectl, eksctl, Helm | `curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/Jumpbox.sh \| sudo bash` |
-
-</details>
-
----
-
-<details>
-<summary><strong>🔧 CI/CD Servers</strong></summary>
-
-| Server Type | Tools Installed | Command |
-|------------|-----------------|---------|
-| Jenkins Server | Jenkins + Docker + Trivy + kubectl + eksctl | `curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/Jenkins-Server.sh \| sudo bash` |
-| Jenkins Only | Only Jenkins | `curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/jenkins-setup.sh \| sudo bash` |
-
-</details>
-
----
-
-<details>
-<summary><strong>🐳 Container Runtimes</strong></summary>
-
-| Tool | Purpose | Command |
-|------|---------|---------|
-| Docker | Container Engine | `curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/docker-setup.sh \| sudo bash` |
-| Containerd | Kubernetes Runtime | `curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/containerd-setup.sh \| sudo bash` |
-
-</details>
-
----
-
-<details>
-<summary><strong>🔍 Security & Scanning Tools</strong></summary>
-
-| Tool | Purpose | Command |
-|------|---------|---------|
-| Trivy | Vulnerability Scanning | `curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/trivy-setup.sh \| sudo bash` |
-| SonarQube | Code Quality Analyzer | `curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/sonarqube-cont.sh \| sudo bash` |
-
-</details>
-
----
-
-<details>
-<summary><strong>📦 Artifact Repository</strong></summary>
-
-| Tool | Purpose | Command |
-|------|---------|---------|
-| Nexus | Artifact Repository Manager | `curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/nexus-cont.sh \| sudo bash` |
-
-</details>
-
----
-
-<details>
-<summary><strong>⚙️ Infrastructure Utilities</strong></summary>
-
-| Tool | Purpose | Command |
-|------|---------|---------|
-| Terraform | Infrastructure as Code | `curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/terraform-setup.sh \| sudo bash` |
-| Ansible | Config Management Tool | `curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/ansible-setup.sh \| sudo bash` |
-| Helm | Kubernetes Package Manager | `curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/helm-setup.sh \| sudo bash` |
-| AWS CLI | AWS Command Line Tool | `curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/aws-cli-conf.sh \| sudo bash` |
-| kubectl + eksctl | Kubernetes Management Tools | `curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/kubectl-and-eksctl.sh \| sudo bash` |
-
-</details>
-
----
-
-<details>
-<summary><strong>🧪 System Diagnostics</strong></summary>
-
-| Tool | Purpose | Command |
-|------|---------|---------|
-| System Info | Shows system health + updates | `curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/sys-info-and-update.sh \| sudo bash` |
-| Version Check | Installed packages version check | `curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/version-check.sh \| sudo bash` |
-
-</details>
-
-
----
-
-
-### Kubernetes Node Initialization
+<summary>Minikube</summary>
 
 ```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/K8s-Node-Init.sh | sudo bash
+minikube start
 ```
 
-### Kubernetes Control Plane Initialization
+</details>
+
+<details>
+<summary>Kind</summary>
+
+```bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/k8s-kind-calico.sh | sudo bash
+```
+
+</details>
+
+<details>
+<summary>K3s</summary>
+
+```bash
+curl -sfL https://get.k3s.io | sh -
+```
+
+</details>
+
+---
+
+#### Self-managed Clusters (kubeadm)
+
+<details>
+<summary>Control Plane</summary>
 
 ```bash
 curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/K8s-Control-Plane-Init.sh | sudo bash
 ```
 
-### Jumpbox Server Setup
+</details>
+
+<details>
+<summary>Worker Node</summary>
+
+```bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/K8s-Node-Init.sh | sudo bash
+```
+
+</details>
+
+---
+
+#### CNI Layer
+
+<details>
+<summary>CNI Setup</summary>
+
+```bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/k8s-cni-setup.sh | sudo bash
+```
+
+</details>
+
+---
+
+#### Gateway & Ingress
+
+<details>
+<summary>Gateway + Ingress Stack</summary>
+
+```bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/SilverKube/main/gateway-stack-installation.sh | bash
+```
+
+</details>
+
+---
+
+### 2️⃣ Pre-built Server Profiles
+
+<details>
+<summary>Jumpbox Server</summary>
 
 ```bash
 curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/Jumpbox.sh | sudo bash
 ```
 
-### Jenkins Server Setup
+</details>
+
+<details>
+<summary>Jenkins Server</summary>
 
 ```bash
 curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/Jenkins-Server.sh | sudo bash
 ```
 
+</details>
+
+<details>
+<summary>Jenkins (Standalone)</summary>
+
+```bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/jenkins-setup.sh | sudo bash
+```
+
+</details>
+
 ---
 
-## Supported Tooling
+### 3️⃣ Individual Tool Installers
 
-| Category     | Tools Included           |
-| ------------ | ------------------------ |
-| Containers   | Docker, Containerd       |
-| CI/CD        | Jenkins                  |
-| Security     | Trivy, SonarQube         |
-| Repository   | Nexus                    |
-| Kubernetes   | kubeadm, kubectl, eksctl |
-| Networking   | Calico, Flannel, Weave   |
-| IaC          | Terraform                |
-| Config Mgmt  | Ansible                  |
-| Package Mgmt | Helm                     |
-| Cloud CLI    | AWS CLI                  |
+Standalone installers for direct tool provisioning.
+
+<details>
+<summary>🔹 Docker – Container Engine</summary>
+
+```bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/docker-setup.sh | sudo bash
+```
+
+</details>
+
+<details>
+<summary>🔹 Containerd – Container Runtime</summary>
+
+```bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/containerd-setup.sh | sudo bash
+```
+
+</details>
+
+<details>
+<summary>🔹 Ansible – Configuration Management</summary>
+
+```bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/ansible-setup.sh | sudo bash
+```
+
+</details>
+
+<details>
+<summary>🔹 Terraform – Infrastructure as Code</summary>
+
+```bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/terraform-setup.sh | sudo bash
+```
+
+</details>
+
+<details>
+<summary>🔹 AWS CLI – Cloud Management</summary>
+
+```bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/aws-cli-conf.sh | sudo bash
+```
+
+</details>
+
+<details>
+<summary>🔹 kubectl + eksctl – Kubernetes Client Tools</summary>
+
+```bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/kubectl-and-eksctl.sh | sudo bash
+```
+
+</details>
+
+<details>
+<summary>🔹 Helm – Kubernetes Package Manager</summary>
+
+```bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/helm-setup.sh | sudo bash
+```
+
+</details>
+
+<details>
+<summary>🔹 Trivy – Vulnerability Scanner</summary>
+
+```bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/trivy-setup.sh | sudo bash
+```
+
+</details>
+
+<details>
+<summary>🔹 SonarQube – Code Quality Scanner</summary>
+
+```bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/sonarqube-cont.sh | sudo bash
+```
+
+</details>
+
+<details>
+<summary>🔹 Nexus – Artifact Repository</summary>
+
+```bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/nexus-cont.sh | sudo bash
+```
+
+</details>
+
+<details>
+<summary>🔹 System Health & Updates</summary>
+
+```bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/sys-info-and-update.sh | sudo bash
+```
+
+</details>
+
+<details>
+<summary>🔹 Installed Package Version Check</summary>
+
+```bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/version-check.sh | sudo bash
+```
+
+</details>
 
 ---
 
 ## Safety Model
 
-This project is designed with **controlled risk for lab environments**:
+This project is designed for controlled, non-production environments.
 
-✅ Safe for disposable VMs
-✅ Designed for repeatable rebuilds
-❌ No rollback mechanisms
-❌ No high-availability guarantees
-❌ Not hardened for production
+### Safe Usage
+- Disposable VMs
+- Short-lived lab systems
+- Fast, repeatable provisioning
 
-It assumes **fresh, clean systems** before execution.
+### Limitations
+- Not production hardened
+- No rollback or state recovery
+- No high-availability design
+
+This project assumes a clean, disposable system state before execution.
 
 ---
 
 ## Security Notice
 
-This project uses:
+This project uses the pattern:
 
 ```bash
 curl | bash
 ```
 
-This is acceptable only in **trusted, personal, or disposable environments**.
-Avoid using this pattern in production systems.
+Use only in **trusted** and **disposable** environments.
 
 ---
 
-## Why This Project Exists
+## Contribution Model
 
-This project represents an engineering mindset built around:
+Contributions are welcome and encouraged.
 
-* Reducing friction in learning
-* Automating repetitive infrastructure work
-* Thinking in systems, not just tools
-* Building internal tools instead of repeating manual labor
+### Accepted Contribution Areas
+- Expanding tool coverage
+- Improving script reliability
+- Strengthening documentation clarity
+- Optimizing execution performance
 
----
-
-## Contributing
-
-Contributions are welcome.
-
-Recommended contributions:
-
-* New tool bootstrappers
-* Script hardening
-* Documentation improvements
-* Performance optimizations
-
-Workflow:
-
+### Contribution Workflow
 1. Fork the repository
 2. Create a feature branch
-3. Commit your work
-4. Open a Pull Request
+3. Commit your changes
+4. Submit a pull request
+
+---
+
+## 📬 Connect with Me
+
+<p align="left">
+  <a href="https://linkedin.com/in/ibtisam-iq" target="_blank">
+    <img src="https://img.shields.io/badge/-LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" />
+  </a>
+</p>
 
 ---
 
 ## Author
 
-**Muhammad Ibtisam Iqbal**
-
-GitHub: [https://github.com/ibtisam-iq](https://github.com/ibtisam-iq)
-LinkedIn: [https://linkedin.com/in/ibtisam-iq](https://linkedin.com/in/ibtisam-iq)
-
----
-
-If you want, next I can help you:
-
-* Make this README visually elite
-* Add workflow badges
-* Or make it look like a CNCF-level project
-
-Just tell me.
-
-
-
+**Muhammad Ibtisam ❤️**
