@@ -1,0 +1,9 @@
+title: Kubernetes
+icon: simple/kubernetes
+collapse: true
+
+arrange:
+  - local-lightweight.md
+  - self-managed-kubeadm.md
+  - cni-networking.md
+  - addons.md
