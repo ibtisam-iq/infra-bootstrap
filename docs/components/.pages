@@ -1,0 +1,14 @@
+title: Components
+icon: material/tools  # Optional icon
+collapse: false
+nav:
+  - Overview: index.md
+  - Ansible: ansible.md
+  - AWS CLI: aws-cli.md
+  - Containerd: containerd.md
+  - Docker: docker.md
+  - Helm: helm.md
+  - Jenkins: jenkins.md
+  - kubectl + eksctl: kubectl-eksctl.md
+  - Terraform: terraform.md
+  - Trivy: trivy.md
