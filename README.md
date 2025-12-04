@@ -122,7 +122,7 @@ minikube start
 <summary>Kind</summary>
 
 ```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/k8s-kind-calico.sh | sudo bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/kubernetes/k8s-kind-calico.sh | sudo bash
 ```
 
 </details>
@@ -144,7 +144,7 @@ curl -sfL https://get.k3s.io | sh -
 <summary>Control Plane</summary>
 
 ```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/K8s-Control-Plane-Init.sh | sudo bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/kubernetes/K8s-Control-Plane-Init.sh | sudo bash
 ```
 
 </details>
@@ -153,7 +153,7 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/K8s-C
 <summary>Worker Node</summary>
 
 ```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/K8s-Node-Init.sh | sudo bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/kubernetes/K8s-Node-Init.sh | sudo bash
 ```
 
 </details>
@@ -166,7 +166,7 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/K8s-N
 <summary>CNI Setup</summary>
 
 ```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/k8s-cni-setup.sh | sudo bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/kubernetes/k8s-cni-setup.sh | sudo bash
 ```
 
 </details>
@@ -179,7 +179,7 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/k8s-c
 <summary>Gateway + Ingress Stack</summary>
 
 ```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/SilverKube/main/gateway-stack-installation.sh | bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/SilverKube/main/scripts/kubernetes/gateway-stack-installation.sh | bash
 ```
 
 </details>
@@ -192,7 +192,7 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/SilverKube/main/gateway-st
 <summary>Jumpbox Server</summary>
 
 ```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/Jumpbox.sh | sudo bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/servers/Jumpbox.sh | sudo bash
 ```
 
 </details>
@@ -201,7 +201,7 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/Jumpb
 <summary>Jenkins Server</summary>
 
 ```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/Jenkins-Server.sh | sudo bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/servers/Jenkins-Server.sh | sudo bash
 ```
 
 </details>
@@ -210,7 +210,7 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/Jenki
 <summary>Jenkins (Standalone)</summary>
 
 ```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/jenkins-setup.sh | sudo bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/components/jenkins-setup.sh | sudo bash
 ```
 
 </details>
@@ -225,7 +225,7 @@ Standalone installers for direct tool provisioning.
 <summary>🔹 Docker – Container Engine</summary>
 
 ```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/docker-setup.sh | sudo bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/components/docker-setup.sh | sudo bash
 ```
 
 </details>
@@ -234,7 +234,7 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/docke
 <summary>🔹 Containerd – Container Runtime</summary>
 
 ```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/containerd-setup.sh | sudo bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/kubernetes/containerd-setup.sh | sudo bash
 ```
 
 </details>
@@ -243,7 +243,7 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/conta
 <summary>🔹 Ansible – Configuration Management</summary>
 
 ```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/ansible-setup.sh | sudo bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/components/ansible-setup.sh | sudo bash
 ```
 
 </details>
@@ -252,7 +252,7 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/ansib
 <summary>🔹 Terraform – Infrastructure as Code</summary>
 
 ```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/terraform-setup.sh | sudo bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/components/terraform-setup.sh | sudo bash
 ```
 
 </details>
@@ -261,7 +261,7 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/terra
 <summary>🔹 AWS CLI – Cloud Management</summary>
 
 ```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/aws-cli-conf.sh | sudo bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/components/aws-cli-conf.sh | sudo bash
 ```
 
 </details>
@@ -270,7 +270,7 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/aws-c
 <summary>🔹 kubectl + eksctl – Kubernetes Client Tools</summary>
 
 ```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/kubectl-and-eksctl.sh | sudo bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/components/kubectl-and-eksctl.sh | sudo bash
 ```
 
 </details>
@@ -288,7 +288,7 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/helm-
 <summary>🔹 Trivy – Vulnerability Scanner</summary>
 
 ```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/trivy-setup.sh | sudo bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/components/trivy-setup.sh | sudo bash
 ```
 
 </details>
@@ -297,7 +297,7 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/trivy
 <summary>🔹 SonarQube – Code Quality Scanner</summary>
 
 ```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/sonarqube-cont.sh | sudo bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/services/sonarqube-cont.sh | sudo bash
 ```
 
 </details>
@@ -306,7 +306,7 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/sonar
 <summary>🔹 Nexus – Artifact Repository</summary>
 
 ```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/nexus-cont.sh | sudo bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/services/nexus-cont.sh | sudo bash
 ```
 
 </details>
@@ -315,7 +315,7 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/nexus
 <summary>🔹 System Health & Updates</summary>
 
 ```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/sys-info-and-update.sh | sudo bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/system-checks/sys-info-and-update.sh | sudo bash
 ```
 
 </details>
@@ -324,7 +324,7 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/sys-i
 <summary>🔹 Installed Package Version Check</summary>
 
 ```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/version-check.sh | sudo bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/system-checks/version-check.sh | sudo bash
 ```
 
 </details>
