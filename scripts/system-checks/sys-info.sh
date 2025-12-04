@@ -42,7 +42,7 @@ RESET=$(tput sgr0)
 # 🛠️ Configuration
 # -------------------------------
 LOG_FILE="/var/log/sys_info.log"
-REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main"
+REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/system-checks"
 QUIET_MODE=false
 SKIP_UPDATE=false
 
