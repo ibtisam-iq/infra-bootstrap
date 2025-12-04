@@ -16,7 +16,7 @@
 #   - ✅ Architecture validation (x86_64 / amd64)
 #
 # 🚀 Usage:
-#   curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/preflight.sh | sudo bash
+#   curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/system-checks/preflight.sh | sudo bash
 #
 # 📜 License: MIT | 🌐 https://github.com/ibtisam-iq/infra-bootstrap
 #
