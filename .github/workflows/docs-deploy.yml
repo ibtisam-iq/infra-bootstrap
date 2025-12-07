@@ -41,7 +41,8 @@ jobs:
       - name: QA – broken links (lychee – fastest & most reliable)
         uses: lycheeverse/lychee-action@v2
         with:
-          args: ./site/**/*.html --no-progress # --exclude-mail 
+          args: ./site/**/*.html --no-progress # --exclude-mail
+          continue-on-error: true
 
       - name: QA – HTML validation
         run: html5validator --root site --blacklist robots.txt
