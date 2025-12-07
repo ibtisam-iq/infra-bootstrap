@@ -92,6 +92,8 @@ jobs:
           key: pip-${{ hashFiles('requirements.txt') }}
       - run: pip install -r requirements.txt
       - run: mkdocs build
+      - name: Create CNAME file
+        run: echo "bootstrap.ibtisam-iq.com" > site/CNAME
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
