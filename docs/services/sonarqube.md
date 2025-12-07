@@ -23,7 +23,7 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scrip
 - Disables ES bootstrap checks for quick start.
 
 ## Access & Verify
-- **URLs**: Local: http://YOUR-IP:PORT | Public: http://PUBLIC-IP:PORT (script outputs both).
+- **URLs**: Local: http://<YOUR-IP>:<PORT> | Public: http://<PUBLIC-IP>:<PORT> (script outputs both).
 - **Credentials**: admin/admin (change after login).
 - **Verify**: `sudo docker ps | grep sonarqube` (running?). Access UI, run first scan.
 - **Wait Time**: 2-3 min for full startup.
