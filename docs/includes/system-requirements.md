@@ -1,4 +1,5 @@
 !!! info "System Requirements"
+
 This component is intended for **Ubuntu-based environments**.
 
 ```
