@@ -2,44 +2,44 @@
 
 **Networking, Ingress, Gateways, and Traffic Management**
 
---8<-- "includes/common-header.md"
---8<-- "includes/system-requirements.md"
+--8\<-- "includes/common-header.md"
+--8\<-- "includes/system-requirements.md"
 
----
+______________________________________________________________________
 
 ## 🧭 Overview
 
 Kubernetes Add-Ons extend the capabilities of a cluster.
 They are optional components that enable:
 
-* Traffic routing
-* Load balancing
-* Ingress management
-* Gateway API support
-* Service mesh integrations
-* L7 traffic control
-* North-south and east-west networking
+- Traffic routing
+- Load balancing
+- Ingress management
+- Gateway API support
+- Service mesh integrations
+- L7 traffic control
+- North-south and east-west networking
 
 This page covers **the add-ons installed by infra-bootstrap**, including:
 
 1. **Gateway API CRDs**
-2. **NGINX Gateway Fabric**
-3. **NGINX Ingress Controller (optional)**
-4. **Traefik (NodePort)**
+1. **NGINX Gateway Fabric**
+1. **NGINX Ingress Controller (optional)**
+1. **Traefik (NodePort)**
 
 These tools provide a complete ingress and API gateway layer for small clusters, labs, and learning environments.
 
----
+______________________________________________________________________
 
 # 🧩 What Are Kubernetes Add-Ons?
 
 Add-Ons are not required for the control-plane or worker nodes to function, but they are essential when you want:
 
-* Exposing applications to the outside world
-* Managing HTTP/HTTPS routing
-* Applying networking rules
-* Running production-like routing in a lab environment
-* Testing real application traffic
+- Exposing applications to the outside world
+- Managing HTTP/HTTPS routing
+- Applying networking rules
+- Running production-like routing in a lab environment
+- Testing real application traffic
 
 The add-ons below provide:
 
@@ -50,7 +50,7 @@ The add-ons below provide:
 | **Ingress-NGINX**        | Traditional Kubernetes Ingress Controller |
 | **Traefik**              | Ingress + Gateway + L7 routing (NodePort) |
 
----
+______________________________________________________________________
 
 # 🚀 Automatic Installation Script
 
@@ -64,19 +64,19 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/k8s-a
 
 The script installs:
 
-* Gateway API CRDs
-* NGINX Gateway Fabric
-* NGINX Ingress Controller
-* Traefik Ingress Controller (NodePort)
-* Helm (required for Traefik)
+- Gateway API CRDs
+- NGINX Gateway Fabric
+- NGINX Ingress Controller
+- Traefik Ingress Controller (NodePort)
+- Helm (required for Traefik)
 
----
+______________________________________________________________________
 
 # 🧱 Add-Ons Installed by infra-bootstrap
 
 Below is exactly what your script does and why it matters.
 
----
+______________________________________________________________________
 
 ## 🧊 1. Gateway API CRDs
 
@@ -91,12 +91,12 @@ kubectl kustomize "https://github.com/nginx/nginx-gateway-fabric/config/crd/gate
 
 ### Why this matters
 
-* Enables `GatewayClass`, `Gateway`, `HTTPRoute`, `TCPRoute`, etc.
-* Required for NGINX Gateway Fabric
-* Modern L4/L7 routing model
-* More flexible than old Ingress resources
+- Enables `GatewayClass`, `Gateway`, `HTTPRoute`, `TCPRoute`, etc.
+- Required for NGINX Gateway Fabric
+- Modern L4/L7 routing model
+- More flexible than old Ingress resources
 
----
+______________________________________________________________________
 
 ## 🌐 2. NGINX Gateway Fabric (NodePort)
 
@@ -114,12 +114,12 @@ kubectl apply -f https://raw.githubusercontent.com/nginx/nginx-gateway-fabric/v1
 
 ### What it provides
 
-* Gateway API implementation by NGINX
-* NodePort-based external access
-* High-performance routing engine
-* Easy HTTP/HTTPS traffic management
+- Gateway API implementation by NGINX
+- NodePort-based external access
+- High-performance routing engine
+- Easy HTTP/HTTPS traffic management
 
----
+______________________________________________________________________
 
 ## 🌐 3. NGINX Ingress Controller (Optional)
 
@@ -129,22 +129,22 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/cont
 
 ### What it provides
 
-* Traditional Kubernetes Ingress
-* Stable and widely used in production
-* Works with simple `Ingress` YAML manifests
-* Good for basic routing workloads
+- Traditional Kubernetes Ingress
+- Stable and widely used in production
+- Works with simple `Ingress` YAML manifests
+- Good for basic routing workloads
 
 This is optional and not required if you plan to use Gateway API exclusively.
 
----
+______________________________________________________________________
 
 ## ⚡ 4. Traefik (NodePort 32080/32443)
 
 Before Traefik can be installed, your script:
 
-* Installs Helm v4
-* Adds the Traefik chart repo
-* Updates Helm repository cache
+- Installs Helm v4
+- Adds the Traefik chart repo
+- Updates Helm repository cache
 
 Then installs Traefik:
 
@@ -160,19 +160,19 @@ helm upgrade --install traefik traefik/traefik \
 
 ### What Traefik provides
 
-* Ingress Controller
-* Gateway API support
-* HTTPS termination
-* Automatic certificate management (if enabled)
-* Dashboard support
-* NodePort access on:
+- Ingress Controller
+- Gateway API support
+- HTTPS termination
+- Automatic certificate management (if enabled)
+- Dashboard support
+- NodePort access on:
 
 | Port      | Purpose |
 | --------- | ------- |
 | **32080** | HTTP    |
 | **32443** | HTTPS   |
 
----
+______________________________________________________________________
 
 # 🧪 Verification Steps
 
@@ -210,7 +210,7 @@ kubectl get gateways
 kubectl get httproutes
 ```
 
----
+______________________________________________________________________
 
 # 🐛 Troubleshooting
 
@@ -240,15 +240,13 @@ Ensure Helm is installed correctly:
 helm version
 ```
 
----
+______________________________________________________________________
 
 # 📘 Official Documentation
 
-* Gateway API: [https://gateway-api.sigs.k8s.io](https://gateway-api.sigs.k8s.io)
-* NGINX Gateway Fabric: [https://github.com/nginx/nginx-gateway-fabric](https://github.com/nginx/nginx-gateway-fabric)
-* Ingress-NGINX: [https://kubernetes.github.io/ingress-nginx](https://kubernetes.github.io/ingress-nginx)
-* Traefik: [https://doc.traefik.io/traefik](https://doc.traefik.io/traefik)
+- Gateway API: [https://gateway-api.sigs.k8s.io](https://gateway-api.sigs.k8s.io)
+- NGINX Gateway Fabric: [https://github.com/nginx/nginx-gateway-fabric](https://github.com/nginx/nginx-gateway-fabric)
+- Ingress-NGINX: [https://kubernetes.github.io/ingress-nginx](https://kubernetes.github.io/ingress-nginx)
+- Traefik: [https://doc.traefik.io/traefik](https://doc.traefik.io/traefik)
 
----
-
-
+______________________________________________________________________

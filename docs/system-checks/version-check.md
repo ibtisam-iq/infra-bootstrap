@@ -6,8 +6,8 @@ title: Version Check
 
 Audits installed DevOps tools. Runs preflight, lists versions (Ansible, AWS CLI, Docker, Containerd, Runc, Git, Python, Node.js, npm, Helm, Jenkins, kubectl, eksctl, Terraform).
 
---8<-- "includes/common-header.md"
---8<-- "includes/system-requirements.md"
+--8\<-- "includes/common-header.md"
+--8\<-- "includes/system-requirements.md"
 
 ## Installation Command
 
@@ -16,6 +16,7 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scrip
 ```
 
 ## What It Verifies
+
 - Tool presence + versions.
 - Preflight first.
 
@@ -43,6 +44,6 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scrip
 
 Use for audits—outputs to console.
 
----
+______________________________________________________________________
 
 *Last updated: {{ git_revision_date_localized }}*

@@ -9,6 +9,7 @@ Validate your lab environment before bootstrapping. Ensures root access, deps. (
 Run preflight early—catches issues upfront.
 
 ## Quick Links
+
 - [Preflight](preflight.md): Full system validation (root, deps, OS, arch).
 - [System Info](system-info.md): Resource snapshot (RAM, CPU, hostname).
 - [Version Check](version-check.md): Installed package audit.

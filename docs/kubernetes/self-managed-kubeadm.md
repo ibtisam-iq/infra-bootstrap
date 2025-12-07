@@ -6,19 +6,19 @@ This guide explains how to build a **self-managed Kubernetes cluster** using `ku
 
 This method follows the real sequence used by cluster operators:
 
-* Promote a machine to become a **control plane**
-* Optionally add **more control planes**
-* Prepare worker nodes
-* Join all nodes to the cluster
-* Install a **CNI plugin**
-* Validate the cluster
+- Promote a machine to become a **control plane**
+- Optionally add **more control planes**
+- Prepare worker nodes
+- Join all nodes to the cluster
+- Install a **CNI plugin**
+- Validate the cluster
 
 Everything happens in a SINGLE workflow and a SINGLE page.
 
---8<-- "includes/common-header.md"
---8<-- "includes/system-requirements.md"
+--8\<-- "includes/common-header.md"
+--8\<-- "includes/system-requirements.md"
 
----
+______________________________________________________________________
 
 # Step 1 — Create the First Control Plane
 
@@ -30,16 +30,16 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/K8s-C
 
 This script:
 
-* Prepares the node
-* Cleans previous kubeadm data
-* Starts container runtime + kubelet
-* Runs `kubeadm init`
-* Configures kubeconfig
-* Produces join commands for workers and additional control planes
+- Prepares the node
+- Cleans previous kubeadm data
+- Starts container runtime + kubelet
+- Runs `kubeadm init`
+- Configures kubeconfig
+- Produces join commands for workers and additional control planes
 
 After completion, your **cluster exists** — but with a single control-plane.
 
----
+______________________________________________________________________
 
 # Step 2 — (Optional) Create Additional Control Planes
 
@@ -68,7 +68,7 @@ If the token expired:
 kubeadm token create --print-join-command
 ```
 
----
+______________________________________________________________________
 
 # Step 3 — Prepare Worker Nodes
 
@@ -80,14 +80,14 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/K8s-N
 
 This script:
 
-* Installs containerd
-* Installs kubelet / kubeadm / kubectl
-* Applies kernel modules + sysctl
-* Enables required services
+- Installs containerd
+- Installs kubelet / kubeadm / kubectl
+- Applies kernel modules + sysctl
+- Enables required services
 
 Each machine becomes Kubernetes-ready.
 
----
+______________________________________________________________________
 
 # Step 4 — Join Worker Nodes
 
@@ -107,7 +107,7 @@ If the token expires:
 kubeadm token create --print-join-command
 ```
 
----
+______________________________________________________________________
 
 # Step 5 — Install a CNI Plugin (Required for Networking)
 
@@ -121,14 +121,14 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/k8s-c
 
 This script:
 
-* Prompts you to choose Calico, Flannel, or Weave
-* Applies the correct manifest
-* Verifies networking readiness
+- Prompts you to choose Calico, Flannel, or Weave
+- Applies the correct manifest
+- Verifies networking readiness
 
 **Important:**
 Install the CNI **only once**, on the first control-plane node.
 
----
+______________________________________________________________________
 
 # Step 6 — Verify the Cluster
 
@@ -158,7 +158,7 @@ kubectl get --raw='/readyz?verbose'
 
 If everything is Running/Ready — your Kubernetes cluster is healthy.
 
----
+______________________________________________________________________
 
 # Reset / Rebuild (if needed)
 
@@ -168,11 +168,11 @@ sudo systemctl restart containerd
 sudo rm -rf ~/.kube
 ```
 
----
+______________________________________________________________________
 
 # Official Reference
 
 Kubeadm Upstream Documentation:
 [https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/)
 
----
+______________________________________________________________________

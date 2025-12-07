@@ -6,8 +6,8 @@ title: System Info
 
 Updates OS, prompts hostname change, displays key info (IP, MAC, network, DNS, kernel, OS, CPU, memory, disk, load, UUID). Logs to `/var/log/sys_info.log`.
 
---8<-- "includes/common-header.md"
---8<-- "includes/system-requirements.md"
+--8\<-- "includes/common-header.md"
+--8\<-- "includes/system-requirements.md"
 
 ## Installation Command
 
@@ -16,16 +16,20 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scrip
 ```
 
 ## What It Does
+
 - Runs preflight.
 - Updates system (apt update/install deps like net-tools, curl, gpg).
 - Prompts hostname change.
 - Gathers/displays info.
 
 ## Verify
+
 - Log: `cat /var/log/sys_info.log`.
+
 - Hostname: `hostname` (changed if prompted).
+
 - Output Example:
-  
+
   ```
   📌 System Information
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -45,6 +49,6 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scrip
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   ```
 
----
+______________________________________________________________________
 
 *Last updated: {{ git_revision_date_localized }}*

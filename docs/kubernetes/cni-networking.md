@@ -2,10 +2,10 @@
 
 **Script:** `k8s-cni-setup.sh`
 
---8<-- "includes/common-header.md"
---8<-- "includes/system-requirements.md"
+--8\<-- "includes/common-header.md"
+--8\<-- "includes/system-requirements.md"
 
----
+______________________________________________________________________
 
 ## 🧭 Overview
 
@@ -13,32 +13,32 @@ A Kubernetes cluster created with kubeadm will **not schedule pods** until a **C
 
 The infra-bootstrap CNI installer simplifies this process by:
 
-* Allowing you to choose Calico, Flannel, or Weave
-* Applying the correct upstream manifest
-* Verifying networking readiness
-* Handling common networking prerequisites
+- Allowing you to choose Calico, Flannel, or Weave
+- Applying the correct upstream manifest
+- Verifying networking readiness
+- Handling common networking prerequisites
 
 CNI must be installed **only on the first control-plane node**.
 
----
+______________________________________________________________________
 
 # 🧩 What a CNI Does
 
 A CNI plugin enables:
 
-* Pod-to-pod networking
-* Pod IP allocation
-* Routing inside the cluster
-* Network policies (for plugins that support it, e.g., Calico)
-* Cross-node communication
+- Pod-to-pod networking
+- Pod IP allocation
+- Routing inside the cluster
+- Network policies (for plugins that support it, e.g., Calico)
+- Cross-node communication
 
 Without a CNI plugin:
 
-* Pods remain in **Pending** state
-* kube-dns/CoreDNS cannot start
-* Networking between nodes does not work
+- Pods remain in **Pending** state
+- kube-dns/CoreDNS cannot start
+- Networking between nodes does not work
 
----
+______________________________________________________________________
 
 # 🚀 Install CNI (Interactive Script)
 
@@ -51,28 +51,28 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/k8s-c
 The script will:
 
 1. Prompt you to choose a CNI
-2. Deploy the selected plugin
-3. Validate pod networking
-4. Check that CoreDNS becomes Ready
-5. Confirm the cluster is operational
+1. Deploy the selected plugin
+1. Validate pod networking
+1. Check that CoreDNS becomes Ready
+1. Confirm the cluster is operational
 
----
+______________________________________________________________________
 
 # 📦 Supported CNI Plugins
 
 Below are the plugins supported by infra-bootstrap with descriptions and use cases.
 
----
+______________________________________________________________________
 
 ## ### 1. **Calico** (Recommended)
 
 ### Why choose Calico?
 
-* Network policies (advanced security)
-* Stable and widely used in production
-* High performance
-* IPv4 and IPv6 support
-* Works on cloud, bare-metal, and labs
+- Network policies (advanced security)
+- Stable and widely used in production
+- High performance
+- IPv4 and IPv6 support
+- Works on cloud, bare-metal, and labs
 
 ### Manifest used:
 
@@ -82,20 +82,20 @@ https://docs.projectcalico.org/manifests/calico.yaml
 
 ### Recommended for:
 
-* Learning production networking
-* Clusters needing NetworkPolicies
-* Multi-node setups
+- Learning production networking
+- Clusters needing NetworkPolicies
+- Multi-node setups
 
----
+______________________________________________________________________
 
 ## ### 2. **Flannel** (Simple, lightweight)
 
 ### Why choose Flannel?
 
-* Very simple
-* Lightweight
-* Perfect for learning
-* No advanced networking complexity
+- Very simple
+- Lightweight
+- Perfect for learning
+- No advanced networking complexity
 
 ### Manifest used:
 
@@ -105,20 +105,20 @@ https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-f
 
 ### Recommended for:
 
-* Local clusters
-* Lightweight nodes
-* Simple labs
+- Local clusters
+- Lightweight nodes
+- Simple labs
 
----
+______________________________________________________________________
 
 ## ### 3. **Weave Net** (Automatic, simple)
 
 ### Why choose Weave?
 
-* Automatic routing
-* Does not require special config
-* Handles dynamic topology changes
-* Easy installation
+- Automatic routing
+- Does not require special config
+- Handles dynamic topology changes
+- Easy installation
 
 ### Manifest used:
 
@@ -128,30 +128,35 @@ https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d
 
 ### Recommended for:
 
-* Quick setups
-* Basic clusters
-* Cloud VMs
+- Quick setups
+- Basic clusters
+- Cloud VMs
 
----
+______________________________________________________________________
 
 # 🛠 How the k8s-cni-setup.sh Script Works
 
 Your script:
 
 1. Detects Kubernetes version
-2. Prints supported CNI options
-3. Asks user for selection
-4. Downloads and applies the correct manifest
-5. Waits for:
 
-   * kube-system pods
-   * CNI pods
-   * CoreDNS readiness
-6. Prints post-installation checks
+1. Prints supported CNI options
+
+1. Asks user for selection
+
+1. Downloads and applies the correct manifest
+
+1. Waits for:
+
+   - kube-system pods
+   - CNI pods
+   - CoreDNS readiness
+
+1. Prints post-installation checks
 
 This ensures the cluster becomes functional immediately after CNI installation.
 
----
+______________________________________________________________________
 
 # 🧪 Verify CNI Installation
 
@@ -182,7 +187,7 @@ kubectl run test --image=busybox -- sleep 3600
 kubectl exec -it test -- ping <another-pod-ip>
 ```
 
----
+______________________________________________________________________
 
 # 🐛 Troubleshooting
 
@@ -214,7 +219,7 @@ Check kubelet status:
 systemctl status kubelet
 ```
 
----
+______________________________________________________________________
 
 # 🧹 Reset CNI (Advanced)
 
@@ -227,15 +232,13 @@ kubectl delete pods -n kube-system --all
 
 Then reinstall using the infra-bootstrap script.
 
----
+______________________________________________________________________
 
 # 📘 Official Documentation
 
-* Calico: [https://projectcalico.org](https://projectcalico.org)
-* Flannel: [https://github.com/flannel-io/flannel](https://github.com/flannel-io/flannel)
-* Weave: [https://www.weave.works/docs/net/latest/kubernetes/kube-addon/](https://www.weave.works/docs/net/latest/kubernetes/kube-addon/)
-* Kubernetes Networking: [https://kubernetes.io/docs/concepts/cluster-administration/networking/](https://kubernetes.io/docs/concepts/cluster-administration/networking/)
+- Calico: [https://projectcalico.org](https://projectcalico.org)
+- Flannel: [https://github.com/flannel-io/flannel](https://github.com/flannel-io/flannel)
+- Weave: [https://www.weave.works/docs/net/latest/kubernetes/kube-addon/](https://www.weave.works/docs/net/latest/kubernetes/kube-addon/)
+- Kubernetes Networking: [https://kubernetes.io/docs/concepts/cluster-administration/networking/](https://kubernetes.io/docs/concepts/cluster-administration/networking/)
 
----
-
-
+______________________________________________________________________
