@@ -88,6 +88,7 @@ plugins:
   - awesome-pages  # Your hierarchical nav magic
   - minify:
       minify_html: true  # Compresses output for faster GH Pages loads
+  - include-markdown
 
 
 # -------------------------------------------------------------------
