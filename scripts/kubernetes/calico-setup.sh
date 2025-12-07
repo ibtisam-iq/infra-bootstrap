@@ -12,12 +12,12 @@ trap 'echo -e "\n${RED}❌ Script interrupted. Exiting...${RESET}"; exit 1' INT
 
 # 🔗 Fetch dynamic cluster environment variables
 echo -e "\n\033[1;36m🔗 Fetching cluster environment variables...\033[0m"
-eval "$(curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/cluster-params.sh)"
+eval "$(curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/kubernetes/cluster-params.sh)"
 
 echo -e "📦 POD_CIDR to be configured: $POD_CIDR"
 
 # 🔄 Start Kubernetes services
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/k8s-start-services.sh | sudo bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/kubernetes/k8s-start-services.sh | sudo bash
 
 # 🚀 Deploying Calico CNI
 echo -e "\n\033[1;34m🚀 Deploying Calico network plugin...\033[0m"

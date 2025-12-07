@@ -17,7 +17,7 @@
 # ==================================================
 # 🛠️ Setup: Run as root (or with sudo privileges)
 # Usage:
-#   curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/K8s-Node-Init.sh | sudo bash
+#   curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/kubernetes/K8s-Node-Init.sh | sudo bash
 # ==================================================
 
 set -e  # Exit on error
@@ -31,13 +31,13 @@ YELLOW="\033[1;33m"
 BLUE="\033[1;34m"
 NC="\033[0m" # No Color
 
-REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main"
+REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts
 
 # ✅ Dynamically source cluster-params.sh
-eval "$(curl -sL "$REPO_URL/cluster-params.sh")"
+eval "$(curl -sL "$REPO_URL/kubernetes/cluster-params.sh")"
 
-echo -e "${BLUE}\n🚀 Running sys-info-and-update.sh...${NC}"
-bash <(curl -sL "$REPO_URL/sys-info-and-update.sh") || { echo -e "${RED}\n❌ Failed to execute sys-info-and-update.sh. Exiting...${NC}"; exit 1; }
+echo -e "${BLUE}\n🚀 Running sys-info.sh...${NC}"
+bash <(curl -sL "$REPO_URL/system-checks/sys-info.sh") || { echo -e "${RED}\n❌ Failed to execute sys-info.sh. Exiting...${NC}"; exit 1; }
 
 echo -e "${GREEN}\n✅ System meets the requirements to set up a Kubernetes cluster.${NC}"
 
@@ -88,7 +88,7 @@ sudo sysctl --system > /dev/null
 echo -e "${GREEN}\n✅ Kernel modules loaded, and sysctl settings applied!${NC}"
 
 echo -e "${BLUE}\n🚀 Running containerd-setup.sh script...${NC}"
-bash <(curl -sL "$REPO_URL/containerd-setup.sh") || { echo -e "${RED}\n❌ Failed to execute containerd-setup.sh. Exiting...${NC}"; exit 1; }
+bash <(curl -sL "$REPO_URL/kubernetes/containerd-setup.sh") || { echo -e "${RED}\n❌ Failed to execute containerd-setup.sh. Exiting...${NC}"; exit 1; }
 
 echo -e "\n\033[1;33m🔍 Status of the installed services...\033[0m"
 # sleep 60

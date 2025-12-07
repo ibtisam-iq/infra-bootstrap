@@ -29,7 +29,7 @@ echo -e "\033[1;32m✅ Kubernetes images pulled successfully.\033[0m".
 echo -e "\n\033[1;36m🔗 Fetching cluster environment variables...\033[0m"
 
 # ✅ Dynamically source cluster-params.sh
-eval "$(curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/cluster-params.sh)"
+eval "$(curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/kubernetes/cluster-params.sh)"
 
 echo -e "🧠 CONTROL_PLANE_IP: \033[1;33m$CONTROL_PLANE_IP\033[0m"
 echo -e "🖥️ NODE_NAME: \033[1;33m$NODE_NAME\033[0m"

@@ -14,7 +14,7 @@
 # 
 # 🚀 Scripts Executed in Sequence:
 #   1️⃣ preflight.sh - System checks and prerequisites
-#   2️⃣ sys-info-and-update.sh - Updates and system info
+#   2️⃣ sys-info.sh - Updates and system info
 #   3️⃣ terraform-setup.sh - Installs Terraform
 #   4️⃣ ansible-setup.sh - Installs Ansible
 #   5️⃣ kubectl-and-eksctl.sh - Installs Kubernetes CLI tools
@@ -22,7 +22,7 @@
 #   7️⃣ aws-cli-conf.sh - Configures AWS CLI
 # 
 # 🔧 Usage:
-#   curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/Jumpbox.sh | sudo bash
+#   curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/servers/Jumpbox.sh | sudo bash
 # 
 # 📜 License: MIT | 🌐 https://github.com/ibtisam-iq/infra-bootstrap
 
@@ -33,17 +33,17 @@ set -o pipefail  # Ensure failures in piped commands are detected
 trap 'echo -e "\n\033[1;31m❌ Error occurred at line $LINENO. Exiting...\033[0m\n" && exit 1' ERR
 
 # Define the repository URL
-REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main"
+REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts"
 
 # List of scripts to execute
 SCRIPTS=(
-    "preflight.sh"
-    "sys-info-and-update.sh"
-    "terraform-setup.sh"
-    "ansible-setup.sh"
-    "kubectl-and-eksctl.sh"
-    "helm-setup.sh"
-    # "aws-cli-conf.sh"
+    "system-checks/preflight.sh"
+    "system-checks/sys-info.sh"
+    "components/terraform-setup.sh"
+    "components/ansible-setup.sh"
+    "components/kubectl-and-eksctl.sh"
+    "components/helm-setup.sh"
+    # "components/aws-cli-conf.sh"
 )
 
 # ==================================================

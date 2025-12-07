@@ -169,12 +169,12 @@ function main() {
 
   
   case "$choice" in
-    1|"") install_cni "Calico"  "https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/calico-setup.sh" ;;
-    2)     install_cni "Flannel" "https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/flannel-setup.sh" ;;
-    3)     install_cni "Weave"   "https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/weave-setup.sh" ;;
+    1|"") install_cni "Calico"  "https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/kubernetes/calico-setup.sh" ;;
+    2)     install_cni "Flannel" "https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/kubernetes/flannel-setup.sh" ;;
+    3)     install_cni "Weave"   "https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/kubernetes/weave-setup.sh" ;;
     *)
       echo -e "${RED}⚠️ Invalid input. Defaulting to Calico.${RESET}"
-      install_cni "Calico"  "https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/calico-setup.sh"
+      install_cni "Calico"  "https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/kubernetes/calico-setup.sh"
       ;;
   esac
   

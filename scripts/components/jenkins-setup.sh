@@ -24,7 +24,7 @@ trap 'echo -e "\n❌ Error occurred at line $LINENO. Exiting...\n" && exit 1' ER
 # -------------------------------
 # 🛠️ Configuration
 # -------------------------------
-REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main"
+REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/system-checks"
 QUIET_MODE=false
 SKIP_UPDATE=false
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ╔══════════════════════════════════════════════════╗
-# ║          infra-bootstrap - Preflight Checks           ║
+# ║          infra-bootstrap - Preflight Checks      ║
 # ║          (c) 2025 Muhammad Ibtisam Iqbal         ║
 # ║          License: MIT                            ║
 # ╚══════════════════════════════════════════════════╝

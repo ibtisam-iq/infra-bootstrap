@@ -8,7 +8,7 @@
 # Exit immediately if a command fails
 set -e
 
-REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main"
+REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/system-checks"
 
 echo -e "\n🚀 Running preflight.sh script to ensure that system meets the requirements to install AWS CLI v2..."
 bash <(curl -sL "$REPO_URL/preflight.sh") || { echo "❌ Failed to execute preflight.sh. Exiting..."; exit 1; }

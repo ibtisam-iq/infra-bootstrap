@@ -18,7 +18,7 @@
 #   - ✅ Trivy security scanner setup
 #
 # 🚀 Usage:
-#   curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/Jenkins-Server.sh | sudo bash
+#   curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/servers/Jenkins-Server.sh | sudo bash
 #
 # 📜 License: MIT | 🌐 https://github.com/ibtisam-iq/infra-bootstrap
 
@@ -29,16 +29,16 @@ set -o pipefail  # Ensure failures in piped commands are detected
 trap 'echo -e "\n\033[1;31m❌ Error occurred at line $LINENO. Exiting...\033[0m\n" && exit 1' ERR
 
 # Define the repository URL
-REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main"
+REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts"
 
 # List of scripts to execute
 SCRIPTS=(
-    "preflight.sh"
-    "sys-info-and-update.sh"
-    "jenkins-setup.sh"
-    "docker-setup.sh"
-    "kubectl-and-eksctl.sh"
-    "trivy-setup.sh"
+    "system-checks/preflight.sh"
+    "system-checks/sys-info.sh"
+    "components/jenkins-setup.sh"
+    "components/docker-setup.sh"
+    "components/kubectl-and-eksctl.sh"
+    "components/trivy-setup.sh"
 )
 
 # ==================================================

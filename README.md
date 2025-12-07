@@ -179,7 +179,7 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scrip
 <summary>Gateway + Ingress Stack</summary>
 
 ```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/SilverKube/main/scripts/kubernetes/gateway-stack-installation.sh | bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/kubernetes/gateway-stack-installation.sh | bash
 ```
 
 </details>
