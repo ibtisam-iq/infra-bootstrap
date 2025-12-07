@@ -6,8 +6,8 @@ title: Preflight
 
 Initial system validation before bootstrapping. Checks root, deps (curl/bash), internet, OS (Ubuntu/Linux Mint), arch (x86_64/amd64). Fails fast if not ready.
 
---8<-- "includes/common-header.md"
---8<-- "includes/system-requirements.md"
+--8\<-- "includes/common-header.md"
+--8\<-- "includes/system-requirements.md"
 
 ## Installation Command
 
@@ -16,6 +16,7 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scrip
 ```
 
 ## What It Verifies
+
 - Root privileges.
 - curl/bash installed.
 - Internet (ping 8.8.8.8).
@@ -45,13 +46,6 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scrip
 
 Run early—ensures safe execution.
 
----
+______________________________________________________________________
 
 *Last updated: {{ git_revision_date_localized }}*
-
-
-
-
-
-
-

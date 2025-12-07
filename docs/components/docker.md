@@ -6,9 +6,8 @@ title: Docker
 
 Container engine for building/running images. Installs daemon + CLI for local dev/labs.
 
---8<-- "includes/common-header.md"
---8<-- "includes/system-requirements.md"
-
+--8\<-- "includes/common-header.md"
+--8\<-- "includes/system-requirements.md"
 
 ## Installation Command
 
@@ -22,7 +21,7 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scrip
 | ------------- | ------------------------------------------ |
 | `-q`          | Quiet mode (suppress non-essential output) |
 | `--no-update` | Skips `apt update` and dependency refresh  |
-| `-h`          | help  |
+| `-h`          | help                                       |
 
 **Example:**
 
@@ -36,9 +35,10 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scrip
 curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/components/docker-setup.sh | sudo bash -s -- -q
 ```
 
----
+______________________________________________________________________
 
 ## What It Installs
+
 The script installs the following official Docker packages:
 
 | Component               | Description                                |
@@ -49,8 +49,8 @@ The script installs the following official Docker packages:
 | `docker-buildx-plugin`  | Buildx extension for multi-platform builds |
 | `docker-compose-plugin` | Docker Compose v2 plugin                   |
 
-
 ## Verify
+
 ```bash
 docker info
 docker --version  # e.g., Docker version 24.x
@@ -67,6 +67,6 @@ newgrp docker
 
 Official Docs: [docs.docker.com/engine/install](https://docs.docker.com/engine/install/)
 
----
+______________________________________________________________________
 
 *Last updated: {{ git_revision_date_localized }}*

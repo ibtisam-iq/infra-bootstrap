@@ -8,8 +8,8 @@ Standalone binaries for DevOps bootstrapping.
 
 Mix and match for custom labs.
 
---8<-- "includes/common-header.md"
---8<-- "includes/system-requirements.md"
+--8\<-- "includes/common-header.md"
+--8\<-- "includes/system-requirements.md"
 
 ## Quick Links
 
@@ -22,4 +22,3 @@ Mix and match for custom labs.
 - [kubectl + eksctl](kubectl-eksctl.md): K8s clients.
 - [Terraform](terraform.md): IaC.
 - [Trivy](trivy.md): Vulnerability scanner.
-

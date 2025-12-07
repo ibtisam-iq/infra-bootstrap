@@ -6,18 +6,21 @@ title: Terraform
 
 IaC tool for provisioning infra. Installs CLI + providers for AWS/Azure/GCP.
 
---8<-- "includes/common-header.md"
---8<-- "includes/system-requirements.md"
+--8\<-- "includes/common-header.md"
+--8\<-- "includes/system-requirements.md"
 
 ## Installation Command
+
 ```bash
 curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/components/terraform-setup.sh | sudo bash
 ```
 
 ## What It Installs
+
 - Terraform (latest stable).
 
 ## Verify
+
 ```bash
 terraform version  # e.g., Terraform v1.6.x
 terraform init  # Test in empty dir
@@ -25,7 +28,6 @@ terraform init  # Test in empty dir
 
 Official Docs: [developer.hashicorp.com/terraform/install](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
 
----
+______________________________________________________________________
 
 *Last updated: {{ git_revision_date_localized }}*
-
