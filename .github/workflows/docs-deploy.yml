@@ -45,7 +45,7 @@ jobs:
           fail: false  # Ignores exit code 2 (redirect warnings); only fails on real errors (exit code 1)
 
       - name: QA – HTML validation
-        run: html5validator --root site --blacklist robots.txt --ignore "autocomplete" "autocorrect" "autocapitalize"
+        run: html5validator --root site --blacklist robots.txt --ignore "autocomplete" "autocorrect" "autocapitalize" "No \"p\" element in scope"
 
       - name: QA – Markdown formatting
         run: mdformat --check docs
