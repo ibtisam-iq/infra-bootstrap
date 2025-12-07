@@ -1,5 +1,7 @@
 # ⚙️ infra-bootstrap
 
+[![Documentation Pipeline](https://github.com/ibtisam-iq/infra-bootstrap/actions/workflows/docs-deploy.yml/badge.svg)](https://github.com/ibtisam-iq/infra-bootstrap/actions/workflows/docs-deploy.yml)
+
 <p align="center">
   <img src="https://img.shields.io/badge/Linux-Ubuntu-orange?style=for-the-badge&logo=linux" />
   <img src="https://img.shields.io/badge/Scripting-Bash-black?style=for-the-badge&logo=gnu-bash" />
