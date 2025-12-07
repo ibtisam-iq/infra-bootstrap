@@ -10,7 +10,7 @@ set -o pipefail  # Ensure failures in piped commands are detected
 # Handle script failures
 trap 'echo -e "\n\033[1;31m❌ Error occurred at line $LINENO. Exiting...\033[0m\n" && exit 1' ERR
 
-REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main"
+REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/system-checks"
 
 echo -e "\n🚀 Running preflight.sh script to ensure that system meets the requirements to install Helm..."
 bash <(curl -sL "$REPO_URL/preflight.sh") || { echo "❌ Failed to execute preflight.sh. Exiting..."; exit 1; }
@@ -24,11 +24,11 @@ fi
 
 # Install Helm securely
 echo -e "\n🚀 Installing Helm...\n"
-if curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | sudo bash; then
+if curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-4 | sudo bash; then
     echo -e "\n✅ Helm installation completed successfully."
 else
     echo -e "\n❌ Helm installation script failed. Debugging..."
-    curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 -o get-helm.sh || { echo "❌ Failed to download Helm installation script. Exiting..."; exit 1; }
+    curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-4 -o get-helm.sh || { echo "❌ Failed to download Helm installation script. Exiting..."; exit 1; }
     chmod +x get-helm.sh
     sudo ./get-helm.sh > /dev/null 2>&1 || { echo "❌ Failed to install Helm. Exiting..."; exit 1; }
 fi

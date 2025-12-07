@@ -15,7 +15,7 @@
 #   - ✅ kind installation
 #
 # 🚀 Usage:
-#   curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/k8s-kind-calico.sh | sudo bash
+#   curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/kubernetes/k8s-kind-calico.sh | sudo bash
 #
 # 📜 License: MIT | 🌐 https://github.com/ibtisam-iq/infra-bootstrap
 
@@ -26,15 +26,15 @@ set -o pipefail  # Ensure failures in piped commands are detected
 trap 'echo -e "\n\033[1;31m❌ Error occurred at line $LINENO. Exiting...\033[0m\n" && exit 1' ERR
 
 # Define the repository URL
-REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main"
+REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts"
 
 # List of scripts to execute
 SCRIPTS=(
-    # "preflight.sh"
-    # "sys-info-and-update.sh"
-    "docker-setup.sh"
-    "kubectl-and-eksctl.sh"
-    "kind-setup.sh"
+    # "system-checks/preflight.sh"
+    # "system-checks/sys-info.sh"
+    "components/docker-setup.sh"
+    "components/kubectl-and-eksctl.sh"
+    "components/kind-setup.sh"
 )
 
 # ==================================================
@@ -50,7 +50,7 @@ done
 # 🎉 Kind Cluster Setup
 # ==================================================
 echo -e "\033[1;34m🚀 Setting up kind cluster with Calico...\033[0m"
-curl -s https://raw.githubusercontent.com/ibtisam-iq/SilverKube/main/kind-calico-config-file.yaml | kind create cluster --config -
+curl -s https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/kubernetes/manifests/kind-calico-cluster-config.yaml | kind create cluster --config -
 echo -e "\033[1;32m✅ Kind cluster created successfully.\033[0m\n"
 # ==================================================
 # 🎉 Calico Installation

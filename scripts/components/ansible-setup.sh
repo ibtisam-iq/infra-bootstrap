@@ -17,7 +17,7 @@ set -o pipefail  # Ensure failures in piped commands are detected
 # Handle script failures
 trap 'echo -e "\n❌ Error occurred at line $LINENO. Exiting...\n" && exit 1' ERR
 
-REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main"
+REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/system-checks"
 
 # ==================================================
 # 🛠️ Preflight Check

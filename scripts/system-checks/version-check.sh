@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ╔════════════════════════════════════════════════════════╗
-# ║               infra-bootstrap - Version Check               ║
+# ║               infra-bootstrap - Version Check          ║
 # ║               (c) 2025 Muhammad Ibtisam Iqbal          ║
 # ║               License: MIT                             ║
 # ╚════════════════════════════════════════════════════════╝

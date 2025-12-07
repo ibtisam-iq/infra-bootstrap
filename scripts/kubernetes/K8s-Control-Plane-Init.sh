@@ -44,12 +44,12 @@ echo
 # This script automates the initialization of the first Kubernetes control plane node.
 #
 # 🚀 Usage:
-#   curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/K8s-Control-Plane-Init.sh | sudo bash
+#   curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/kubernetes/K8s-Control-Plane-Init.sh | sudo bash
 
 set -euo pipefail
 trap 'echo -e "\n\033[1;31m❌ Error at line $LINENO. Exiting...\033[0m"; exit 1' ERR
 
-REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main"
+REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/kubernetes/"
 
 # List of scripts to execute
 SCRIPTS=(
@@ -106,7 +106,7 @@ echo
 
 echo -e "${BOLD}${GREEN}🚀 To complete the final setup step, run:${RESET}"
 echo
-echo -e "   ${GREEN}curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/k8s-cni-setup.sh | bash${RESET}"
+echo -e "   ${GREEN}curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/kubernetes/k8s-cni-setup.sh | bash${RESET}"
 echo
 
 echo -e "${CYAN}🛠️ This script will:${RESET}"
