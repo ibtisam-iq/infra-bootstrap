@@ -1,4 +1,5 @@
 !!! warning "Error Handling"
+
 All infra-bootstrap components use strict error handling:
 
 ```

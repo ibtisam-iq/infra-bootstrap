@@ -1,4 +1,5 @@
 !!! note "Hostname Configuration"
+
 If quiet mode is disabled, the script will prompt for hostname modification.
 
 ```

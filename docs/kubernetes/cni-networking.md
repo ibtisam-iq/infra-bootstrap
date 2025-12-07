@@ -148,9 +148,9 @@ Your script:
 
 1. Waits for:
 
-   - kube-system pods
-   - CNI pods
-   - CoreDNS readiness
+    - kube-system pods
+    - CNI pods
+    - CoreDNS readiness
 
 1. Prints post-installation checks
 

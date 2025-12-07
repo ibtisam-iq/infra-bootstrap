@@ -1,4 +1,5 @@
 !!! note "Preflight Validation"
+
 Before any infra-bootstrap component begins installation, a full **system preflight check** is executed using `preflight.sh`.
 
 ```

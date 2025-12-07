@@ -1,4 +1,5 @@
 !!! example "System Information Collection"
+
 This component gathers a detailed snapshot of the host system, including:
 
 ```
