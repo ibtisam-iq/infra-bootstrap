@@ -33,6 +33,7 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scrip
 ✅ Running as root.
 
 ✅ curl is already installed.
+
 ✅ bash is already installed.
 
 ✅ Internet connection verified.
