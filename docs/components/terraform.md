@@ -31,5 +31,3 @@ terraform init  # Test in empty dir
 **Official Docs:** [developer.hashicorp.com/terraform/install](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
 
 ______________________________________________________________________
-
-*Last updated: {{ git_revision_date_localized }}*

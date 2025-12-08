@@ -50,5 +50,3 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scrip
     ```
 
 ______________________________________________________________________
-
-*Last updated: {{ git_revision_date_localized }}*

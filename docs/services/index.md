@@ -17,5 +17,3 @@ Isolated, portable, tear-down easy. (Harden for prod.)
 - [Nexus](nexus.md): Artifact repository (Maven, Docker, npm).
 
 ______________________________________________________________________
-
-*Last updated: {{ git_revision_date_localized }}*

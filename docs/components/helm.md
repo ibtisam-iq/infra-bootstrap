@@ -27,5 +27,3 @@ helm version
 **Official Docs:** [helm.sh/docs/intro/install](https://helm.sh/docs/intro/install/)
 
 ______________________________________________________________________
-
-*Last updated: {{ git_revision_date_localized }}*

@@ -17,5 +17,3 @@ Self-managed clusters for labs: Control plane, workers, CNI, addons. Script-driv
 - [Addons](addons.md): Ingress, Gateway API, monitoring.
 
 ______________________________________________________________________
-
-*Last updated: {{ git_revision_date_localized }}*

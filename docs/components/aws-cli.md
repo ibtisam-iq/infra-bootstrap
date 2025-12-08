@@ -32,5 +32,3 @@ aws sts get-caller-identity  # Test auth
 **Official Docs:** [docs.aws.amazon.com/cli](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 
 ______________________________________________________________________
-
-*Last updated: {{ git_revision_date_localized }}*

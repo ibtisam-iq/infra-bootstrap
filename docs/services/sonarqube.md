@@ -33,5 +33,3 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scrip
 Official Docs: [docs.sonarsource.com/sonarqube](https://docs.sonarsource.com/sonarqube/latest/setup-and-upgrade/install-the-server/)
 
 ______________________________________________________________________
-
-*Last updated: {{ git_revision_date_localized }}*

@@ -51,5 +51,3 @@ sudo ./Jenkins-Server.sh
 Restart if needed: `sudo systemctl restart jenkins`.
 
 ______________________________________________________________________
-
-*Last updated: {{ git_revision_date_localized }}*
