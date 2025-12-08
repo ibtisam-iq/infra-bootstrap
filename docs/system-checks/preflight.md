@@ -21,28 +21,25 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scrip
 - curl/bash installed.
 - Internet (ping 8.8.8.8).
 - OS compatibility.
-- Architecture.
+- Architecture, hardware, virtualization and systemd check.
 
 ## Output Example
 
 ```
-========================================
-🚀 infra-bootstrap - System Preflight Checks
-========================================
+[ OK ]    Supported OS detected: Pop!_OS 24.04 LTS
+[ OK ]    Core shell utilities are present.
+[INFO]    Checking basic Internet connectivity (ICMP)...
+[ OK ]    Internet connectivity verified (ping to 8.8.8.8).
+[INFO]    Checking DNS & HTTPS reachability...
+[ OK ]    DNS resolution and HTTPS access working (github.com).
+[ OK ]    Architecture supported: x86_64
+[INFO]    Evaluating hardware capacity...
+[ OK ]    Hardware checks completed.
+[INFO]    Checking CPU virtualization support flags...
+[ OK ]    Virtualization extensions detected (vmx/svm).
+[INFO]    Checking init system (systemd)...
+[ OK ]    systemd is available – service-based components can be managed.
 
-✅ Running as root.
-
-✅ curl is already installed.
-
-✅ bash is already installed.
-
-✅ Internet connection verified.
-
-✅ Detected OS: Ubuntu 22.04.4 LTS
-
-✅ Architecture supported: x86_64
-
-🚀 Preflight checks completed successfully! Your system is ready.
+[ OK ]    Preflight checks completed successfully.
+[INFO]    Your system is ready to run infra-bootstrap scripts.
 ```
-
-Run early—ensures safe execution.
