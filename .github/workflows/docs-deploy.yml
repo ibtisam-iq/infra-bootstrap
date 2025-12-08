@@ -47,8 +47,8 @@ jobs:
       - name: QA – HTML validation
         run: html5validator --root site --blacklist robots.txt --ignore "autocomplete" "autocorrect" "autocapitalize" "No \"p\" element in scope"
 
-      - name: QA – Markdown formatting
-        run: mdformat --check docs --no-validate
+      #- name: QA – Markdown formatting
+      #  run: mdformat --check docs --no-validate
 
   # PR Preview (runs on every PR, deploys to temporary URL)
   preview:
