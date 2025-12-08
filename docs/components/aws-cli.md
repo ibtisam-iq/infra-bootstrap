@@ -6,8 +6,8 @@ title: AWS CLI
 
 Command-line tool for AWS services. Installs CLI + configures credentials for cloud management.
 
---8\<-- "includes/common-header.md"
---8\<-- "includes/system-requirements.md"
+--8<-- "includes/common-header.md"
+--8<-- "includes/system-requirements.md"
 
 ## Installation Command
 
@@ -27,7 +27,9 @@ aws --version  # e.g., aws-cli/2.15.x
 aws sts get-caller-identity  # Test auth
 ```
 
-Official Docs: [docs.aws.amazon.com/cli](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
+--8<-- "includes/post-installation.md"
+
+**Official Docs:** [docs.aws.amazon.com/cli](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 
 ______________________________________________________________________
 

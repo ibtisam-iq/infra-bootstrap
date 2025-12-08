@@ -6,8 +6,8 @@ title: Ansible
 
 Configuration management tool for automating deployments and orchestration. Installs core Ansible + collections for infra as code.
 
---8\<-- "includes/common-header.md"
---8\<-- "includes/system-requirements.md"
+--8<-- "includes/common-header.md"
+--8<-- "includes/system-requirements.md"
 
 ## Installation Command
 
@@ -28,7 +28,9 @@ ansible --version  # e.g., ansible [core 2.15.x]
 ansible-galaxy collection list  # Installed collections
 ```
 
-Official Docs: [docs.ansible.com](https://docs.ansible.com/ansible/latest/index.html)
+--8<-- "includes/post-installation.md"
+
+**Official Docs:** [docs.ansible.com](https://docs.ansible.com/ansible/latest/index.html)
 
 ______________________________________________________________________
 

@@ -6,8 +6,8 @@ title: Jumpbox
 
 Bastion/jump server for lab access: One script sets up Terraform, Ansible, kubectl/eksctl, Helm. Gateway for AWS/K8s management—SSH tunnel, CLI tools bundled.
 
---8\<-- "includes/common-header.md"
---8\<-- "includes/system-requirements.md"
+--8<-- "includes/common-header.md"
+--8<-- "includes/system-requirements.md"
 
 ## Run It (Direct)
 

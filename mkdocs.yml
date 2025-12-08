@@ -88,41 +88,24 @@ plugins:
   - awesome-pages  # Your hierarchical nav magic
   - minify:
       minify_html: true  # Compresses output for faster GH Pages loads
-  - include-markdown
-
-
-# -------------------------------------------------------------------
-# Navigation – Let awesome-pages handle (no explicit nav: needed)
-# Your .pages files already define the tree perfectly
-# nav:  # COMMENT OR DELETE THIS BLOCK
-#   - Home: index.md
-#   ...
-
-
-
-# -------------------------------------------------------------------
-# Explicit Nav for Order, Dropdown, & Full Inclusion (no awesome-pages needed)
-# -------------------------------------------------------------------
-# -------------------------------------------------------------------
-# Explicit Nav for Order & Dropdown (Components last, hover subs)
-# -------------------------------------------------------------------
+  - git-revision-date-localized:
+      type: date
+      timezone: Asia/Karachi
+      locale: en
+      fallback_to_build_date: true  # Shows last updated date on GH Pages
 
 
 # Extra content – enhances GH Pages sharing/SEO
 extra:
-  version:
-    provider: mike  # Optional: For versioned docs (e.g., v1.0); install 'mike' if using
   social:
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/ibtisam-iq/
     - icon: fontawesome/brands/github
       link: https://github.com/ibtisam-iq
     - icon: fontawesome/solid/globe
-      link: https://bootstrap.ibtisam-iq.com
-  # NEW: Open Graph for better GH Pages previews (e.g., when sharing links)
+      link: https://ibtisam-iq.com
   generator: false  # Hides "Built with MkDocs" (clean look)
   copyright: "© 2025 Ibtisam IQ. Licensed under CC BY 4.0."  # Add your license
-
-# Navigation – Let awesome-pages handle (no explicit nav: needed)
-# Your .pages files already define the tree perfectly
 
 extra_css:
   - stylesheets/extra.css  # Loads your custom styles

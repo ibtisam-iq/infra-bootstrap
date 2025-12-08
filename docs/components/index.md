@@ -8,8 +8,8 @@ Standalone binaries for DevOps bootstrapping.
 
 Mix and match for custom labs.
 
---8\<-- "includes/common-header.md"
---8\<-- "includes/system-requirements.md"
+--8<-- "includes/common-header.md"
+--8<-- "includes/system-requirements.md"
 
 ## Quick Links
 

@@ -6,8 +6,8 @@ title: Nexus
 
 Containerized artifact repository for Maven, Docker, npm. Runs as Docker service—store, proxy, scan packages. Prompt for port on run.
 
---8\<-- "includes/common-header.md"
---8\<-- "includes/system-requirements.md"
+--8<-- "includes/common-header.md"
+--8<-- "includes/system-requirements.md"
 
 ## Installation Command
 

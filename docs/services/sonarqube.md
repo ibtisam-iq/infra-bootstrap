@@ -6,8 +6,8 @@ title: SonarQube
 
 Containerized code quality & security scanner (with Postgres backend). Runs as Docker service—scan repos, enforce standards. Prompt for port on run.
 
---8\<-- "includes/common-header.md"
---8\<-- "includes/system-requirements.md"
+--8<-- "includes/common-header.md"
+--8<-- "includes/system-requirements.md"
 
 ## Installation Command
 

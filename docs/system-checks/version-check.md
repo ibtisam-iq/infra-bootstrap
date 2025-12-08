@@ -6,8 +6,8 @@ title: Version Check
 
 Audits installed DevOps tools. Runs preflight, lists versions (Ansible, AWS CLI, Docker, Containerd, Runc, Git, Python, Node.js, npm, Helm, Jenkins, kubectl, eksctl, Terraform).
 
---8\<-- "includes/common-header.md"
---8\<-- "includes/system-requirements.md"
+--8<-- "includes/common-header.md"
+--8<-- "includes/system-requirements.md"
 
 ## Installation Command
 

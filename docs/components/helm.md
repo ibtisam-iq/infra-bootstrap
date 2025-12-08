@@ -22,7 +22,9 @@ curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-4 | bash
 helm version  
 ```
 
-Official Docs: [helm.sh/docs/intro/install](https://helm.sh/docs/intro/install/)
+--8<-- "includes/post-installation.md"
+
+**Official Docs:** [helm.sh/docs/intro/install](https://helm.sh/docs/intro/install/)
 
 ______________________________________________________________________
 

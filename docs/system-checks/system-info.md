@@ -6,8 +6,8 @@ title: System Info
 
 Updates OS, prompts hostname change, displays key info (IP, MAC, network, DNS, kernel, OS, CPU, memory, disk, load, UUID). Logs to `/var/log/sys_info.log`.
 
---8\<-- "includes/common-header.md"
---8\<-- "includes/system-requirements.md"
+--8<-- "includes/common-header.md"
+--8<-- "includes/system-requirements.md"
 
 ## Installation Command
 

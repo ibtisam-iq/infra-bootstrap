@@ -1,9 +1,9 @@
-# 📄 Local & Lightweight Kubernetes Clusters
+# Local & Lightweight Kubernetes Clusters
 
 **Minikube · Kind · K3s**
 
---8\<-- "includes/common-header.md"
---8\<-- "includes/system-requirements.md"
+--8<-- "includes/common-header.md"
+--8<-- "includes/system-requirements.md"
 
 ______________________________________________________________________
 
@@ -71,7 +71,7 @@ ______________________________________________________________________
 ## **A) Kind with Calico CNI**
 
 ```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/k8s-kind-calico.sh | sudo bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/kubernetes/k8s-kind-calico.sh | sudo bash
 ```
 
 This configuration:
@@ -86,7 +86,7 @@ ______________________________________________________________________
 ## **B) Kind with Default CNI (Flannel)**
 
 ```bash
-curl -s https://raw.githubusercontent.com/ibtisam-iq/SilverKube/main/kind-config-file.yaml \
+curl -s https://raw.githubusercontent.com/ibtisam-iq/SilverKube/main/scripts/kubernetes/manifests/kind-config-file.yaml \
 | kind create cluster --config -
 ```
 

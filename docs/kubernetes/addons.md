@@ -1,9 +1,9 @@
-# 📄 Kubernetes Add-Ons
+# Kubernetes Add-Ons
 
 **Networking, Ingress, Gateways, and Traffic Management**
 
---8\<-- "includes/common-header.md"
---8\<-- "includes/system-requirements.md"
+--8<-- "includes/common-header.md"
+--8<-- "includes/system-requirements.md"
 
 ______________________________________________________________________
 
@@ -57,7 +57,7 @@ ______________________________________________________________________
 To install all add-ons:
 
 ```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/k8s-addons.sh | bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/kubernetes/gateway-stack-installation.sh | bash
 ```
 
 (The script name is assumed; rename accordingly if needed.)
