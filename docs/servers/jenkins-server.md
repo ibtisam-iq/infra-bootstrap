@@ -49,5 +49,3 @@ sudo ./Jenkins-Server.sh
 - **Verify**: `sudo systemctl status jenkins` (running?). Login, create first admin user.
 
 Restart if needed: `sudo systemctl restart jenkins`.
-
-______________________________________________________________________

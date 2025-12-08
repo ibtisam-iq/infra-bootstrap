@@ -15,5 +15,3 @@ Isolated, portable, tear-down easy. (Harden for prod.)
 
 - [SonarQube](sonarqube.md): Code quality & security (with Postgres).
 - [Nexus](nexus.md): Artifact repository (Maven, Docker, npm).
-
-______________________________________________________________________

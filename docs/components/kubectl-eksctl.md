@@ -30,5 +30,3 @@ eksctl version  # e.g., 0.174.x
 --8<-- "includes/post-installation.md"
 
 **Official Docs:** [kubernetes.io/docs/reference/kubectl](https://kubernetes.io/docs/reference/kubectl/) | [eksctl.io](https://eksctl.io/usage/)
-
-______________________________________________________________________

@@ -29,5 +29,3 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scrip
 - [Services](services/index.md): Containerized tools (SonarQube, Nexus etc. via Docker Compose).
 
 *Built for labs, not production. Harden as needed.*
-
-______________________________________________________________________

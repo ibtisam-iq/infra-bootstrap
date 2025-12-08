@@ -43,5 +43,3 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scrip
 ```
 
 Use for audits—outputs to console.
-
-______________________________________________________________________

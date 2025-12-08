@@ -30,5 +30,3 @@ aws sts get-caller-identity  # Test auth
 --8<-- "includes/post-installation.md"
 
 **Official Docs:** [docs.aws.amazon.com/cli](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
-
-______________________________________________________________________

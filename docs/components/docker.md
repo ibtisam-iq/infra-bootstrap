@@ -68,5 +68,3 @@ newgrp docker
 --8<-- "includes/post-installation.md"
 
 **Official Docs:** [docs.docker.com/engine/install](https://docs.docker.com/engine/install/)
-
-______________________________________________________________________

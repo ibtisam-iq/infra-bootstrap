@@ -18,7 +18,7 @@ Everything happens in a SINGLE workflow and a SINGLE page.
 --8<-- "includes/common-header.md"
 --8<-- "includes/system-requirements.md"
 
-______________________________________________________________________
+---
 
 # Step 1 — Create the First Control Plane
 
@@ -39,7 +39,7 @@ This script:
 
 After completion, your **cluster exists** — but with a single control-plane.
 
-______________________________________________________________________
+---
 
 # Step 2 — (Optional) Create Additional Control Planes
 
@@ -68,7 +68,7 @@ If the token expired:
 kubeadm token create --print-join-command
 ```
 
-______________________________________________________________________
+---
 
 # Step 3 — Prepare Worker Nodes
 
@@ -87,7 +87,7 @@ This script:
 
 Each machine becomes Kubernetes-ready.
 
-______________________________________________________________________
+---
 
 # Step 4 — Join Worker Nodes
 
@@ -107,7 +107,7 @@ If the token expires:
 kubeadm token create --print-join-command
 ```
 
-______________________________________________________________________
+---
 
 # Step 5 — Install a CNI Plugin (Required for Networking)
 
@@ -128,7 +128,7 @@ This script:
 **Important:**
 Install the CNI **only once**, on the first control-plane node.
 
-______________________________________________________________________
+---
 
 # Step 6 — Verify the Cluster
 
@@ -158,7 +158,7 @@ kubectl get --raw='/readyz?verbose'
 
 If everything is Running/Ready — your Kubernetes cluster is healthy.
 
-______________________________________________________________________
+---
 
 # Reset / Rebuild (if needed)
 
@@ -168,11 +168,9 @@ sudo systemctl restart containerd
 sudo rm -rf ~/.kube
 ```
 
-______________________________________________________________________
+---
 
 # Official Reference
 
 Kubeadm Upstream Documentation:
 [https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/)
-
-______________________________________________________________________

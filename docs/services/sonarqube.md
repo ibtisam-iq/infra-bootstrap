@@ -31,5 +31,3 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scrip
 - **Wait Time**: 2-3 min for full startup.
 
 Official Docs: [docs.sonarsource.com/sonarqube](https://docs.sonarsource.com/sonarqube/latest/setup-and-upgrade/install-the-server/)
-
-______________________________________________________________________

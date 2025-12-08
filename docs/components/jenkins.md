@@ -29,5 +29,3 @@ sudo systemctl status jenkins  # Active
 --8<-- "includes/post-installation.md"
 
 **Official Docs:** [jenkins.io/doc/book/installing](https://www.jenkins.io/doc/book/installing/)
-
-______________________________________________________________________

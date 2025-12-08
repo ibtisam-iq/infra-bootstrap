@@ -5,7 +5,7 @@
 --8<-- "includes/common-header.md"
 --8<-- "includes/system-requirements.md"
 
-______________________________________________________________________
+---
 
 ## 🧭 Overview
 
@@ -28,7 +28,7 @@ This guide includes the three most widely used local cluster tools:
 
 Each tool comes with a simple one-line command to help you spin up a cluster quickly.
 
-______________________________________________________________________
+---
 
 # 🧊 1. Minikube
 
@@ -57,7 +57,7 @@ minikube status
 
 Minikube automatically deploys a CNI, kubelet, scheduler, and controller manager internally.
 
-______________________________________________________________________
+---
 
 # 🐳 2. Kind (Kubernetes in Docker)
 
@@ -66,7 +66,7 @@ It is clean, fast, ephemeral, and perfect for labs.
 
 To create a Kind cluster, infra-bootstrap provides two configurations:
 
-______________________________________________________________________
+---
 
 ## **A) Kind with Calico CNI**
 
@@ -81,7 +81,7 @@ This configuration:
 - Configures API server port mapping
 - Prepares kubeconfig automatically
 
-______________________________________________________________________
+---
 
 ## **B) Kind with Default CNI (Flannel)**
 
@@ -96,7 +96,7 @@ This configuration:
 - Creates multi-node topology
 - No additional network plugin setup needed
 
-______________________________________________________________________
+---
 
 # ⚡ 3. K3s (Lightweight Kubernetes Engine)
 
@@ -127,7 +127,7 @@ K3s includes:
 - Lightweight control-plane components
 - Automatic configuration of kubeconfig
 
-______________________________________________________________________
+---
 
 # 🧪 Cluster Verification (All Methods)
 
@@ -157,7 +157,7 @@ kubectl cluster-info
 kubectl config view
 ```
 
-______________________________________________________________________
+---
 
 # 🧹 Optional: Delete the Cluster
 
@@ -179,12 +179,8 @@ kind delete cluster --name <cluster-name>
 sudo /usr/local/bin/k3s-uninstall.sh
 ```
 
-______________________________________________________________________
-
 # 📘 Official References
 
 - Minikube: [https://minikube.sigs.k8s.io](https://minikube.sigs.k8s.io)
 - Kind: [https://kind.sigs.k8s.io](https://kind.sigs.k8s.io)
 - K3s: [https://k3s.io](https://k3s.io)
-
-______________________________________________________________________

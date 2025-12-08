@@ -5,7 +5,7 @@
 --8<-- "includes/common-header.md"
 --8<-- "includes/system-requirements.md"
 
-______________________________________________________________________
+---
 
 ## 🧭 Overview
 
@@ -29,7 +29,7 @@ This page covers **the add-ons installed by infra-bootstrap**, including:
 
 These tools provide a complete ingress and API gateway layer for small clusters, labs, and learning environments.
 
-______________________________________________________________________
+---
 
 # 🧩 What Are Kubernetes Add-Ons?
 
@@ -50,7 +50,7 @@ The add-ons below provide:
 | **Ingress-NGINX**        | Traditional Kubernetes Ingress Controller |
 | **Traefik**              | Ingress + Gateway + L7 routing (NodePort) |
 
-______________________________________________________________________
+---
 
 # 🚀 Automatic Installation Script
 
@@ -70,13 +70,13 @@ The script installs:
 - Traefik Ingress Controller (NodePort)
 - Helm (required for Traefik)
 
-______________________________________________________________________
+---
 
 # 🧱 Add-Ons Installed by infra-bootstrap
 
 Below is exactly what your script does and why it matters.
 
-______________________________________________________________________
+---
 
 ## 🧊 1. Gateway API CRDs
 
@@ -96,7 +96,7 @@ kubectl kustomize "https://github.com/nginx/nginx-gateway-fabric/config/crd/gate
 - Modern L4/L7 routing model
 - More flexible than old Ingress resources
 
-______________________________________________________________________
+---
 
 ## 🌐 2. NGINX Gateway Fabric (NodePort)
 
@@ -119,7 +119,7 @@ kubectl apply -f https://raw.githubusercontent.com/nginx/nginx-gateway-fabric/v1
 - High-performance routing engine
 - Easy HTTP/HTTPS traffic management
 
-______________________________________________________________________
+---
 
 ## 🌐 3. NGINX Ingress Controller (Optional)
 
@@ -136,7 +136,7 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/cont
 
 This is optional and not required if you plan to use Gateway API exclusively.
 
-______________________________________________________________________
+---
 
 ## ⚡ 4. Traefik (NodePort 32080/32443)
 
@@ -172,7 +172,7 @@ helm upgrade --install traefik traefik/traefik \
 | **32080** | HTTP    |
 | **32443** | HTTPS   |
 
-______________________________________________________________________
+---
 
 # 🧪 Verification Steps
 
@@ -210,7 +210,7 @@ kubectl get gateways
 kubectl get httproutes
 ```
 
-______________________________________________________________________
+---
 
 # 🐛 Troubleshooting
 
@@ -240,7 +240,7 @@ Ensure Helm is installed correctly:
 helm version
 ```
 
-______________________________________________________________________
+---
 
 # 📘 Official Documentation
 
@@ -248,5 +248,3 @@ ______________________________________________________________________
 - NGINX Gateway Fabric: [https://github.com/nginx/nginx-gateway-fabric](https://github.com/nginx/nginx-gateway-fabric)
 - Ingress-NGINX: [https://kubernetes.github.io/ingress-nginx](https://kubernetes.github.io/ingress-nginx)
 - Traefik: [https://doc.traefik.io/traefik](https://doc.traefik.io/traefik)
-
-______________________________________________________________________

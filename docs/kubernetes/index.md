@@ -15,5 +15,3 @@ Self-managed clusters for labs: Control plane, workers, CNI, addons. Script-driv
 - [Self-Managed with Kubeadm](self-managed-kubeadm.md): Full cluster bootstrap (control plane + workers).
 - [CNI Networking](cni-networking.md): Calico, Flannel, Weave.
 - [Addons](addons.md): Ingress, Gateway API, monitoring.
-
-______________________________________________________________________
