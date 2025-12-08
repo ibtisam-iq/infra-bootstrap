@@ -6,8 +6,8 @@ title: Terraform
 
 IaC tool for provisioning infra. Installs CLI + providers for AWS/Azure/GCP.
 
---8\<-- "includes/common-header.md"
---8\<-- "includes/system-requirements.md"
+--8<-- "includes/common-header.md"
+--8<-- "includes/system-requirements.md"
 
 ## Installation Command
 
@@ -26,7 +26,9 @@ terraform version  # e.g., Terraform v1.6.x
 terraform init  # Test in empty dir
 ```
 
-Official Docs: [developer.hashicorp.com/terraform/install](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
+--8<-- "includes/post-installation.md"
+
+**Official Docs:** [developer.hashicorp.com/terraform/install](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
 
 ______________________________________________________________________
 

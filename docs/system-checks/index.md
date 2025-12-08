@@ -8,6 +8,9 @@ Validate your lab environment before bootstrapping. Ensures root access, deps. (
 
 Run preflight early—catches issues upfront.
 
+--8<-- "includes/common-header.md"
+--8<-- "includes/system-requirements.md"
+
 ## Quick Links
 
 - [Preflight](preflight.md): Full system validation (root, deps, OS, arch).

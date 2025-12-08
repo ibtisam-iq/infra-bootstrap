@@ -6,8 +6,8 @@ title: Docker
 
 Container engine for building/running images. Installs daemon + CLI for local dev/labs.
 
---8\<-- "includes/common-header.md"
---8\<-- "includes/system-requirements.md"
+--8<-- "includes/common-header.md"
+--8<-- "includes/system-requirements.md"
 
 ## Installation Command
 
@@ -65,7 +65,9 @@ sudo usermod -aG docker $USER
 newgrp docker
 ```
 
-Official Docs: [docs.docker.com/engine/install](https://docs.docker.com/engine/install/)
+--8<-- "includes/post-installation.md"
+
+**Official Docs:** [docs.docker.com/engine/install](https://docs.docker.com/engine/install/)
 
 ______________________________________________________________________
 

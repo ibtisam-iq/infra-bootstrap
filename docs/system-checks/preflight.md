@@ -6,8 +6,8 @@ title: Preflight
 
 Initial system validation before bootstrapping. Checks root, deps (curl/bash), internet, OS (Ubuntu/Linux Mint), arch (x86_64/amd64). Fails fast if not ready.
 
---8\<-- "includes/common-header.md"
---8\<-- "includes/system-requirements.md"
+--8<-- "includes/common-header.md"
+--8<-- "includes/system-requirements.md"
 
 ## Installation Command
 

@@ -6,8 +6,8 @@ title: Server Builds Overview
 
 Pre-configured lab servers: One script bundles OS updates, tools (CLI, monitoring), and configs for DevOps workflows. Disposable—build, test CI/CD or bastion access, wipe clean.
 
---8\<-- "includes/common-header.md"
---8\<-- "includes/system-requirements.md"
+--8<-- "includes/common-header.md"
+--8<-- "includes/system-requirements.md"
 
 ## Quick Links
 

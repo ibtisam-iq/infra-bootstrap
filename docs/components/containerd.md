@@ -6,8 +6,8 @@ title: Containerd
 
 Lightweight container runtime for K8s/CRI. Installs daemon + config for efficient pod management.
 
---8\<-- "includes/common-header.md"
---8\<-- "includes/system-requirements.md"
+--8<-- "includes/common-header.md"
+--8<-- "includes/system-requirements.md"
 
 ## Installation Command
 
@@ -28,7 +28,9 @@ ctr version  # e.g., containerd github.com/containerd/containerd v1.7.x
 systemctl status containerd  # Active (running)
 ```
 
-Official Docs: [containerd.io/docs](https://containerd.io/docs/getting-started/)
+--8<-- "includes/post-installation.md"
+
+**Official Docs:** [containerd.io/docs](https://containerd.io/docs/getting-started/)
 
 ______________________________________________________________________
 

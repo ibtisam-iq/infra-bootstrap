@@ -1,9 +1,9 @@
-# 📄 Kubernetes CNI Installation
+# Kubernetes CNI Installation
 
 **Script:** `k8s-cni-setup.sh`
 
---8\<-- "includes/common-header.md"
---8\<-- "includes/system-requirements.md"
+--8<-- "includes/common-header.md"
+--8<-- "includes/system-requirements.md"
 
 ______________________________________________________________________
 
@@ -45,7 +45,7 @@ ______________________________________________________________________
 Run the infra-bootstrap CNI script:
 
 ```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/k8s-cni-setup.sh | bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/kubernetes/k8s-cni-setup.sh | bash
 ```
 
 The script will:

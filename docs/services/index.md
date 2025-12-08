@@ -8,8 +8,8 @@ Containerized tools run as services—via Docker or Compose. No system installs.
 
 Isolated, portable, tear-down easy. (Harden for prod.)
 
---8\<-- "includes/common-header.md"
---8\<-- "includes/system-requirements.md"
+--8<-- "includes/common-header.md"
+--8<-- "includes/system-requirements.md"
 
 ## Quick Links
 

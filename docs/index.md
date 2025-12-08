@@ -8,8 +8,8 @@ Welcome to **Infra Bootstrap**—your one-stop Bash framework for spinning up De
 
 No bloat. No deps. Just `curl | bash` and run.
 
---8\<-- "includes/common-header.md"
---8\<-- "includes/system-requirements.md"
+--8<-- "includes/common-header.md"
+--8<-- "includes/system-requirements.md"
 
 ## Quick Start
 

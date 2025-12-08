@@ -14,8 +14,8 @@ Pre-configured CI/CD lab server: One script bootstraps Jenkins + Docker, kubectl
 - Configures Jenkins user in Docker group.
 - Outputs access URLs and initial password.
 
---8\<-- "includes/common-header.md"
---8\<-- "includes/system-requirements.md"
+--8<-- "includes/common-header.md"
+--8<-- "includes/system-requirements.md"
 
 ## Run It (Direct)
 

@@ -6,8 +6,8 @@ title: Trivy
 
 Vulnerability scanner for containers/images. Installs CLI for SBOM and vuln. checks.
 
---8\<-- "includes/common-header.md"
---8\<-- "includes/system-requirements.md"
+--8<-- "includes/common-header.md"
+--8<-- "includes/system-requirements.md"
 
 ## Installation Command
 
@@ -27,7 +27,9 @@ trivy version  # e.g., Version: 0.48.x
 trivy image alpine:latest  # Test scan
 ```
 
-Official Docs: [aquasecurity.github.io/trivy](https://trivy.dev/docs/latest/getting-started/installation/)
+--8<-- "includes/post-installation.md"
+
+**Official Docs:** [aquasecurity.github.io/trivy](https://trivy.dev/docs/latest/getting-started/installation/)
 
 ______________________________________________________________________
 

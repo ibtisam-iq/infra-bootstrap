@@ -6,8 +6,8 @@ title: Jenkins
 
 CI/CD agent for pipelines. Installs core + plugins for builds/testing.
 
---8\<-- "includes/common-header.md"
---8\<-- "includes/system-requirements.md"
+--8<-- "includes/common-header.md"
+--8<-- "includes/system-requirements.md"
 
 ## Installation Command
 
@@ -26,7 +26,9 @@ java -jar jenkins.war --version  # e.g., Jenkins 2.426.x
 sudo systemctl status jenkins  # Active
 ```
 
-Official Docs: [jenkins.io/doc/book/installing](https://www.jenkins.io/doc/book/installing/)
+--8<-- "includes/post-installation.md"
+
+**Official Docs:** [jenkins.io/doc/book/installing](https://www.jenkins.io/doc/book/installing/)
 
 ______________________________________________________________________
 
