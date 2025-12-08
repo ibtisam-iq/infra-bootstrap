@@ -1,3 +1,2 @@
-[format]
-# Permanently disable HTML validation so snippets (--8<--) never break the check
-no_validate = true
+# This makes mdformat ignore --8<-- snippets forever
+validate = false
