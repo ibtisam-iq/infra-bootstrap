@@ -32,5 +32,3 @@ eksctl version  # e.g., 0.174.x
 **Official Docs:** [kubernetes.io/docs/reference/kubectl](https://kubernetes.io/docs/reference/kubectl/) | [eksctl.io](https://eksctl.io/usage/)
 
 ______________________________________________________________________
-
-*Last updated: {{ git_revision_date_localized }}*

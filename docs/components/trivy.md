@@ -32,5 +32,3 @@ trivy image alpine:latest  # Test scan
 **Official Docs:** [aquasecurity.github.io/trivy](https://trivy.dev/docs/latest/getting-started/installation/)
 
 ______________________________________________________________________
-
-*Last updated: {{ git_revision_date_localized }}*

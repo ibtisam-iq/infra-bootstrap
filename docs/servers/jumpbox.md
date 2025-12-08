@@ -43,8 +43,3 @@ sudo ./Jumpbox.sh
 Ready for AWS/K8s ops. Outputs confirmation on run.
 
 ______________________________________________________________________
-
-*Last updated: {{ git_revision_date_localized }}*
-
-```
-```

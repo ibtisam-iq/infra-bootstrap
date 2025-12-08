@@ -32,5 +32,3 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scrip
 Official Docs: [help.sonatype.com/repomanager3](https://help.sonatype.com/repomanager3/installation-and-upgrades)
 
 ______________________________________________________________________
-
-*Last updated: {{ git_revision_date_localized }}*

@@ -31,5 +31,3 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scrip
 *Built for labs, not production. Harden as needed.*
 
 ______________________________________________________________________
-
-*Last updated: {{ git_revision_date_localized }}*

@@ -33,5 +33,3 @@ systemctl status containerd  # Active (running)
 **Official Docs:** [containerd.io/docs](https://containerd.io/docs/getting-started/)
 
 ______________________________________________________________________
-
-*Last updated: {{ git_revision_date_localized }}*

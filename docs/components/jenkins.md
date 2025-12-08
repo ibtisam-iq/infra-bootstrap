@@ -31,5 +31,3 @@ sudo systemctl status jenkins  # Active
 **Official Docs:** [jenkins.io/doc/book/installing](https://www.jenkins.io/doc/book/installing/)
 
 ______________________________________________________________________
-
-*Last updated: {{ git_revision_date_localized }}*

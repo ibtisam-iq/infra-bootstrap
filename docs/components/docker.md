@@ -70,5 +70,3 @@ newgrp docker
 **Official Docs:** [docs.docker.com/engine/install](https://docs.docker.com/engine/install/)
 
 ______________________________________________________________________
-
-*Last updated: {{ git_revision_date_localized }}*
