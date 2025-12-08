@@ -13,14 +13,12 @@ This method follows the real sequence used by cluster operators:
 - Install a **CNI plugin**
 - Validate the cluster
 
-Everything happens in a SINGLE workflow and a SINGLE page.
-
 --8<-- "includes/common-header.md"
 --8<-- "includes/system-requirements.md"
 
 ---
 
-# Step 1 — Create the First Control Plane
+# 1. Create the First Control Plane
 
 Run the following on the machine you want to become the **primary control plane**:
 
@@ -41,7 +39,7 @@ After completion, your **cluster exists** — but with a single control-plane.
 
 ---
 
-# Step 2 — (Optional) Create Additional Control Planes
+# 2. (Optional) Create Additional Control Planes
 
 If you want **multi-control-plane** (HA) setup:
 
@@ -70,7 +68,7 @@ kubeadm token create --print-join-command
 
 ---
 
-# Step 3 — Prepare Worker Nodes
+# 3. Prepare Worker Nodes
 
 On every node you want to convert into a **worker**, run:
 
@@ -89,7 +87,7 @@ Each machine becomes Kubernetes-ready.
 
 ---
 
-# Step 4 — Join Worker Nodes
+# 4. Join Worker Nodes
 
 Joining nodes uses the command printed during the first control-plane init:
 
@@ -109,7 +107,7 @@ kubeadm token create --print-join-command
 
 ---
 
-# Step 5 — Install a CNI Plugin (Required for Networking)
+# 5. Install a CNI Plugin (Required for Networking)
 
 Kubernetes will not schedule pods until a CNI is installed.
 
@@ -130,7 +128,7 @@ Install the CNI **only once**, on the first control-plane node.
 
 ---
 
-# Step 6 — Verify the Cluster
+# 6. Verify the Cluster
 
 ### Check nodes:
 
@@ -172,5 +170,5 @@ sudo rm -rf ~/.kube
 
 # Official Reference
 
-Kubeadm Upstream Documentation:
+**Kubeadm Upstream Documentation:**
 [https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/)
