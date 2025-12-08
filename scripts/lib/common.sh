@@ -72,8 +72,5 @@ banner() {
   printf "%b║ infra-bootstrap — %s%b\n" "$C_CYAN" "$1" "$C_RESET"
   printf "%b%s%b\n" "$C_CYAN" "╚════════════════════════════════════════════════════════╝" "$C_RESET"
   blank
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 667a856 (update preflight.sh)
+
