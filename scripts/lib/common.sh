@@ -45,6 +45,17 @@ hr() {
   printf "%b━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━%b\n" "$C_MAGENTA" "$C_RESET"
 }
 
+# ========================= Section Heading ======================
+section() {
+  hr
+  printf "%b[INFO]%b    %s\n" "$C_BLUE" "$C_RESET" "$1"
+}
+
+footer() {
+  hr
+  printf "%b[ OK ]%b    %s\n\n" "$C_GREEN" "$C_RESET" "$1"
+}
+
 # ======================= System Validation ======================
 require_root() {
   [[ ${EUID:-$(id -u)} -eq 0 ]] || error "This command must be run as root."
