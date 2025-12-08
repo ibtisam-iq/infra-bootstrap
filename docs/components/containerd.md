@@ -31,5 +31,3 @@ systemctl status containerd  # Active (running)
 --8<-- "includes/post-installation.md"
 
 **Official Docs:** [containerd.io/docs](https://containerd.io/docs/getting-started/)
-
-______________________________________________________________________

@@ -30,5 +30,3 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scrip
 - **Wait Time**: 2-3 min for full startup.
 
 Official Docs: [help.sonatype.com/repomanager3](https://help.sonatype.com/repomanager3/installation-and-upgrades)
-
-______________________________________________________________________

@@ -41,5 +41,3 @@ sudo ./Jumpbox.sh
 - **Tunnel Example**: `ssh -L 8080:k8s:80 ubuntu@jump-ip` (forward ports to cluster).
 
 Ready for AWS/K8s ops. Outputs confirmation on run.
-
-______________________________________________________________________

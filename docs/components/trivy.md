@@ -30,5 +30,3 @@ trivy image alpine:latest  # Test scan
 --8<-- "includes/post-installation.md"
 
 **Official Docs:** [aquasecurity.github.io/trivy](https://trivy.dev/docs/latest/getting-started/installation/)
-
-______________________________________________________________________

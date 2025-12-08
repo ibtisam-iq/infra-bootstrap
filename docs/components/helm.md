@@ -25,5 +25,3 @@ helm version
 --8<-- "includes/post-installation.md"
 
 **Official Docs:** [helm.sh/docs/intro/install](https://helm.sh/docs/intro/install/)
-
-______________________________________________________________________

@@ -31,5 +31,3 @@ ansible-galaxy collection list  # Installed collections
 --8<-- "includes/post-installation.md"
 
 **Official Docs:** [docs.ansible.com](https://docs.ansible.com/ansible/latest/index.html)
-
-______________________________________________________________________

@@ -45,5 +45,3 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scrip
 ```
 
 Run early—ensures safe execution.
-
-______________________________________________________________________

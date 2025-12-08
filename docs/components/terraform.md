@@ -29,5 +29,3 @@ terraform init  # Test in empty dir
 --8<-- "includes/post-installation.md"
 
 **Official Docs:** [developer.hashicorp.com/terraform/install](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
-
-______________________________________________________________________

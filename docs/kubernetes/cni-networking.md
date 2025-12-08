@@ -5,7 +5,7 @@
 --8<-- "includes/common-header.md"
 --8<-- "includes/system-requirements.md"
 
-______________________________________________________________________
+---
 
 ## 🧭 Overview
 
@@ -20,7 +20,7 @@ The infra-bootstrap CNI installer simplifies this process by:
 
 CNI must be installed **only on the first control-plane node**.
 
-______________________________________________________________________
+---
 
 # 🧩 What a CNI Does
 
@@ -38,7 +38,7 @@ Without a CNI plugin:
 - kube-dns/CoreDNS cannot start
 - Networking between nodes does not work
 
-______________________________________________________________________
+---
 
 # 🚀 Install CNI (Interactive Script)
 
@@ -56,15 +56,13 @@ The script will:
 1. Check that CoreDNS becomes Ready
 1. Confirm the cluster is operational
 
-______________________________________________________________________
+---
 
 # 📦 Supported CNI Plugins
 
 Below are the plugins supported by infra-bootstrap with descriptions and use cases.
 
-______________________________________________________________________
-
-## ### 1. **Calico** (Recommended)
+## 1. **Calico** (Recommended)
 
 ### Why choose Calico?
 
@@ -86,7 +84,7 @@ https://docs.projectcalico.org/manifests/calico.yaml
 - Clusters needing NetworkPolicies
 - Multi-node setups
 
-______________________________________________________________________
+---
 
 ## ### 2. **Flannel** (Simple, lightweight)
 
@@ -109,7 +107,7 @@ https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-f
 - Lightweight nodes
 - Simple labs
 
-______________________________________________________________________
+---
 
 ## ### 3. **Weave Net** (Automatic, simple)
 
@@ -132,7 +130,7 @@ https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d
 - Basic clusters
 - Cloud VMs
 
-______________________________________________________________________
+---
 
 # 🛠 How the k8s-cni-setup.sh Script Works
 
@@ -156,7 +154,7 @@ Your script:
 
 This ensures the cluster becomes functional immediately after CNI installation.
 
-______________________________________________________________________
+---
 
 # 🧪 Verify CNI Installation
 
@@ -187,7 +185,7 @@ kubectl run test --image=busybox -- sleep 3600
 kubectl exec -it test -- ping <another-pod-ip>
 ```
 
-______________________________________________________________________
+---
 
 # 🐛 Troubleshooting
 
@@ -219,7 +217,7 @@ Check kubelet status:
 systemctl status kubelet
 ```
 
-______________________________________________________________________
+---
 
 # 🧹 Reset CNI (Advanced)
 
@@ -232,13 +230,9 @@ kubectl delete pods -n kube-system --all
 
 Then reinstall using the infra-bootstrap script.
 
-______________________________________________________________________
-
 # 📘 Official Documentation
 
 - Calico: [https://projectcalico.org](https://projectcalico.org)
 - Flannel: [https://github.com/flannel-io/flannel](https://github.com/flannel-io/flannel)
 - Weave: [https://www.weave.works/docs/net/latest/kubernetes/kube-addon/](https://www.weave.works/docs/net/latest/kubernetes/kube-addon/)
 - Kubernetes Networking: [https://kubernetes.io/docs/concepts/cluster-administration/networking/](https://kubernetes.io/docs/concepts/cluster-administration/networking/)
-
-______________________________________________________________________
