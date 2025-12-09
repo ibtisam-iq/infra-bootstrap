@@ -57,9 +57,10 @@ get_version() {
 
         # ---- DevOps / Infra ----
         docker)     ver=$(docker --version 2>/dev/null | awk '{print $3}' | tr -d ',') ;;
-        containerd) ver=$(containerd --version 2>/dev/null | awk '{print $3}') ;;
+        docker compose) ver=$(docker compose version | awk '{print $4}' | sed 's/^v//') ;;
+        containerd) ver=$(containerd --version 2>/dev/null | awk '{print $3}' | sed 's/^v//') ;;
         runc)       ver=$(runc --version 2>/dev/null | awk '{print $3}') ;;
-        ansible) ver=$(ansible --version 2>/dev/null | awk 'NR==1{gsub(/\]|\[/,"",$3); print $3}') ;;
+        ansible)    ver=$(ansible --version 2>/dev/null | awk 'NR==1{gsub(/\]|\[/,"",$3); print $3}') ;;
         terraform)  ver=$(terraform version 2>/dev/null | awk 'NR==1{print $2}' | sed 's/v//') ;;
         packer)     ver=$(packer version 2>/dev/null | awk 'NR==1{print $2}') ;;
         vagrant)    ver=$(vagrant --version 2>/dev/null | awk '{print $2}') ;;
@@ -126,7 +127,7 @@ render() {
 }
 
 render "Programming Languages"    python3 go node ruby rust java
-render "DevOps & Infrastructure"  docker containerd runc ansible terraform packer vagrant podman buildah
+render "DevOps & Infrastructure"  docker "docker compose" ontainerd runc ansible terraform packer vagrant podman buildah
 render "Kubernetes Stack"         kubectl k9s helm eksctl kind crictl etcdctl kustomize minikube
 render "Cloud Providers"          aws gcloud doctl azure
 render "Security / DevSecOps"     trivy vault lynis falco bandit snyk
