@@ -14,11 +14,11 @@ Mix and match for custom labs.
 ## Quick Links
 
 - [Ansible](ansible.md): Configuration management.
-- [AWS CLI](aws-cli.md): Cloud orchestration.
+- [AWS EKS](aws-eks-stack.md): Cloud orchestration.
 - [Containerd](containerd.md): Lightweight runtime.
 - [Docker](docker.md): Container engine.
 - [Helm](helm.md): K8s package manager.
 - [Jenkins](jenkins.md): CI/CD agent.
-- [kubectl + eksctl](kubectl-eksctl.md): K8s clients.
+- [kubernetes CLI Tools](kubernetes-cli.md): K8s clients.
 - [Terraform](terraform.md): IaC.
 - [Trivy](trivy.md): Vulnerability scanner.
