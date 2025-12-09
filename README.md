@@ -260,10 +260,10 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scrip
 </details>
 
 <details>
-<summary>🔹 AWS CLI – Cloud Management</summary>
+<summary>🔹 AWS / EKS Provisioning</summary>
 
 ```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/components/aws-cli-conf.sh | sudo bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/components/aws-eks-stack.sh | sudo bash
 ```
 
 </details>

@@ -1,8 +1,8 @@
 ---
-title: kubectl + eksctl
+title: kubectl + helm + kustomize + k9s
 ---
 
-# kubectl + eksctl
+# kubectl + helm + kustomize + k9s
 
 K8s CLI tools: kubectl for commands, eksctl for EKS clusters. Installs both for AWS K8s management.
 
@@ -12,7 +12,7 @@ K8s CLI tools: kubectl for commands, eksctl for EKS clusters. Installs both for 
 ## Installation Command
 
 ```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/components/kubectl-and-eksctl.sh | sudo bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/components/kubernetes-cli.sh | sudo bash
 ```
 
 ## What It Installs

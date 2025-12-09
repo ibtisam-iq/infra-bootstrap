@@ -4,11 +4,11 @@ collapse: false
 nav:
   - Overview: index.md
   - Ansible: ansible.md
-  - AWS CLI: aws-cli.md
+  - AWS & EKS: aws-eks-stack.md
   - Containerd: containerd.md
   - Docker: docker.md
   - Helm: helm.md
   - Jenkins: jenkins.md
-  - kubectl + eksctl: kubectl-eksctl.md
+  - Kubernetes CLI Tools: kubernetes-cli.md
   - Terraform: terraform.md
   - Trivy: trivy.md
