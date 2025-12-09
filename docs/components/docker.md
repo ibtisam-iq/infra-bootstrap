@@ -15,27 +15,6 @@ Container engine for building/running images. Installs daemon + CLI for local de
 curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/components/docker-setup.sh | sudo bash
 ```
 
-### Optional Flags
-
-| Flag          | Description                                |
-| ------------- | ------------------------------------------ |
-| `-q`          | Quiet mode (suppress non-essential output) |
-| `--no-update` | Skips `apt update` and dependency refresh  |
-| `-h`          | help                                       |
-
-**Example:**
-
-```bash
-# Skip package updates
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/components/docker-setup.sh | sudo bash -s -- --no-update
-```
-
-```bash
-# Quiet mode
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/components/docker-setup.sh | sudo bash -s -- -q
-```
-
-______________________________________________________________________
 
 ## What It Installs
 
