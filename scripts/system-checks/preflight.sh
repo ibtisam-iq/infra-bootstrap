@@ -1,11 +1,3 @@
-#!/usr/bin/env bash
-# ===============================================================
-#  infra-bootstrap : Universal System Preflight Checks
-#  Scope:
-#    • Runs before any tool installer (components/, kubernetes/, services/)
-#    • NOT Kubernetes-specific; generic infra readiness
-# ===============================================================
-
 set -Eeuo pipefail
 IFS=$'\n\t'
 
@@ -47,8 +39,11 @@ esac
 required_cmds=(curl bash lsb_release uname)
 missing=()
 
-for cmd in "${required_cmds[@]}"; do
-  command -v "$cmd" >/dev/null 2>&1 || missing+=("$cmd")
+for cmd in "${missing[@]}"; do
+  case "$cmd" in
+    lsb_release) packages+=("lsb-release") ;;  # correct package name
+    *) packages+=("$cmd") ;;                  # all other commands install by same name
+  esac
 done
 
 if (( ${#missing[@]} > 0 )); then
@@ -57,7 +52,7 @@ if (( ${#missing[@]} > 0 )); then
   info "Installing missing dependencies via apt-get..."
 
   export DEBIAN_FRONTEND=noninteractive
-  if apt-get update -qq && apt-get install -yqq "${missing[@]}" >/dev/null; then
+  if apt-get update -qq && apt-get install -yqq "${packages[@]}" >/dev/null; then
     ok "Core utilities installed successfully."
   else
     error "Failed to install required utilities. Check your apt sources."
@@ -127,4 +122,8 @@ info "Your system is ready to run infra-bootstrap scripts."
 blank
 
 exit 0
+
+
+
+
 
