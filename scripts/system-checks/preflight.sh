@@ -36,26 +36,39 @@ case "${ID,,}" in
 esac
 
 # ===================== 2. Required Commands =====================
-required_cmds=(curl bash lsb_release uname)
+required_cmds=(bash lsb_release wget ping)
 missing=()
+packages=()
 
+# Detect missing or broken commands
+for cmd in "${required_cmds[@]}"; do
+  if ! command -v "$cmd" >/dev/null 2>&1 || ! "$cmd" --version >/dev/null 2>&1; then
+    missing+=("$cmd")
+  fi
+done
+
+# Map commands → installable apt package names
 for cmd in "${missing[@]}"; do
   case "$cmd" in
-    lsb_release) packages+=("lsb-release") ;;  # correct package name
-    *) packages+=("$cmd") ;;                  # all other commands install by same name
+    lsb_release) packages+=("lsb-release") ;;  # special fix
+    ping)        packages+=("iputils-ping") ;; # special fix
+    *) packages+=("$cmd") ;;
   esac
 done
 
 if (( ${#missing[@]} > 0 )); then
-  warn "Missing core utilities: ${missing[*]}"
+  warn "Missing core utilities: $(IFS=,; echo "${missing[*]}")"   # <-- FIXED HERE
   require_cmd apt-get
-  info "Installing missing dependencies via apt-get..."
+  info "Installing required utilities (noninteractive mode)..."
 
   export DEBIAN_FRONTEND=noninteractive
-  if apt-get update -qq && apt-get install -yqq "${packages[@]}" >/dev/null; then
-    ok "Core utilities installed successfully."
+
+  # Clean controlled output instead of raw apt warning
+  if apt-get update -qq >/dev/null 2>&1 \
+     && apt-get install -yqq "${packages[@]}" >/dev/null 2>&1; then
+      ok "Core utilities installed successfully."
   else
-    error "Failed to install required utilities. Check your apt sources."
+      error "Failed to install required utilities. Check apt sources or network."
   fi
 else
   ok "Core shell utilities are present."
@@ -122,8 +135,3 @@ info "Your system is ready to run infra-bootstrap scripts."
 blank
 
 exit 0
-
-
-
-
-
