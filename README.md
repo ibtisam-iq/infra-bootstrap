@@ -272,7 +272,7 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scrip
 <summary>🔹 kubectl + eksctl – Kubernetes Client Tools</summary>
 
 ```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/components/kubectl-and-eksctl.sh | sudo bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/components/kubernetes-cli.sh | sudo bash
 ```
 
 </details>

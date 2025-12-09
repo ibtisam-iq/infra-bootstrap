@@ -17,15 +17,23 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scrip
 
 ## Options
 
+
+### Install tools only:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/components/aws-eks-stack.sh | sudo bash
 ```
-Install tools only:
-  curl -fsSL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/components/aws-eks-stack.sh | sudo bash
 
-Install + configure AWS automatically:
-  curl -fsSL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/components/aws-eks-stack.sh | sudo bash --auto-config
+### Install + configure AWS automatically:
 
-With custom profile entry:
-  curl -fsSL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/components/aws-eks-stack.sh | sudo bash --auto-config --profile
+```bash  
+curl -fsSL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/components/aws-eks-stack.sh | sudo bash --auto-config
+```
+
+### With custom profile entry:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/components/aws-eks-stack.sh | sudo bash --auto-config --profile
 ```
 
 ## What It Installs
