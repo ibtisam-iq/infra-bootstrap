@@ -39,7 +39,7 @@ case "${ID,,}" in
     ok "Supported OS detected: ${PRETTY_NAME:-$ID}"
     ;;
   *)
-    error "Unsupported OS: ${PRETTY_NAME:-$ID}. Supported: Ubuntu & Linux Mint."
+    error "Unsupported OS: ${PRETTY_NAME:-$ID}. Supported: Ubuntu, Linux Mint & Pop!_OS."
     ;;
 esac
 
