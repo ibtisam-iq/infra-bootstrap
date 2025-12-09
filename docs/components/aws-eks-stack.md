@@ -15,6 +15,19 @@ Command-line tool for AWS services. Installs CLI + configures credentials for cl
 curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/components/aws-eks-stack.sh | sudo bash
 ```
 
+## Options
+
+```
+Install tools only:
+  curl -fsSL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/components/aws-eks-stack.sh | sudo bash
+
+Install + configure AWS automatically:
+  curl -fsSL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/components/aws-eks-stack.sh | sudo bash --auto-config
+
+With custom profile entry:
+  curl -fsSL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/components/aws-eks-stack.sh | sudo bash --auto-config --profile
+```
+
 ## What It Installs
 
 - AWS CLI v2 (latest).
