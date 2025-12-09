@@ -1,8 +1,8 @@
 ---
-title: AWS CLI
+title: AWS / EKS Provisioning
 ---
 
-# AWS CLI
+# AWS / EKS Provisioning
 
 Command-line tool for AWS services. Installs CLI + configures credentials for cloud management.
 
@@ -12,7 +12,7 @@ Command-line tool for AWS services. Installs CLI + configures credentials for cl
 ## Installation Command
 
 ```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/components/aws-cli-conf.sh | sudo bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/components/aws-eks-stack.sh | sudo bash
 ```
 
 ## What It Installs
