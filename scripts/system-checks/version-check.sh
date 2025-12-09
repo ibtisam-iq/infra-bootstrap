@@ -38,12 +38,17 @@ blank
 # ================== VERSION RESOLVER ==================
 # Must return only version, no banners.
 
+
 get_version() {
     tool="$1"
+    ver=""
 
-    if ! command -v "$tool" >/dev/null 2>&1; then
-        printf "%b[ NOT INSTALLED ]%b" "$C_RED" "$C_RESET"
-        return
+    # If tool is not compose → normal binary check applies
+    if [[ "$tool" != "compose" ]]; then
+        if ! command -v "$tool" >/dev/null 2>&1; then
+            printf "%b[ NOT INSTALLED ]%b" "$C_RED" "$C_RESET"
+            return
+        fi
     fi
 
     case $tool in
@@ -57,7 +62,17 @@ get_version() {
 
         # ---- DevOps / Infra ----
         docker)     ver=$(docker --version 2>/dev/null | awk '{print $3}' | tr -d ',') ;;
-        docker compose) ver=$(docker compose version | awk '{print $4}' | sed 's/^v//') ;;
+        compose)
+            if docker compose version >/dev/null 2>&1; then
+                ver=$(docker compose version | awk 'NR==1 {for(i=1;i<=NF;i++) if($i~/v?[0-9]+\.[0-9]+\.[0-9]/){gsub(/^v/,"",$i);print $i}}')
+            elif command -v docker-compose >/dev/null 2>&1; then
+                ver=$(docker-compose version | awk 'NR==1 {for(i=1;i<=NF;i++) if($i~/[0-9]+\.[0-9]+\.[0-9]/){print $i}}')
+            elif [ -x /usr/lib/docker/cli-plugins/docker-compose ]; then
+                ver=$(/usr/lib/docker/cli-plugins/docker-compose version | awk 'NR==1 {for(i=1;i<=NF;i++) if($i~/v?[0-9]+\.[0-9]+\.[0-9]/){gsub(/^v/,"",$i);print $i}}')
+            elif [ -x "$HOME/.docker/cli-plugins/docker-compose" ]; then
+                ver=$("$HOME/.docker/cli-plugins/docker-compose" version | awk 'NR==1 {for(i=1;i<=NF;i++) if($i~/v?[0-9]+\.[0-9]+\.[0-9]/){gsub(/^v/,"",$i);print $i}}')
+            fi
+        ;;
         containerd) ver=$(containerd --version 2>/dev/null | awk '{print $3}' | sed 's/^v//') ;;
         runc)       ver=$(runc --version 2>/dev/null | awk '{print $3}') ;;
         ansible)    ver=$(ansible --version 2>/dev/null | awk 'NR==1{gsub(/\]|\[/,"",$3); print $3}') ;;
@@ -98,7 +113,7 @@ get_version() {
         pip3)          ver=$(pip3 -V 2>/dev/null | awk '{print $2}') ;;
         make)          ver=$(make -v 2>/dev/null | head -n1 | awk '{print $3}') ;;
         gcc)           ver=$(gcc -v 2>&1 | awk -F" " '/gcc version/ {print $3}') ;;
-        g++)           ver=$(g++ -v 2>&1 | awk -F" " '/g\+\+ version/ {print $3}') ;;
+        g++)           ver=$(g++ -v 2>&1 | awk '/gcc version/ {print $3}') ;;
         cmake)         ver=$(cmake --version 2>/dev/null | head -n1 | awk '{print $3}') ;;
         pytest)        ver=$(pytest --version 2>/dev/null | awk '{print $2}') ;;
         maven)         ver=$(mvn -version 2>/dev/null | awk -F" " '/Apache Maven/ {print $3}') ;;
@@ -127,7 +142,7 @@ render() {
 }
 
 render "Programming Languages"    python3 go node ruby rust java
-render "DevOps & Infrastructure"  docker "docker compose" ontainerd runc ansible terraform packer vagrant podman buildah
+render "DevOps & Infrastructure"  docker compose containerd runc ansible terraform packer vagrant podman buildah
 render "Kubernetes Stack"         kubectl k9s helm eksctl kind crictl etcdctl kustomize minikube
 render "Cloud Providers"          aws gcloud doctl azure
 render "Security / DevSecOps"     trivy vault lynis falco bandit snyk
