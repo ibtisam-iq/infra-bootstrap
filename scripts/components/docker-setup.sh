@@ -1,111 +1,90 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# =====================================================================
+# infra-bootstrap — Component Installer: Docker (V3.6)
+# Author: Muhammad Ibtisam Iqbal
+# License: MIT
+# =====================================================================
 
-# =============================================================
-# 🐳 infra-bootstrap - Docker Setup
-# -------------------------------------------------------------
-# 📌 Description: This script installs Docker on Ubuntu or Linux Mint.
-# 📌 Usage      : sudo bash docker-setup.sh [options]
-# 📌 Options    :
-#   -q           : Quiet mode (no prompts)
-#   --no-update  : Skip system update
-#   -h | --help  : Show this help menu
-#
-# 📌 Author     : Muhammad Ibtisam Iqbal
-# 📌 Version    : 1.0.0
-# 📌 License    : MIT
-# =============================================================
+set -Eeuo pipefail
+IFS=$'\n\t'
 
-set -e  # Exit immediately if a command fails
-set -o pipefail  # Ensure failures in piped commands are detected
-trap 'echo -e "\n❌ Error occurred at line $LINENO. Exiting...\n" && exit 1' ERR  # Handle script failures
+# ================= Load common.sh =================
+COMMON_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/lib/common.sh"
+tmp="$(mktemp)"
+curl -fsSL "$COMMON_URL" -o "$tmp" || { echo "FATAL: common.sh fetch failed"; exit 1; }
+source "$tmp"
+rm -f "$tmp"
 
-# -------------------------------
-# 🛠️ Configuration
-# -------------------------------
-REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/system-checks"
-QUIET_MODE=false
-SKIP_UPDATE=false
+banner "Installing: Docker"
 
-# Colors for better readability
-GREEN=$(tput setaf 2)
-CYAN=$(tput setaf 6)
-YELLOW=$(tput setaf 3)
-RED=$(tput setaf 1)
-RESET=$(tput sgr0)
+# ================= Preflight ======================
+section "Running preflight checks..."
+PRE_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/system-checks/preflight.sh"
 
-# -------------------------------
-# 🏗️ Functions
-# -------------------------------
-
-# Print Divider
-divider() {
-    echo -e "${CYAN}========================================${RESET}"
-}
-
-# Log Function (Print & Save to Log File)
-log() {
-    echo -e "$1"
-}
-
-# Show Help Menu
-show_help() {
-    echo -e "${CYAN}Usage: sudo bash $0 [options]${RESET}"
-    echo -e "${YELLOW}Options:${RESET}"
-    echo -e "  -q           Quiet mode (no prompts)"
-    echo -e "  --no-update  Skip system update"
-    exit 0
-}
-
-# Parse CLI Arguments
-while [[ "$#" -gt 0 ]]; do
-    case "$1" in
-        -q) QUIET_MODE=true ;;
-        --no-update) SKIP_UPDATE=true ;;
-        -h|--help) show_help ;;
-        *) echo "❌ Unknown option: $1"; exit 1 ;;
-    esac
-    shift
-done
-
-# -------------------------------
-# 🚀 Preflight Check
-# -------------------------------
-log "\n🚀 Running preflight check..."
-bash <(curl -sL "$REPO_URL/preflight.sh") || { log "❌ Preflight check failed! Exiting..."; exit 1; }
-log "✅ Preflight check passed!"
-
-divider
-
-# -------------------------------
-# 📦 Install Docker
-# -------------------------------
-
-# Skip update if --no-update flag is set
-if [[ "$SKIP_UPDATE" == false ]]; then
-    log "\n🚀 Updating system and installing dependencies..."
-    sudo apt update -qq && sudo apt install -yq curl wget ca-certificates > /dev/null 2>&1
+if ! bash <(curl -fsSL "$PRE_URL") >/dev/null 2>&1; then
+    error "Preflight failed — aborting Docker installation"
 fi
+ok "Preflight passed."
+blank
 
-# Check if Docker is already installed
-if command -v docker &> /dev/null; then
-    log "\n✅ Docker is already installed."
-    log "🔹 Docker version: $(docker --version | awk '{print $3}' | sed 's/,//')"
+# ================= Helper functions ================
+docker_installed() { command -v docker >/dev/null 2>&1; }
+docker_active()   { systemctl is-active --quiet docker; }
+
+# ================= Existing Install Logic ===========
+if docker_installed; then
+    warn "Docker already installed."
+
+    # Normalize versions reliably
+    v_docker=$(docker --version | awk '{print $3}' | tr -d ',' | sed 's/^v//')
+    v_containerd=$(containerd --version 2>/dev/null | awk '{print $3}' | sed 's/^v//')
+    v_runc=$(runc --version 2>/dev/null | awk '{print $3}' | sed 's/^v//')
+
+    # Docker Compose version
+    if docker compose version &>/dev/null; then
+        v_compose=$(docker compose version | awk '{print $4}' | sed 's/^v//')
+    else
+        v_compose="[ NOT INSTALLED ]"
+    fi
+
+    # If installed but service is OFF → fix it
+    if ! docker_active; then
+        section "Docker present but daemon not running — repairing..."
+        systemctl enable docker >/dev/null 2>&1 || warn "enable failed"
+        systemctl start docker  >/dev/null 2>&1 || warn "start failed"
+        sleep 1
+
+        docker_active \
+            && ok "Docker daemon started successfully" \
+            || error "Docker installed but daemon still inactive — manual intervention required"
+    else
+        ok "Docker daemon already running"
+    fi
+
+    # Output final state
+    printf " Docker:         %s\n" "$v_docker"
+    printf " Containerd:     %s\n" "$v_containerd"
+    printf " Runc:           %s\n" "$v_runc"
+    printf " Docker Compose: %s\n" "$v_compose"
+
+    footer "Docker validated — no installation performed"
     exit 0
 fi
 
-divider
+# ================= Install Dependencies ============
+section "Installing prerequisites..."
+apt-get update -qq
+apt-get install -y ca-certificates curl >/dev/null 2>&1 || error "Dependency install failed"
+ok "Dependencies ready."
+blank
 
-# Install Docker
-echo -e "\n🚀 Adding Docker's official GPG key..."
-sudo apt install ca-certificates curl
-sudo install -m 0755 -d /etc/apt/keyrings 
-sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc 
-sudo chmod a+r /etc/apt/keyrings/docker.asc
+# ================= Install Docker Repo =============
+section "Adding Docker repository..."
+install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+chmod a+r /etc/apt/keyrings/docker.asc
 
-divider
-
-echo -e "\n🚀 Adding Docker repository..."
-sudo tee /etc/apt/sources.list.d/docker.sources <<EOF
+tee /etc/apt/sources.list.d/docker.sources >/dev/null <<EOF
 Types: deb
 URIs: https://download.docker.com/linux/ubuntu
 Suites: $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}")
@@ -113,60 +92,55 @@ Components: stable
 Signed-By: /etc/apt/keyrings/docker.asc
 EOF
 
-divider
+ok "Repository configured."
+blank
 
-echo -e "\n🚀 Installing Docker..."
-sudo apt-get update -qq
-sudo apt-get install -yq docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin > /dev/null 2>&1
+# ================= Install Docker ==================
+section "Installing Docker..."
+apt-get update -qq
+apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin >/dev/null 2>&1 \
+    || error "Docker installation failed"
+ok "Docker installed."
+blank
 
-divider
+# ================= Enable & Start ==================
+section "Starting Docker service..."
+systemctl enable docker >/dev/null 2>&1 || warn "enable failed"
+systemctl start docker >/dev/null 2>&1 || warn "start failed"
+sleep 1
 
-# -------------------------------
-# 🔧 Post-Installation
-# -------------------------------
+docker_active \
+    && ok "Docker daemon running" \
+    || error "Docker daemon could not start"
+blank
 
-
-# Detect the real user (even if running under sudo)
+# ================= User Permissions ================
+section "Configuring docker user permissions..."
 REAL_USER=${SUDO_USER:-$USER}
 
-# Check if user is already in the docker group
-if id "$REAL_USER" | grep -qE '\bdocker\b'; then
-    log "\n✅ User ($REAL_USER) is already a member of the 'docker' group."
+if id "$REAL_USER" | grep -q docker; then
+    ok "$REAL_USER already in docker group"
 else
-    sudo usermod -aG docker "$REAL_USER"
-    log "\n🚀 Added the current user ($REAL_USER) to the 'docker' group."
+    usermod -aG docker "$REAL_USER"
+    ok "Added $REAL_USER to docker group (relogin required)"
+fi
+blank
+
+# ================= Version Summary ==================
+v_docker=$(docker --version | awk '{print $3}' | tr -d ',' | sed 's/^v//')
+v_containerd=$(containerd --version | awk '{print $3}' | sed 's/^v//')
+v_runc=$(runc --version | awk '{print $3}' | sed 's/^v//')
+
+if docker compose version &>/dev/null; then
+    v_compose=$(docker compose version | awk '{print $4}' | sed 's/^v//')
+else
+    v_compose="[ NOT INSTALLED ]"
 fi
 
-# Enable & Start Docker Service
-log "\n🚀 Enabling & Starting Docker Service..."
-sudo systemctl enable docker > /dev/null 2>&1
-sudo systemctl restart docker > /dev/null 2>&1
+printf " Docker:         %s\n" "$v_docker"
+printf " Containerd:     %s\n" "$v_containerd"
+printf " Runc:           %s\n" "$v_runc"
+printf " Docker Compose: %s\n" "$v_compose"
 
-divider
-
-# Display Installed Versions
-log "\n📌 Installed Docker Components:\n"
-log "🔹 Docker version: $(docker --version | awk '{print $3}' | sed 's/,//')"
-log "🔹 Containerd version: $(containerd --version | awk '{print $3}')"
-log "🔹 Runc version: $(runc --version | awk '{print $3}')"
-
-divider
-
-# Ensure Docker is Running
-if systemctl is-active --quiet docker; then
-    log "\n✅ Docker is running."
-else
-    log "\n❌ Docker is NOT running. Starting Docker..."
-    sudo systemctl start docker
-fi
-
-divider
-
-log "\n✅ Docker installation completed successfully! 🚀"
-log "\n🔄 Please run: newgrp docker && docker ps"
-
-# ==================================================
-# 🎉 Setup Complete! Thank You! 🙌
-# ==================================================
-echo -e "\n\033[1;33m✨  Thank you for choosing infra-bootstrap - Muhammad Ibtisam 🚀\033[0m\n"
-echo -e "\033[1;32m💡 Automation is not about replacing humans; it's about freeing them to be more human—to create, innovate, and lead. \033[0m\n"
+footer "Docker installation completed — run 'newgrp docker' or re-login to activate"
+exit 0
