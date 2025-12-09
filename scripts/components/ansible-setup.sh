@@ -1,70 +1,86 @@
-#!/bin/bash
-
-# ==================================================
-# infra-bootstrap - Ansible Setup
-# --------------------------------------------------
-# This script installs Ansible on Ubuntu or Linux Mint.
+#!/usr/bin/env bash
+# =====================================================================
+# infra-bootstrap — Component Installer: Ansible
 # Author: Muhammad Ibtisam Iqbal
 # License: MIT
-# Version: 1.0
-# Usage: sudo bash ansible-setup.sh
+# =====================================================================
 
-# ==================================================
+set -Eeuo pipefail
+IFS=$'\n\t'
 
-set -e  # Exit immediately if a command fails
-set -o pipefail  # Ensure failures in piped commands are detected
 
-# Handle script failures
-trap 'echo -e "\n❌ Error occurred at line $LINENO. Exiting...\n" && exit 1' ERR
+# ================= Load Core Library =================
+COMMON_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/lib/common.sh"
+tmp="$(mktemp)"
+curl -fsSL "$COMMON_URL" -o "$tmp" || { echo "common.sh fetch failed"; exit 1; }
+source "$tmp"
+rm -f "$tmp"
 
-REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/system-checks"
+banner "Installing: Ansible"
 
-# ==================================================
-# 🛠️ Preflight Check
-# ==================================================
-echo -e "\n\033[1;34m🚀 Running preflight.sh script to ensure that system meets the requirements to install Ansible...\033[0m"
-bash <(curl -sL "$REPO_URL/preflight.sh") || { echo -e "\n\033[1;31m❌ Failed to execute preflight.sh. Exiting...\033[0m"; exit 1; }
-echo -e "\n\033[1;32m✅ System meets the requirements to install Ansible.\033[0m"
 
-# ==================================================
-# 🔍 Checking for Existing Installation
-# ==================================================
-if command -v ansible &> /dev/null; then
-    echo -e "\n\033[1;32m✅ Ansible is already installed. Skipping Installation ... Happy Automating! 🚀\033[0m"
-    echo -e "📌 Installed Version: \033[1;36m$(ansible --version | head -n1 | awk '{print $NF}' | tr -d ']')\033[0m\n"
+# ================= Preflight =================
+section "Running preflight checks..."
+PRE_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/system-checks/preflight.sh"
+
+if ! bash <(curl -fsSL "$PRE_URL") >/dev/null 2>&1; then
+    error "Preflight failed — aborting Ansible installation"
+fi
+ok "Preflight passed."
+blank
+
+
+# ================= Existing Install Detector =================
+is_installed() {
+    command -v ansible >/dev/null 2>&1 || \
+    python3 - <<'EOF' >/dev/null 2>&1
+import ansible
+EOF
+}
+
+if is_installed; then
+    version="$(ansible --version 2>/dev/null | head -n1 | awk '{print $NF}' | tr -d '[]')"
+    warn "Ansible already installed — skipping installation"
+    printf " Installed Version: %s\n" "${version:-Unknown}"
+    footer "Install skipped"
     exit 0
 fi
 
-# ==================================================
-# 📦 Installing Dependencies
-# ==================================================
-echo -e "\n\033[1;34m🚀 Installing dependencies required for Ansible...\033[0m\n"
-sudo apt update -qq && sudo apt install -y software-properties-common > /dev/null 2>&1
 
-echo -e "\n\033[1;34m🚀 Adding Ansible PPA Repository...\033[0m\n"
-if sudo add-apt-repository --yes --update ppa:ansible/ansible > /dev/null 2>&1; then
-    echo -e "\033[1;32m✅ Ansible PPA added successfully.\033[0m"
+# ================= Install =================
+section "Installing Ansible dependencies..."
+apt-get update -qq
+apt-get install -y software-properties-common >/dev/null 2>&1 || error "Dependency install failed"
+ok "Dependencies ready."
+blank
+
+
+section "Adding Ansible repository..."
+if add-apt-repository --yes --update ppa:ansible/ansible >/dev/null 2>&1; then
+    ok "Repository added."
 else
-    echo -e "\n\033[1;31m❌ Failed to add Ansible PPA. Exiting...\033[0m\n"
-    exit 1
+    error "Failed to add Ansible PPA"
+fi
+blank
+
+
+section "Installing Ansible package..."
+if apt-get update -qq && apt-get install -y ansible >/dev/null 2>&1; then
+    ok "Ansible installed successfully."
+else
+    error "apt install failed — install incomplete"
+fi
+blank
+
+
+# ================= Post-Install Verification =================
+if ! is_installed; then
+    error "Post-install check failed — ansible not present in PATH or python packages"
 fi
 
-# ==================================================
-# 📥 Installing Ansible
-# ==================================================
-echo -e "\n\033[1;34m🚀 Installing Ansible... Please wait for a few minutes...\033[0m\n"
-if sudo apt update -qq && sudo apt install -y ansible > /dev/null 2>&1; then
-    echo -e "\n\033[1;32m✅ Ansible installed successfully.\033[0m"
-    echo -e "📌 Installed Version: \033[1;36m$(ansible --version | head -n1 | awk '{print $NF}' | tr -d ']')\033[0m\n"
-else
-    echo -e "\n\033[1;31m❌ Ansible installation failed. Exiting...\033[0m\n"
-    exit 1
-fi
+version="$(ansible --version 2>/dev/null | head -n1 | awk '{print $NF}' | tr -d '[]')"
+printf " Installed Version: %s\n" "${version:-Unknown}"
 
-echo -e "\n\033[1;32m🎉 Ansible setup completed successfully. Happy Automating! 🚀\033[0m\n"
 
-# ==================================================
-# 🎉 Setup Complete! Thank You! 🙌
-# ==================================================
-echo -e "\n\033[1;33m✨  Thank you for choosing infra-bootstrap - Muhammad Ibtisam 🚀\033[0m\n"
-echo -e "\033[1;32m💡 Automation is not about replacing humans; it's about freeing them to be more human—to create, innovate, and lead. \033[0m\n"
+footer "Ansible setup completed successfully"
+# exit 0 (optional)

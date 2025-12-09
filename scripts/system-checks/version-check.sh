@@ -59,7 +59,7 @@ get_version() {
         docker)     ver=$(docker --version 2>/dev/null | awk '{print $3}' | tr -d ',') ;;
         containerd) ver=$(containerd --version 2>/dev/null | awk '{print $3}') ;;
         runc)       ver=$(runc --version 2>/dev/null | awk '{print $3}') ;;
-        ansible)    ver=$(ansible --version 2>/dev/null | awk 'NR==1{print $2}') ;;
+        ansible)    ver=$(ansible --version 2>/dev/null | head -n1 awk 'NR==1{print $2}') ;;
         terraform)  ver=$(terraform version 2>/dev/null | awk 'NR==1{print $2}' | sed 's/v//') ;;
         packer)     ver=$(packer version 2>/dev/null | awk 'NR==1{print $2}') ;;
         vagrant)    ver=$(vagrant --version 2>/dev/null | awk '{print $2}') ;;
