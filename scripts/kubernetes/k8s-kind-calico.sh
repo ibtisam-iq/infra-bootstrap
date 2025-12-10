@@ -30,10 +30,10 @@ REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scri
 
 # List of scripts to execute
 SCRIPTS=(
-    # "system-checks/preflight.sh"
-    # "system-checks/sys-info.sh"
+    "system-checks/preflight.sh"
+    "system-checks/sys-info.sh"
     "components/docker-setup.sh"
-    "components/kubectl-and-eksctl.sh"
+    "components/kubernetes-cli.sh"
     "components/kind-setup.sh"
 )
 
