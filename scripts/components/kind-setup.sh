@@ -1,25 +1,80 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# ============================================================================
+# infra-bootstrap — kind (Kubernetes-in-Docker) Installer
+# Installs latest stable kind release for Linux amd64
+# ============================================================================
 
-# infra-bootstrap - kind Installation Script
-# -------------------------------------------------
-# This script installs kind on Linux.
+set -Eeuo pipefail
+IFS=$'\n\t'
+
+# ───────────────────────── Source shared library ─────────────────────────────
+LIB_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/lib/common.sh"
+source <(curl -fsSL "$LIB_URL") || { echo "FATAL: Unable to load core library"; exit 1; }
+
+banner "Installing: kind"
 
 
-set -e  # Exit immediately if a command fails
-set -o pipefail  # Ensure failures in piped commands are detected
+info "Running preflight..."
+if bash <(curl -fsSL "https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/system-checks/preflight.sh") >/dev/null 2>&1; then
+    ok "Preflight passed."
+else
+    error "Preflight failed — aborting."
+fi
+blank
 
-# Handle script failures
-trap 'echo -e "\n\033[1;31m❌ Error occurred at line $LINENO. Exiting...\033[0m\n" && exit 1' ERR
 
-REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/system-checks"
+# ─────────────────────── Skip if already installed ───────────────────────────
+if command -v kind >/dev/null 2>&1; then
+    CURRENT=$(kind version 2>/dev/null | sed -n 's/^kind v//p' | awk '{print $1}')
+    warn "kind is already installed ($CURRENT)"
+    hr
+    item "kind" "$CURRENT"
+    hr
+    ok "No installation performed"
+    blank
+    exit 0
+fi
 
-echo -e "\n🚀 Running preflight.sh script to ensure that system meets the requirements to install kind binary..."
-bash <(curl -sL "$REPO_URL/preflight.sh") || { echo "❌ Failed to execute preflight.sh. Exiting..."; exit 1; }
-echo -e "\n✅ System meets the requirements to install kind binary."
+# ───────────────────────────── Architecture Check ────────────────────────────
+ARCH=$(uname -m)
+if [[ "$ARCH" != "x86_64" && "$ARCH" != "amd64" ]]; then
+    error "kind supports amd64 only — detected $ARCH"
+fi
 
-# Install kind
-echo -e "\n🚀 Installing kind..."
-[ $(uname -m) = x86_64 ] && curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.27.0/kind-linux-amd64
-chmod +x ./kind
-sudo mv ./kind /usr/local/bin/kind
-echo -e "\n✅ kind installed successfully. Version: $(kind version)"
+# ───────────────────────── Obtain latest release dynamically ─────────────────
+info "Fetching latest kind release version..."
+LATEST_KIND=$(curl -fsSL https://api.github.com/repos/kubernetes-sigs/kind/releases/latest \
+                 | grep '"tag_name"' | cut -d '"' -f4 | sed 's/^v//' | head -n1)
+
+if [[ -z "${LATEST_KIND:-}" ]]; then
+    error "Unable to fetch latest version metadata"
+fi
+
+ok "Latest version: $LATEST_KIND"
+blank
+
+# ───────────────────────────── Install kind binary ───────────────────────────
+info "Downloading kind-amd64..."
+curl -fsSL -o kind "https://kind.sigs.k8s.io/dl/v${LATEST_KIND}/kind-linux-amd64" \
+    || error "Download failed"
+
+chmod +x kind
+sudo mv kind /usr/local/bin/kind
+
+ok "kind installed."
+blank
+
+# ───────────────────────────── Version Summary ───────────────────────────────
+PAD=16
+item_ver() { printf " %b•%b %-*s %s\n" "$C_CYAN" "$C_RESET" "$PAD" "$1:" "$2"; }
+
+KIND_VERSION=$(kind version 2>/dev/null | sed -n 's/^kind v//p' | awk '{print $1}')
+KIND_VERSION="${KIND_VERSION:-unknown}"
+
+hr
+item_ver "kind" "$KIND_VERSION"
+hr
+ok "kind installation complete"
+blank
+
+exit 0
