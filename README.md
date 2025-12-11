@@ -281,7 +281,7 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scrip
 <summary>🔹 Helm – Kubernetes Package Manager</summary>
 
 ```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/helm-setup.sh | sudo bash
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-4 | bash
 ```
 
 </details>
