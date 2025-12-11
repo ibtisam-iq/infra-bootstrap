@@ -84,8 +84,8 @@ get_version() {
 
         # ---- Kubernetes Stack ----
         kubectl)    ver=$(kubectl version --client --output=json 2>/dev/null | jq -r .clientVersion.gitVersion | sed 's/v//') ;;
-        k9s)        ver=$(k9s version --short 2>/dev/null | awk '{print $2}' | sed 's/v//') ;;
-        helm)       ver=$(helm version --short 2>/dev/null | sed 's/v//') ;;
+        k9s)        ver=$(k9s version --short 2>/dev/null | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' | head -n1) ;;
+        helm)       ver=$(helm version --short 2>/dev/null | cut -d'+' -f1 | sed 's/^v//') ;;
         eksctl)     ver=$(eksctl version 2>/dev/null | sed 's/v//') ;;
         kind)       ver=$(kind version 2>/dev/null | sed -n 's/^kind v//p' | awk '{print $1}') ;;
         crictl)     ver=$(crictl version 2>/dev/null | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+') ;;
