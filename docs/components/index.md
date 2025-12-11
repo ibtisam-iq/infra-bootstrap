@@ -17,7 +17,6 @@ Mix and match for custom labs.
 - [AWS EKS](aws-eks-stack.md): Cloud orchestration.
 - [Containerd](containerd.md): Lightweight runtime.
 - [Docker](docker.md): Container engine.
-- [Helm](helm.md): K8s package manager.
 - [Jenkins](jenkins.md): CI/CD agent.
 - [kubernetes CLI Tools](kubernetes-cli.md): K8s clients.
 - [Terraform](terraform.md): IaC.
