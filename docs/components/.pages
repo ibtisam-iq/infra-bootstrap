@@ -7,7 +7,6 @@ nav:
   - AWS & EKS: aws-eks-stack.md
   - Containerd: containerd.md
   - Docker: docker.md
-  - Helm: helm.md
   - Jenkins: jenkins.md
   - Kubernetes CLI Tools: kubernetes-cli.md
   - Terraform: terraform.md
