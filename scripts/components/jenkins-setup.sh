@@ -1,182 +1,197 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# ============================================================================
+# infra-bootstrap — Jenkins Server Installer
+# Installs Jenkins LTS + Java 17, enables service, prints access info.
+# ============================================================================
+set -Eeuo pipefail
+IFS=$'\n\t'
 
-# -------------------------------------------------
-# infra-bootstrap - Jenkins Server Setup
-# -------------------------------------------------
-# 📌 Description: This script installs Jenkins on Ubuntu or Linux Mint.
-# 📌 Usage      : sudo bash jenkins-setup.sh [options]
-# 📌 Options    :
-#   -q           : Quiet mode (no prompts)
-#   --no-update  : Skip system update
-#   -h | --help  : Show this help menu
-#
-# 📌 Author     : Muhammad Ibtisam Iqbal
-# 📌 Version    : 1.0.0
-# 📌 License    : MIT
-# -------------------------------------------------
+LIB_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/lib/common.sh"
+source <(curl -fsSL "$LIB_URL") || { echo "FATAL: unable to load common.sh"; exit 1; }
 
-set -e  # Exit immediately if a command fails
-set -o pipefail  # Ensure failures in piped commands are detected
+banner "Installing: Jenkins"
 
-# Handle script failures
-trap 'echo -e "\n❌ Error occurred at line $LINENO. Exiting...\n" && exit 1' ERR
+# ───────────────────────────── Preflight & minimal fixes ─────────────────────
+info "Running preflight..."
+bash <(curl -fsSL "https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/system-checks/preflight.sh") >/dev/null 2>&1 && ok "Preflight passed." || error "Preflight failed — aborting."
+blank
 
-# -------------------------------
-# 🛠️ Configuration
-# -------------------------------
-REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/system-checks"
-QUIET_MODE=false
-SKIP_UPDATE=false
+info "Ensuring minimal system directories exist..."
+mkdir -p /usr/share/man/man1 /usr/share/man/man7 /var/cache/jenkins/war || true
+ok "Minimal directories ensured."
+blank
 
-# Colors for better readability
-GREEN=$(tput setaf 2)
-CYAN=$(tput setaf 6)
-YELLOW=$(tput setaf 3)
-RED=$(tput setaf 1)
-RESET=$(tput sgr0)
-
-# -------------------------------
-# 🏗️ Functions
-# -------------------------------
-
-# Print Divider
-divider() {
-    echo -e "${CYAN}========================================${RESET}\n"
-}
-
-# Log Function (Print & Save to Log File)
-log() {
-    echo -e "$1"
-}
-
-# Show Help Menu
-show_help() {
-    echo -e "${CYAN}Usage: sudo bash $0 [options]${RESET}\n"
-    echo -e "${YELLOW}Options:${RESET}"
-    echo -e "  -q           Quiet mode (no prompts)"
-    echo -e "  --no-update  Skip system update"
-    exit 0
-}
-
-# Parse CLI Arguments
-while [[ "$#" -gt 0 ]]; do
-    case "$1" in
-        -q) QUIET_MODE=true ;;
-        --no-update) SKIP_UPDATE=true ;;
-        -h|--help) show_help ;;
-        *) echo "❌ Unknown option: $1"; exit 1 ;;
-    esac
-    shift
-done
-
-# Preflight Check
-divider
-log "🚀 Running preflight.sh script to ensure system requirements are met..."
-bash <(curl -sL "$REPO_URL/preflight.sh") || { log "❌ Failed to execute preflight.sh. Exiting..."; exit 1; }
-log "✅ System meets the requirements to install Jenkins."
-
-divider
-
-# Check if Jenkins is already installed
-if command -v jenkins &> /dev/null; then
-    log "\n✅ Jenkins is already installed."
-    log "\n📌 Installed Jenkins Version: $(jenkins --version)"
+# ─────────────────────── Idempotency ─────────────────────
+if command -v jenkins >/dev/null 2>&1; then
+    JVER=$(jenkins --version 2>/dev/null || echo "unknown")
+    warn "Jenkins already installed ($JVER)"; hr
+    item_ver() { printf " %b•%b %-*s %s\n" "$C_CYAN" "$C_RESET" 20 "$1:" "$2"; }
+    item_ver "Jenkins" "$JVER"; hr
+    ok "No installation performed"; blank
     exit 0
 fi
 
-divider
+# ─────────────────────── Java 17 ─────────────────────
+section "Installing OpenJDK 17"
+java -version >/dev/null 2>&1 && ok "Java already installed" || {
+    sudo apt-get update -qq
+    sudo apt-get install -yq openjdk-17-jdk-headless >/dev/null 2>&1 || error "Java install failed"
+    ok "Java installed"
+}
+blank
 
-# AWS Security Group Warning
-log "⚠️  If running on an AWS EC2 instance, ensure port 8080 is open in the security group."
+# ─────────────────────── Jenkins repo & install ─────────────────────
+section "Configuring Jenkins repository & installing"
+sudo mkdir -p /usr/share/keyrings
+curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key | sudo tee /usr/share/keyrings/jenkins-keyring.asc >/dev/null
+echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/" | sudo tee /etc/apt/sources.list.d/jenkins.list >/dev/null
+sudo apt-get update -qq
+sudo apt-get install -yq jenkins >/dev/null 2>&1 || error "Failed to install Jenkins"
+ok "Jenkins installed"
+blank
 
-if [[ "$QUIET_MODE" == false ]]; then
+# ─────────────────────── Port handling ─────────────────────
+DEFAULT_PORT=8080
+JENKINS_PORT="$DEFAULT_PORT"
+
+section "Port Availability Check"
+PORT_PROCESS=$(ss -tulnp 2>/dev/null | grep ":${DEFAULT_PORT} " || true)
+
+if [[ -n "$PORT_PROCESS" ]]; then
+    warn "Port $DEFAULT_PORT is already in use."
+    info "Process using the port:"
+    blank
+    echo "$PORT_PROCESS" | sed 's/^/   /'
+    blank
+
+    echo "Choose an action:"
+    echo " 1) Kill the process using port $DEFAULT_PORT"
+    echo " 2) Use a different port for Jenkins"
+    echo " 3) Ignore (Jenkins may FAIL to start)"
+    blank
+    exec </dev/tty
+
     while true; do
-        read -r -p "Have you opened port 8080 in your AWS Security Group? (yes/no): " port_check < /dev/tty
-        port_check=$(echo "$port_check" | tr '[:upper:]' '[:lower:]')
-        if [[ "$port_check" == "yes" ]]; then
-            log "\n✅ Port 8080 is open. Proceeding..."
-            break
-        elif [[ "$port_check" == "no" ]]; then
-            read -r -p "🔄 Press Enter after opening port 8080..."
-        else
-            log "❌ Invalid input! Please enter **yes** or **no**."
-        fi
+        read -rp "Enter choice (1/2/3): " choice
+        blank
+        case "$choice" in
+            1)
+                # Smart kill: handles docker-proxy correctly
+                if echo "$PORT_PROCESS" | grep -q docker-proxy; then
+                    CONTAINER_ID=$(docker ps --filter "publish=8080" --format "{{.ID}}" | head -n1)
+                    if [[ -n "$CONTAINER_ID" ]]; then
+                        warn "Stopping Docker container using port 8080 ($CONTAINER_ID)"
+                        docker kill "$CONTAINER_ID" >/dev/null 2>&1 || docker stop "$CONTAINER_ID" >/dev/null 2>&1
+                        ok "Docker container stopped"
+                    else
+                        warn "Could not identify Docker container – falling back to PID kill"
+                    fi
+                fi
+
+                # Fallback PID kill (for non-docker cases)
+                PIDS=$(echo "$PORT_PROCESS" | awk -F'pid=' '{print $2}' | awk -F',' '{print $1}' | sort -u)
+                for pid in $PIDS; do
+                    [[ -n "$pid" ]] && kill -9 "$pid" 2>/dev/null && ok "Killed PID $pid" || true
+                done
+                ok "Port $DEFAULT_PORT freed"
+                break
+                ;;
+
+            2)
+                while true; do
+                    read -rp "Enter new port for Jenkins (1024-65535): " NEWPORT
+                    blank
+                    if [[ "$NEWPORT" =~ ^[0-9]+$ ]] && (( NEWPORT >= 1024 && NEWPORT <= 65535 )); then
+                        JENKINS_PORT="$NEWPORT"
+                        ok "Jenkins will use port $JENKINS_PORT"
+                        break 2
+                    else
+                        warn "Invalid port. Must be 1024–65535."
+                    fi
+                done
+                ;;
+
+            3)
+                warn "Continuing without resolving port conflict — Jenkins may fail."
+                break
+                ;;
+
+            *) warn "Invalid choice. Enter 1, 2, or 3." ;;
+        esac
     done
-fi
-
-divider
-
-# Update system and install required dependencies
-if [[ "$SKIP_UPDATE" == false ]]; then
-    log "🚀 Updating package list and checking required dependencies..."
-    sudo apt update -qq
-fi
-
-divider
-
-# Check if Java is installed
-if java -version &>/dev/null; then
-    log "✅ Java is already installed."
+    blank
 else
-    log "🔹 Installing missing dependency: OpenJDK 17..."
-    sudo apt-get install -yq openjdk-17-jdk-headless > /dev/null 2>&1
+    ok "Port $DEFAULT_PORT is free."
 fi
 
-divider
+# ─────────────────────── Apply custom port ─────────────────────
+if [[ "$JENKINS_PORT" != "$DEFAULT_PORT" ]] || [[ -n "$PORT_PROCESS" ]]; then
+    info "Configuring Jenkins to use port $JENKINS_PORT ..."
 
-# Install Jenkins
-log "🚀 Installing Jenkins... it may take a few minutes."
-sudo wget -O /usr/share/keyrings/jenkins-keyring.asc https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key > /dev/null 2>&1
-echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/" | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
+    # Fix /etc/default/jenkins
+    CONF="/etc/default/jenkins"
+    sudo mkdir -p "$(dirname "$CONF")"
+    if [[ ! -f "$CONF" ]]; then
+        sudo tee "$CONF" >/dev/null <<EOF
+HTTP_PORT=$JENKINS_PORT
+JENKINS_ARGS="--webroot=/var/cache/jenkins/war --httpPort=\$HTTP_PORT"
+EOF
+    else
+        sudo sed -i -E "s/^#?HTTP_PORT=.*/HTTP_PORT=$JENKINS_PORT/" "$CONF" || echo "HTTP_PORT=$JENKINS_PORT" | sudo tee -a "$CONF" >/dev/null
+        sudo sed -i -E 's|^JENKINS_ARGS=.*|JENKINS_ARGS="--webroot=/var/cache/jenkins/war --httpPort=\$HTTP_PORT"|' "$CONF" || \
+            echo 'JENKINS_ARGS="--webroot=/var/cache/jenkins/war --httpPort=\$HTTP_PORT"' | sudo tee -a "$CONF" >/dev/null
+    fi
 
-sudo apt update -qq > /dev/null 2>&1
-sudo apt install jenkins -y > /dev/null 2>&1
+    # The real magic: systemd override
+    sudo mkdir -p /etc/systemd/system/jenkins.service.d
+    sudo tee /etc/systemd/system/jenkins.service.d/override.conf >/dev/null <<EOF
+[Service]
+Environment="JENKINS_PORT=$JENKINS_PORT"
+Environment="JENKINS_OPTS=--httpPort=$JENKINS_PORT"
+EOF
+    sudo systemctl daemon-reload
+    ok "Port $JENKINS_PORT applied via /etc/default/jenkins + systemd override"
+fi
+blank
 
-divider
+# ─────────────────────── Start Jenkins ─────────────────────
+section "Starting Jenkins service"
+sudo systemctl enable jenkins >/dev/null 2>&1
+sudo systemctl restart jenkins >/dev/null 2>&1 || true
+sleep 8
 
-# Enable & Start Jenkins
-log "🔓 Enabling and starting Jenkins..."
-sudo systemctl enable jenkins > /dev/null 2>&1
-sudo systemctl restart jenkins > /dev/null 2>&1
-sleep 10
+systemctl is-active --quiet jenkins && ok "Jenkins service is running" || { warn "Starting Jenkins..."; sudo systemctl start jenkins; }
 
-divider
-
-# Check Jenkins Status
-if systemctl is-active --quiet jenkins; then
-    log "✅ Jenkins is running."
+if ss -tuln | grep -q ":$JENKINS_PORT[[:space:]]"; then
+    ok "Jenkins is listening on port $JENKINS_PORT"
 else
-    log "❌ Jenkins is NOT running. Starting Jenkins..."
-    sudo systemctl start jenkins
+    warn "Jenkins not listening on $JENKINS_PORT — check 'journalctl -u jenkins'"
 fi
+blank
 
-divider
-
-# Display Jenkins Version
-log "📌 Installed Jenkins Version: $(jenkins --version)"
-
-divider
-
-# Get the local machine's primary IP
+# ─────────────────────── Final summary ─────────────────────
+section "Access Information"
 LOCAL_IP=$(hostname -I | awk '{print $1}')
+PUBLIC_IP=$(curl -fsSL ifconfig.me 2>/dev/null || echo "Unavailable")
+JVER=$(jenkins --version 2>/dev/null | awk '{print $1}' || echo "unknown")
 
-# Get the public IP (if accessible)
-PUBLIC_IP=$(curl -s ifconfig.me || echo "Not Available")
+item_ver() { printf " %b•%b %-*s %s\n" "$C_CYAN" "$C_RESET" 20 "$1:" "$2"; }
+hr
+item_ver "Jenkins" "$JVER"
+item_ver "Port"    "$JENKINS_PORT"
+hr
+info "Access URLs:"
+item_ver "Local"  "http://$LOCAL_IP:$JENKINS_PORT"
+item_ver "Public" "http://$PUBLIC_IP:$JENKINS_PORT"
+hr
 
-log "🔗 Access Jenkins server using one of the following URLs:"
-log " - Local Network:  http://$LOCAL_IP:8080"
-log " - Public Network: http://$PUBLIC_IP:8080"
+info "Initial Admin Password:"
+if [[ -f /var/lib/jenkins/secrets/initialAdminPassword ]]; then
+    item_ver "Password" "$(sudo cat /var/lib/jenkins/secrets/initialAdminPassword)"
+else
+    warn "Password file not ready yet — wait 10-20s and refresh"
+fi
+hr
 
-divider
-
-# Display Jenkins Initial Admin Password
-log "🔑 Use this password to unlock Jenkins: $(sudo cat /var/lib/jenkins/secrets/initialAdminPassword)"
-
-divider
-
-
-# ==================================================
-# 🎉 Setup Complete! Thank You! 🙌
-# ==================================================
-echo -e "\n\033[1;33m✨  Thank you for choosing infra-bootstrap - Muhammad Ibtisam 🚀\033[0m\n"
-echo -e "\033[1;32m💡 Automation is not about replacing humans; it's about freeing them to be more human—to create, innovate, and lead. \033[0m\n"
+footer "Jenkins successfully installed and running on port $JENKINS_PORT"
+exit 0
