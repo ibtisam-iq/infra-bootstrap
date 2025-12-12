@@ -1,86 +1,111 @@
-# ==================================================
-# infra-bootstrap - Terraform Setup
-# --------------------------------------------------
-# This script installs Terraform on Ubuntu or its derivatives.
-# Author: Muhammad Ibtisam Iqbal
-# License: MIT
-# ==================================================
+#!/usr/bin/env bash
+# ============================================================================
+# infra-bootstrap — Terraform Installer (Linux amd64)
+# Installs latest stable Terraform using HashiCorp releases (not apt repo)
+# ============================================================================
 
-set -e  # Exit immediately if a command fails
-set -o pipefail  # Ensure failures in piped commands are detected
+set -Eeuo pipefail
+IFS=$'\n\t'
 
-# Handle script failures
-trap 'echo -e "\n❌ Error occurred at line $LINENO. Exiting...\n" && exit 1' ERR
-REPO_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/system-checks"
+# ───────────────────────── Load shared library ───────────────────────────────
+LIB_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/lib/common.sh"
+source <(curl -fsSL "$LIB_URL") || { echo "FATAL: Unable to load core library"; exit 1; }
 
-# ==================================================
-# 🛠️ Preflight Check
-# ==================================================
-echo -e "\n\033[1;34m🚀 Running preflight.sh script to ensure that system meets the requirements to install Terraform...\033[0m"
-bash <(curl -sL "$REPO_URL/preflight.sh") || { echo -e "\n\033[1;31m❌ Failed to execute preflight.sh. Exiting...\033[0m"; exit 1; }
-echo -e "\n\033[1;32m✅ System meets the requirements to install Terraform.\033[0m"
+banner "Installing: Terraform"
 
-# ==================================================
-# 🔍 Checking for Existing Installation
-# ==================================================
-if command -v terraform &> /dev/null; then
-    echo -e "\n\033[1;32m✅ Terraform is already installed.\033[0m"
-    echo -e "\n📌 Installed Version: \033[1;36m$(terraform --version | head -n1 | awk '{print $2}')\033[0m\n"
+
+# ───────────────────────────── Preflight ─────────────────────────────────────
+info "Running preflight..."
+if bash <(curl -fsSL "https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/system-checks/preflight.sh") >/dev/null 2>&1; then
+    ok "Preflight passed."
+else
+    error "Preflight failed — aborting."
+fi
+blank
+
+
+# ─────────────────────── Check if already installed ──────────────────────────
+if command -v terraform >/dev/null 2>&1; then
+    CURRENT=$(terraform version 2>/dev/null | head -n1 | awk '{print $2}' | sed 's/^v//')
+    warn "Terraform already installed ($CURRENT)"
+    hr
+    item "Terraform" "$CURRENT"
+    hr
+    ok "No installation performed"
+    blank
     exit 0
 fi
 
-# ==================================================
-# 📦 Installing Dependencies
-# ==================================================
-echo -e "\n\033[1;34m🚀 Updating package list and checking required dependencies to install Terraform...\033[0m"
-sudo apt update -qq && sudo apt install -yq software-properties-common lsb-release gnupg > /dev/null 2>&1
 
-DEPS=("curl" "wget")
-for pkg in "${DEPS[@]}"; do
-    if ! command -v "$pkg" &>/dev/null; then
-        echo -e "\033[1;33m🔹 Installing missing dependency: $pkg...\033[0m"
-        sudo apt-get install -yq "$pkg" > /dev/null 2>&1
-    else
-        echo -e "\n\033[1;32m✅ $pkg is already installed.\033[0m"
-    fi
-done
-
-# ==================================================
-# 🔑 Adding HashiCorp Repository
-# ==================================================
-if wget -qO- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg; then
-    echo -e "\n\033[1;32m✅ HashiCorp GPG key added successfully.\033[0m"
-else
-    echo -e "\n\033[1;31m❌ Failed to add HashiCorp GPG key. Exiting...\033[0m\n"
-    exit 1
+# ───────────────────────── Architecture check ────────────────────────────────
+ARCH=$(uname -m)
+if [[ "$ARCH" != "x86_64" && "$ARCH" != "amd64" ]]; then
+    error "Terraform binary install supports x86_64 only — detected $ARCH"
 fi
 
-if echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") main" | sudo tee /etc/apt/sources.list.d/hashicorp.list > /dev/null; then
-    echo -e "\033[1;32m✅ HashiCorp repository added successfully.\033[0m"
-else
-    echo -e "\n\033[1;31m❌ Failed to add HashiCorp repository. Exiting...\033[0m\n"
-    exit 1
+
+# ───────────────────────── Fetch latest Terraform version ─────────────────────
+section "Resolving latest Terraform version"
+
+# Try GitHub API first (best source)
+LATEST=$(curl -fsSL https://api.github.com/repos/hashicorp/terraform/releases/latest 2>/dev/null \
+    | grep '"tag_name"' | cut -d '"' -f4 | sed 's/^v//' || true)
+
+# If GitHub fails or returned empty -> fallback to HashiCorp releases index
+if [[ -z "$LATEST" ]]; then
+    warn "GitHub API unavailable — falling back to HashiCorp releases index"
+
+    LATEST=$(curl -fsSL https://releases.hashicorp.com/terraform/ \
+        | grep -Eo 'terraform/[0-9]+\.[0-9]+\.[0-9]+' \
+        | cut -d/ -f2 \
+        | sort -Vr \
+        | head -n 1)
 fi
 
-# ==================================================
-# 📥 Installing Terraform
-# ==================================================
-echo -e "\n\033[1;34m🚀 Installing Terraform...\033[0m\n"
-if sudo apt update -qq && sudo apt install -y terraform > /dev/null 2>&1; then
-    echo -e "\n\033[1;32m✅ Terraform installed successfully.\033[0m"
-    echo -e "\n📌 Installed Version: \033[1;36m$(terraform --version | head -n1 | awk '{print $2}')\033[0m\n"
-else
-    echo -e "\n\033[1;31m❌ Terraform installation failed. Exiting...\033[0m\n"
-    exit 1
+[[ -n "${LATEST:-}" ]] || error "Failed to detect latest Terraform version"
+
+ok "Latest version: $LATEST"
+blank
+
+
+# ─────────────────────────── Install Terraform ───────────────────────────────
+section "Installing Terraform"
+
+DOWNLOAD_URL="https://releases.hashicorp.com/terraform/${LATEST}/terraform_${LATEST}_linux_amd64.zip"
+
+info "Downloading Terraform..."
+curl -fsSL -o terraform.zip "$DOWNLOAD_URL" || error "Failed to download Terraform"
+
+# Ensure unzip exists (Ubuntu-only, silent)
+if ! command -v unzip >/dev/null 2>&1; then
+    info "Installing unzip..."
+
+    sudo apt-get update -y -qq >/dev/null 2>&1 || true
+    sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq unzip >/dev/null 2>&1 \
+        || error "Failed to install unzip"
 fi
 
-# ==================================================
-# ℹ️ CLI Argument Handling (Future Support)
-# ==================================================
-echo -e "\n\033[1;33m⚠️  If you want CLI argument handling (e.g., -q for quiet mode, --no-update to skip updates), let me know, and I'll add it!\033[0m\n"
+info "Extracting binary..."
+unzip -oq terraform.zip || error "Failed to unzip"
+rm -f terraform.zip
 
-# ==================================================
-# 🎉 Setup Complete! Thank You! 🙌
-# ==================================================
-echo -e "\n\033[1;33m✨  Thank you for choosing infra-bootstrap - Muhammad Ibtisam 🚀\033[0m\n"
-echo -e "\033[1;32m💡 Automation is not about replacing humans; it's about freeing them to be more human—to create, innovate, and lead. \033[0m\n"
+info "Installing to /usr/local/bin..."
+chmod +x terraform
+sudo mv terraform /usr/local/bin/terraform
+
+ok "Terraform installed"
+blank
+
+
+# ───────────────────────────── Version Summary ───────────────────────────────
+PAD=20
+item_ver() { printf " %b•%b %-*s %s\n" "$C_CYAN" "$C_RESET" "$PAD" "$1:" "$2"; }
+
+TERRAFORM_VERSION=$(terraform version 2>/dev/null | head -n1 | awk '{print $2}' | sed 's/^v//')
+
+hr
+item_ver "Terraform" "${TERRAFORM_VERSION:-unknown}"
+hr
+footer "Terraform setup completed successfully"
+
+exit 0
