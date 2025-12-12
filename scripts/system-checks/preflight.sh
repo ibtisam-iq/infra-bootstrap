@@ -36,7 +36,7 @@ case "${ID,,}" in
 esac
 
 # ===================== 2. Required Commands =====================
-required_cmds=(bash lsb_release wget ping)
+required_cmds=(bash lsb_release wget unzip ping)
 missing=()
 packages=()
 
