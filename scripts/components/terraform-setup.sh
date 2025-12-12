@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # ============================================================================
 # infra-bootstrap — Terraform Installer (Linux amd64)
-# Installs latest stable Terraform using HashiCorp releases (not apt repo)
+# Installs latest stable Terraform using HashiCorp releases
 # ============================================================================
 
 set -Eeuo pipefail
