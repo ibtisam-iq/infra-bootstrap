@@ -44,6 +44,23 @@ run_remote_local() {
     rm -f "$TMPF"
 }
 
+safe_run_remote_sudo() {
+    local url="$1"
+
+    TMPF=$(mktemp)
+    curl -fsSL "$url" -o "$TMPF"
+
+    # Run safely — capture failure but DO NOT exit orchestrator
+    if ! sudo bash "$TMPF"; then
+        warn "Component failed — returning to menu."
+    else
+        ok "Execution completed."
+    fi
+
+    rm -f "$TMPF"
+    blank
+}
+
 # ======================================================================
 # INITIAL PREFLIGHT CHECK
 # ======================================================================
@@ -144,14 +161,14 @@ while true; do
                 echo
 
                 case "$S2" in
-                    1) run_remote_sudo "$COMP_URL/docker-setup.sh" ;;
-                    2) run_remote_sudo "$COMP_URL/kubernetes-cli.sh" ;;
-                    3) run_remote_sudo "$COMP_URL/kind-setup.sh" ;;
-                    4) run_remote_sudo "$COMP_URL/terraform-setup.sh" ;;
-                    5) run_remote_sudo "$COMP_URL/ansible-setup.sh" ;;
-                    6) run_remote_sudo "$COMP_URL/aws-eks-stack.sh" ;;
-                    7) run_remote_sudo "$COMP_URL/trivy-setup.sh" ;;
-                    8) run_remote_sudo "$COMP_URL/jenkins-setup.sh" ;;
+                    1) safe_run_remote_sudo "$COMP_URL/docker-setup.sh" ;;
+                    2) safe_run_remote_sudo "$COMP_URL/kubernetes-cli.sh" ;;
+                    3) safe_run_remote_sudo "$COMP_URL/kind-setup.sh" ;;
+                    4) safe_run_remote_sudo "$COMP_URL/terraform-setup.sh" ;;
+                    5) safe_run_remote_sudo "$COMP_URL/ansible-setup.sh" ;;
+                    6) safe_run_remote_sudo "$COMP_URL/aws-eks-stack.sh" ;;
+                    7) safe_run_remote_sudo "$COMP_URL/trivy-setup.sh" ;;
+                    8) safe_run_remote_sudo "$COMP_URL/jenkins-setup.sh" ;;
                     0) break ;;
                     *) warn "Invalid selection" ;;
                 esac
