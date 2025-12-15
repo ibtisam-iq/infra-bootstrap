@@ -48,9 +48,6 @@ sed -i "s#conf_dir = \".*\"#conf_dir = \"${CNI_CONF_DIR}\"#" "$CONTAINERD_CONFIG
 info "Restarting containerd service"
 systemctl restart containerd || error "Failed to restart containerd"
 
-info "Validating containerd service"
-systemctl is-active --quiet containerd || error "containerd service not running"
-
 info "Waiting for containerd socket"
 for i in {1..10}; do
   [[ -S "$CONTAINERD_SOCKET" ]] && break

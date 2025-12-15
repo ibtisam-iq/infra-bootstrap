@@ -29,16 +29,8 @@ containerd config default > "$CONFIG_FILE"
 info "Enabling systemd cgroup driver"
 sed -i 's/SystemdCgroup = false/SystemdCgroup = true/' "$CONFIG_FILE"
 
-# ───────────────────────── Enable Service ─────────────────────────
-info "Enabling containerd service"
-systemctl enable containerd --now
-
 # ───────────────────────── Restart Service ─────────────────────────
 info "Restarting containerd"
 systemctl restart containerd
 
-systemctl is-active --quiet containerd || error "containerd failed to restart"
-
-ok "containerd configured successfully"
 blank
-exit 0

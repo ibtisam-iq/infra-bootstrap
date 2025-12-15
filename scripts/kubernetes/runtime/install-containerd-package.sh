@@ -58,11 +58,4 @@ apt-get update -yq >/dev/null || error "Failed to update APT repositories"
 info "Installing containerd (containerd.io package)"
 apt-get install -yq containerd.io >/dev/null || error "Failed to install containerd"
 
-# ───────────────────────── Validation ─────────────────────────
-CONTAINERD_VERSION="$(containerd --version | awk '{print $3}' | sed 's/^v//')"
-RUNC_VERSION="$(runc --version | awk 'NR==1 {print $3}')"
-
-ok "containerd installed successfully"
-info "containerd version: ${CONTAINERD_VERSION}"
-info "runc version: ${RUNC_VERSION}"
 blank
