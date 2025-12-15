@@ -93,6 +93,9 @@ get_version() {
         etcdctl)    ver=$(etcdctl version 2>/dev/null | awk '/etcdctl/ {print $3}') ;;
         kustomize)  ver=$(kustomize version 2>/dev/null | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+') ;;
         minikube)   ver=$(minikube version 2>/dev/null | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+') ;;
+        aws-iam-authenticator) ver=$(aws-iam-authenticator version 2>/dev/null | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' ) ;;
+        kubelogin)  ver=$(kubelogin --version 2>/dev/null | awk '{print $3}' | sed 's/v//' ) ;;
+
 
         # ---- Cloud Providers ----
         aws)        ver=$(aws --version 2>&1 | awk -F/ '{print $2}' | cut -d' ' -f1) ;;
@@ -144,7 +147,7 @@ render() {
 
 render "Programming Languages"    python3 go node ruby rust java
 render "DevOps & Infrastructure"  docker compose containerd runc ansible jenkins terraform packer vagrant podman buildah
-render "Kubernetes Stack"         kubectl k9s helm eksctl kind crictl etcdctl kustomize minikube
+render "Kubernetes Stack"         kubectl k9s helm eksctl kind crictl etcdctl kustomize minikube aws-iam-authenticator kubelogin
 render "Cloud Providers"          aws gcloud doctl azure
 render "Security / DevSecOps"     trivy vault lynis falco bandit snyk
 render "Build & Test Chain"       npm pip pip3 make gcc g++ cmake pytest maven gradle mkdocs shellcheck yamllint golangci-lint
