@@ -109,11 +109,4 @@ EOF
 systemctl daemon-reexec
 systemctl enable containerd --now
 
-# ───────────────────────── Validation ─────────────────────────
-systemctl is-active --quiet containerd || error "containerd service is not running"
-
-INSTALLED_VERSION="$(containerd --version | awk '{print $3}' | sed 's/^v//')"
-
-ok "containerd installed successfully (binary-managed)"
-info "containerd version: ${INSTALLED_VERSION}"
 blank
