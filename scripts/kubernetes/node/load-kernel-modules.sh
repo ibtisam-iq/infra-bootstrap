@@ -18,6 +18,13 @@ overlay
 br_netfilter
 EOF
 
+# Ensure modprobe is available
+if ! command -v modprobe >/dev/null 2>&1; then
+    info "Installing kmod (required for modprobe)..."
+    apt-get update -qq >/dev/null
+    apt-get install -yq kmod >/dev/null
+fi
+
 # Load modules immediately
 modprobe overlay
 modprobe br_netfilter
