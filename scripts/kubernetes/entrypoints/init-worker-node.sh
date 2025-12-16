@@ -20,7 +20,6 @@
 
 set -Eeuo pipefail
 IFS=$'\n\t'
-require_root
 BASE_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/kubernetes"
 
 # ───────────────────────── Load common library ─────────────────────────
@@ -29,6 +28,7 @@ source <(curl -fsSL "$LIB_URL") || {
   echo "FATAL: Unable to load common library"
   exit 1
 }
+require_root
 
 # ───────────────────────── Preflight (silent) ────────────────────────────────
 info "Running system preflight..."
