@@ -18,7 +18,7 @@ net.bridge.bridge-nf-call-ip6tables = 1
 net.ipv4.ip_forward                 = 1
 EOF
 
-sysctl --system > /dev/null
+sysctl -p /etc/sysctl.d/k8s.conf > /dev/null || error "Failed to apply sysctl parameters"
 
 ok "sysctl parameters applied successfully"
 blank
