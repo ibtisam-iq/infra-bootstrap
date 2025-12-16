@@ -8,24 +8,13 @@
 # ============================================================================
 
 set -euo pipefail
-
+IFS=$'\n\t'
 # ───────────────────────── Load shared library ───────────────────────────────
-LIB_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/lib/common.sh"
-source <(curl -fsSL "$LIB_URL") || { echo "FATAL: cannot load common library"; exit 1; }
+# LIB_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/lib/common.sh"
+# source <(curl -fsSL "$LIB_URL") || { echo "FATAL: cannot load common library"; exit 1; }
 
 banner "Kubernetes — Prepare Node"
-
 require_root
-
-# ───────────────────────── Preflight (silent) ────────────────────────────────
-info "Running system preflight..."
-if bash <(curl -fsSL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/system-checks/preflight.sh) \
-    >/dev/null 2>&1; then
-    ok "Preflight passed."
-else
-    error "Preflight failed — node not suitable."
-fi
-blank
 
 # ───────────────────────── Defaults ─────────────────────────────────────────
 DEFAULT_K8S_VERSION="1.34"
@@ -218,6 +207,5 @@ export K8S_VERSION
 export NODE_NAME
 export POD_CIDR
 export CONTAINERD_INSTALL_METHOD
-export DEBIAN_FRONTEND=noninteractive
 
 

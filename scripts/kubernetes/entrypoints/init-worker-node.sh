@@ -20,6 +20,8 @@
 
 set -Eeuo pipefail
 IFS=$'\n\t'
+require_root
+BASE_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/kubernetes"
 
 # ───────────────────────── Load common library ─────────────────────────
 LIB_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/lib/common.sh"
@@ -28,10 +30,17 @@ source <(curl -fsSL "$LIB_URL") || {
   exit 1
 }
 
-banner "Kubernetes — Initialize Worker Node"
+# ───────────────────────── Preflight (silent) ────────────────────────────────
+info "Running system preflight..."
+if bash <(curl -fsSL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/system-checks/preflight.sh) \
+    >/dev/null 2>&1; then
+    ok "Preflight passed."
+else
+    error "Preflight failed — node not suitable."
+fi
+blank
 
-require_root
-BASE_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/kubernetes"
+banner "Kubernetes — Initialize Worker Node"
 
 # ───────────────────────── Phase 1: Cluster Parameters ──────────────────────
 
