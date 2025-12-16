@@ -44,7 +44,8 @@ curl -fsSL https://download.docker.com/linux/ubuntu/gpg \
 chmod a+r /etc/apt/keyrings/docker.asc
 
 # Add the repository to Apt sources:
-cat /etc/apt/sources.list.d/docker.sources <<EOF
+mkdir -p /etc/apt/sources.list.d
+tee /etc/apt/sources.list.d/docker.sources > /dev/null <<EOF
 Types: deb
 URIs: https://download.docker.com/linux/ubuntu
 Suites: $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}")
