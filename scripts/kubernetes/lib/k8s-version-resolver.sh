@@ -31,6 +31,9 @@ if ! [[ "$K8S_VERSION" =~ ^[0-9]+\.[0-9]+$ ]]; then
   return 1 2>/dev/null || exit 1
 fi
 
+# --------------------------- Set Variables ---------------------------
+K8S_MAJOR_MINOR="$K8S_VERSION"
+
 # --------------------------- Resolve Patch ---------------------------
 STABLE_URL="https://dl.k8s.io/release/stable-${K8S_MAJOR_MINOR}.txt"
 
