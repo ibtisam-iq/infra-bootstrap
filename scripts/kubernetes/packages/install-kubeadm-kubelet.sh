@@ -7,8 +7,8 @@
 #   - kubelet + kubeadm only (NO kubectl)
 #
 # Versioning:
-#   - User provides MAJOR.MINOR (e.g. 1.34)
-#   - Script resolves latest PATCH automatically (e.g. 1.34.3-1.1)
+#   - User provides MAJOR.MINOR (e.g. 1.35)
+#   - Script resolves latest PATCH automatically (e.g. 1.35.0)
 #
 # Repository:
 #   - Official Kubernetes pkgs.k8s.io
@@ -29,17 +29,18 @@ info "Kubernetes node components installation"
 info "Target role: WORKER NODE"
 info "Components: kubelet, kubeadm"
 
-: "${K8S_VERSION:?K8S_VERSION is required (e.g. 1.34)}"
+: "${K8S_VERSION:?K8S_VERSION is required (e.g. 1.35)}"
 
-# Validate input: MAJOR.MINOR only
-if ! [[ "$K8S_VERSION" =~ ^[0-9]+\.[0-9]+$ ]]; then
-  error "K8S_VERSION must be MAJOR.MINOR (e.g. 1.34). Provided: ${K8S_VERSION}"
-fi
+# Resolver exports:
+#   K8S_MAJOR_MINOR
+#   K8S_PATCH_VERSION
+#   K8S_IMAGE_TAG
+#   KUBE_PKG_VERSION
 
-K8S_MAJOR_MINOR="$K8S_VERSION"
-
-info "Kubernetes version requested: ${K8S_VERSION}"
+info "Kubernetes version requested: ${K8S_MAJOR_MINOR}"
+info "Resolved patch version: ${K8S_PATCH_VERSION}"
 info "Repository track: v${K8S_MAJOR_MINOR}"
+info "Using Kubernetes package version: ${KUBE_PKG_VERSION}"
 
 # ───────────────────────── Dependencies ─────────────────────────
 info "Installing required system packages"
@@ -52,10 +53,8 @@ info "Adding Kubernetes APT repository (pkgs.k8s.io)"
 
 install -m 0755 -d /etc/apt/keyrings
 
-if [[ -f /etc/apt/sources.list.d/kubernetes.list ]]; then
-  info "Removing legacy Kubernetes APT source (kubernetes.list)"
-  rm -f /etc/apt/sources.list.d/kubernetes.list
-fi
+# Remove legacy repo if present
+rm -f /etc/apt/sources.list.d/kubernetes.list 2>/dev/null || true
 
 if [[ ! -f /etc/apt/keyrings/kubernetes-apt-keyring.gpg ]]; then
   curl -fsSL "https://pkgs.k8s.io/core:/stable:/v${K8S_MAJOR_MINOR}/deb/Release.key" \
@@ -72,24 +71,12 @@ EOF
 
 apt-get update -qq >/dev/null
 
-# ───────────────────────── Resolve Latest Patch Version ─────────────────────────
-info "Resolving latest patch version for Kubernetes ${K8S_VERSION}"
-
-KUBE_PKG_VERSION="$(
-  apt-cache madison kubeadm \
-    | awk '{print $3}' \
-    | grep "^${K8S_VERSION}\." \
-    | head -n 1
-)"
-
-[[ -n "$KUBE_PKG_VERSION" ]] || error "No Kubernetes packages found for ${K8S_VERSION}"
-
-info "Resolved Kubernetes package version: ${KUBE_PKG_VERSION}"
-
 # ───────────────────────── Install kubelet & kubeadm ─────────────────────────
 info "Installing kubelet and kubeadm"
 
 apt-get install -yq \
+  --allow-downgrades \
+  --allow-change-held-packages \
   kubelet="${KUBE_PKG_VERSION}" \
   kubeadm="${KUBE_PKG_VERSION}" \
   >/dev/null
@@ -111,4 +98,5 @@ KUBEADM_VERSION="$(kubeadm version -o short | sed 's/^v//')"
 ok "Kubernetes node components installed successfully"
 info "kubelet version: ${KUBELET_VERSION}"
 info "kubeadm version: ${KUBEADM_VERSION}"
+
 blank

@@ -45,7 +45,9 @@ banner "Kubernetes — Initialize Worker Node"
 # ───────────────────────── Phase 1: Cluster Parameters ──────────────────────
 
 info "Phase 1 — Cluster parameters"
-source <(curl -fsSL "$BASE_URL/cluster/cluster-params.sh")
+source <(curl -fsSL "$BASE_URL/cluster/cluster-params.sh") || {
+  error "Failed to load cluster parameters"
+}
 blank
 
 info "Worker node initialization started"
@@ -75,6 +77,16 @@ info "Phase 4 — Container runtime installation"
 
 bash <(curl -fsSL "$BASE_URL/runtime/install-containerd.sh")
 bash <(curl -fsSL "$BASE_URL/runtime/config-crictl.sh")
+blank
+
+# ───────────────────────── Load version resolver ─────────────────────────
+info "Resolving Kubernetes versions (environment context)"
+
+source <(curl -fsSL "$BASE_URL/lib/k8s-version-resolver.sh") || {
+  error "Failed to load Kubernetes version resolver"
+}
+
+info "Kubernetes version context resolved"
 blank
 
 # ───────────────────────── Phase 5: Kubernetes Components ───────────────────
