@@ -169,9 +169,7 @@ section "Installing k9s..."
 # Detect whether k9s binary is actually runnable
 if command -v k9s >/dev/null 2>&1 && file "$(command -v k9s)" | grep -q "x86-64"; then
     
-    RAW_K9S_VER=$( { k9s version --short 2>/dev/null || true; } )
-    K9S_V=$(echo "$RAW_K9S_VER" | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' | head -n1)
-    K9S_V="${K9S_V:-unknown}"
+    K9S_V=$(k9s version --short 2>/dev/null | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' | head -n1)
     ok "k9s already installed"
 
 else
