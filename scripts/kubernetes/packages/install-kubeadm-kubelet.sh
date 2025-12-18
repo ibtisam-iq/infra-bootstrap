@@ -46,7 +46,7 @@ info "Using Kubernetes package version: ${KUBE_PKG_VERSION}"
 info "Installing required system packages"
 
 apt-get update -qq >/dev/null
-apt-get install -yq ca-certificates curl gpg apt-utils >/dev/null
+apt-get install -yq ca-certificates curl gpg >/dev/null
 
 # ───────────────────────── Kubernetes Repository ─────────────────────────
 info "Adding Kubernetes APT repository (pkgs.k8s.io)"
