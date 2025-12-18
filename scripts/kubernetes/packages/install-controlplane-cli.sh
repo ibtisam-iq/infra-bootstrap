@@ -17,8 +17,9 @@ source <(curl -fsSL "$LIB_URL") || {
 # ============================================================================
 # kubectl
 # ============================================================================
-
-info "Installing kubectl"
+info "Kubernetes — Control Plane CLI Tools Installation"
+blank
+info "1) Installing kubectl..."
 
 if command -v kubectl >/dev/null 2>&1; then
   KUBECTL_V="$(kubectl version --client -o yaml 2>/dev/null | grep gitVersion | sed 's/.*: v//' || echo "")"
@@ -38,7 +39,7 @@ blank
 # ============================================================================
 # helm
 # ============================================================================
-info "Installing Helm"
+info "2) Installing Helm..."
 
 if command -v helm >/dev/null 2>&1; then
   HELM_V="$(helm version --short 2>/dev/null | cut -d'+' -f1 | sed 's/^v//')"
@@ -56,7 +57,7 @@ blank
 # ============================================================================
 # k9s
 # ============================================================================
-info "Installing k9s"
+info "3) Installing k9s..."
 
 K9S_VERSION="v0.50.16"
 INSTALL_PATH="/usr/local/bin/k9s"
@@ -107,9 +108,9 @@ blank
 PAD=16
 item_ver() { printf " %b•%b %-*s %s\n" "$C_CYAN" "$C_RESET" "$PAD" "$1:" "$2"; }
 
-KUBECTL_V="${KUBECTL_V:-$(kubectl version --client -o yaml 2>/dev/null | grep gitVersion | sed 's/.*: v//' || echo "")}"
-HELM_V="${HELM_V:-$(helm version --short 2>/dev/null | cut -d'+' -f1 | sed 's/^v//')}"
-K9S_V="${K9S_V:-$(k9s version --short 2>/dev/null | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' | head -n1)}"
+KUBECTL_V="$(kubectl version --client -o yaml 2>/dev/null | grep gitVersion | sed 's/.*: v//' || echo "")"
+HELM_V="$(helm version --short 2>/dev/null | cut -d'+' -f1 | sed 's/^v//')"
+K9S_V="$(k9s version --short 2>/dev/null | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' | head -n1)"
 
 hr
 item_ver "kubectl"   "${KUBECTL_V:-unknown}"
