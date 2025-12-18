@@ -9,17 +9,14 @@
 
 set -euo pipefail
 IFS=$'\n\t'
-# ───────────────────────── Load shared library ───────────────────────────────
-# LIB_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/lib/common.sh"
-# source <(curl -fsSL "$LIB_URL") || { echo "FATAL: cannot load common library"; exit 1; }
 
 banner "Kubernetes — Prepare Node"
 require_root
 
 # ───────────────────────── Defaults ─────────────────────────────────────────
-DEFAULT_K8S_VERSION="1.34"
+DEFAULT_K8S_VERSION="1.35"
 DEFAULT_POD_CIDR="10.244.0.0"
-SUPPORTED_K8S_VERSIONS=("1.29" "1.30" "1.31" "1.32" "1.33" "1.34")
+SUPPORTED_K8S_VERSIONS=("1.29" "1.30" "1.31" "1.32" "1.33" "1.34" "1.35")
 
 # ───────────────────────── Helpers ──────────────────────────────────────────
 detect_control_plane_ip() {
@@ -126,7 +123,6 @@ done
 info "Pod CIDR set to: $POD_CIDR"
 blank
 
-# ───────────────────────── Container Runtime Method ─────────────────────────
 # ───────────────────────── Container Runtime Method ─────────────────────────
 DEFAULT_CONTAINERD_METHOD="package"
 MAX_ATTEMPTS=3
