@@ -45,11 +45,17 @@ banner "Kubernetes — Initialize Control Plane"
 
 bash <(curl -fsSL "$BASE_URL/entrypoints/init-worker-node.sh")
 
+# ───────────────────────── Load version resolver ─────────────────────────
+RESOLVER_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/kubernetes/lib/k8s-version-resolver.sh"
+source <(curl -fsSL "$RESOLVER_URL") || {
+  error "Failed to load Kubernetes version resolver"
+}
+
 # ───────────────────────── Phase 6: Control Plane CLI Tooling ───────────
 info "Phase 6 — Installing control-plane CLI tools"
 
 bash <(curl -fsSL "$BASE_URL/packages/install-controlplane-cli.sh")
-
+ll
 ok "Control-plane CLI tools installed"
 blank
 
@@ -72,4 +78,4 @@ blank
 # ───────────────────────── Phase 9: Bootstrap Control Plane ─────────────
 info "Phase 9 — Bootstrapping Kubernetes control plane"
 
-bash <(curl -fsSL "$BASE_URL/cluster/bootstrap-controlplane.sh")
+bash <(curl -fsSL "$BASE_URL/cluster/bootstrap-controlplane.sh") 
