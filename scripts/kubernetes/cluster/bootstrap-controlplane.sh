@@ -25,7 +25,6 @@ source <(curl -fsSL "$LIB_URL") || {
 }
 
 require_root
-banner "Kubernetes — Bootstrap Control Plane"
 
 # ───────────────────────── Load version resolver ─────────────────────────
 RESOLVER_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/kubernetes/lib/k8s-version-resolver.sh"
