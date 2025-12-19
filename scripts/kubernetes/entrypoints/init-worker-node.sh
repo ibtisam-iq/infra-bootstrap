@@ -44,7 +44,7 @@ banner "Kubernetes — Initialize Worker Node"
 
 # ───────────────────────── Phase 1: Cluster Parameters ──────────────────────
 
-info "Phase 1 — Cluster parameters"
+info "Phase 1 — Importing cluster parameters"
 source <(curl -fsSL "$BASE_URL/cluster/cluster-params.sh") || {
   error "Failed to load cluster parameters"
 }
