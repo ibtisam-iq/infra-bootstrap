@@ -29,7 +29,7 @@ info "Kubernetes node components installation"
 info "Target role: WORKER NODE"
 info "Components: kubelet, kubeadm"
 
-: "${K8S_VERSION:?K8S_VERSION is required (e.g. 1.35)}"
+#: "${K8S_VERSION:?K8S_VERSION is required (e.g. 1.35)}"
 
 # Resolver exports:
 #   K8S_MAJOR_MINOR
