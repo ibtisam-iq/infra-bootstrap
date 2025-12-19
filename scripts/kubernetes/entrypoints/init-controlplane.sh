@@ -34,6 +34,8 @@ source <(curl -fsSL "$LIB_URL") || {
 
 require_root
 
+banner "Kubernetes — Initialize Control Plane"
+
 # ───────────────────────── Preflight (silent) ────────────────────────────────
 info "Running system preflight..."
 if bash <(curl -fsSL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/system-checks/preflight.sh) \
@@ -43,8 +45,6 @@ else
     error "Preflight failed — node not suitable."
 fi
 blank
-
-banner "Kubernetes — Initialize Control Plane"
 
 # ───────────────────────── Phase 1: Cluster Parameters ──────────────────────
 
