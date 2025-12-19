@@ -14,6 +14,12 @@ source <(curl -fsSL "$LIB_URL") || {
   exit 1
 }
 
+# ───────────────────────── Load version resolver ─────────────────────────
+RESOLVER_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/kubernetes/lib/k8s-version-resolver.sh"
+source <(curl -fsSL "$RESOLVER_URL") || {
+  error "Failed to load Kubernetes version resolver"
+}
+
 # ============================================================================
 # kubectl
 # ============================================================================
