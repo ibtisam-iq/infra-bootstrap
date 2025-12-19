@@ -33,7 +33,6 @@ source <(curl -fsSL "$LIB_URL") || {
 }
 
 require_root
-
 banner "Kubernetes — Initialize Control Plane"
 
 # ───────────────────────── Preflight (silent) ────────────────────────────────
@@ -103,7 +102,6 @@ blank
 info "Phase 6 — Installing control-plane CLI tools"
 
 bash <(curl -fsSL "$BASE_URL/packages/install-controlplane-cli.sh")
-ll
 ok "Control-plane CLI tools installed"
 blank
 
