@@ -45,6 +45,15 @@ hr() {
   printf "%b━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━%b\n" "$C_MAGENTA" "$C_RESET"
 }
 
+# Full line coloring
+cmd() {
+  printf "%b%b[CMD ]    %s%b\n" \
+    "$C_BOLD" \
+    "$C_CYAN" \
+    "$*" \
+    "$C_RESET"
+}
+
 # ========================= Section Heading ======================
 section() {
   hr
