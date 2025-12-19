@@ -10,7 +10,7 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-banner "Kubernetes — Prepare Node"
+# banner "Kubernetes — Prepare Node"
 require_root
 
 # ───────────────────────── Defaults ─────────────────────────────────────────
@@ -19,7 +19,7 @@ DEFAULT_POD_CIDR="10.244.0.0"
 SUPPORTED_K8S_VERSIONS=("1.29" "1.30" "1.31" "1.32" "1.33" "1.34" "1.35")
 
 # ───────────────────────── Helpers ──────────────────────────────────────────
-detect_control_plane_ip() {
+detect_node_ip() {
   ip route get 8.8.8.8 2>/dev/null | awk '{print $7; exit}'
 }
 
@@ -40,8 +40,8 @@ validate_cidr() {
 }
 
 # ───────────────────────── Control Plane IP (NO INPUT) ──────────────────────
-CONTROL_PLANE_IP="$(detect_control_plane_ip)"
-info "Detected Control Plane IP: $CONTROL_PLANE_IP"
+CONTROL_PLANE_IP="$(detect_node_ip)"
+info "Detected NODE IP: $CONTROL_PLANE_IP"
 blank
 
 # ───────────────────────── Kubernetes Version ───────────────────────────────

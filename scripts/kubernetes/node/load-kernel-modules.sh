@@ -22,7 +22,6 @@ EOF
 if ! command -v modprobe >/dev/null 2>&1; then
     info "Installing kmod (required for modprobe)..."
     apt-get update -qq >/dev/null
-    apt-get install -yq apt-utils >/dev/null
     apt-get install -yq kmod >/dev/null
 fi
 

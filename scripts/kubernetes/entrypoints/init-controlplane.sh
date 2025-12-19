@@ -17,19 +17,13 @@
 #   • No local filesystem assumptions
 #   • No user interaction
 #   • Fail fast on any error
-#
-# Expected inputs (exported earlier):
-#   CONTROL_PLANE_IP
-#   K8S_VERSION
-#   NODE_NAME
-#   POD_CIDR
-#   CONTAINERD_INSTALL_METHOD
 # ============================================================================
+
 
 set -Eeuo pipefail
 IFS=$'\n\t'
-
 BASE_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/kubernetes"
+
 
 # ───────────────────────── Load common library ─────────────────────────
 LIB_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/lib/common.sh"
@@ -37,19 +31,73 @@ source <(curl -fsSL "$LIB_URL") || {
   echo "FATAL: Unable to load common library"
   exit 1
 }
+
 require_root
+
+# ───────────────────────── Preflight (silent) ────────────────────────────────
+info "Running system preflight..."
+if bash <(curl -fsSL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/system-checks/preflight.sh) \
+    >/dev/null 2>&1; then
+    ok "Preflight passed."
+else
+    error "Preflight failed — node not suitable."
+fi
+blank
 
 banner "Kubernetes — Initialize Control Plane"
 
-# ───────────────────────── Phase 1–5: Worker Node Bootstrap ────────────
+# ───────────────────────── Phase 1: Cluster Parameters ──────────────────────
 
-bash <(curl -fsSL "$BASE_URL/entrypoints/init-worker-node.sh")
+info "Phase 1 — Importing cluster parameters"
+source <(curl -fsSL "$BASE_URL/cluster/cluster-params.sh") || {
+  error "Failed to load cluster parameters"
+}
+blank
+
+info "Control plane initialization started"
+info "Node name: $NODE_NAME"
+info "Kubernetes version: $K8S_VERSION"
+info "Control plane IP: $CONTROL_PLANE_IP"
+info "Containerd method: $CONTAINERD_INSTALL_METHOD"
+blank
+
+# ───────────────────────── Phase 2: Node Preparation ────────────────────────
+info "Phase 2 — Node preparation"
+
+bash <(curl -fsSL "$BASE_URL/node/disable-swap.sh")
+bash <(curl -fsSL "$BASE_URL/node/load-kernel-modules.sh")
+bash <(curl -fsSL "$BASE_URL/node/apply-sysctl.sh")
+blank
+
+# ───────────────────────── Phase 3: Container Runtime Prerequisites ─────────
+info "Phase 3 — Container runtime prerequisites"
+
+bash <(curl -fsSL "$BASE_URL/runtime/install-cni-binaries.sh")
+bash <(curl -fsSL "$BASE_URL/runtime/install-crictl.sh")
+blank
+
+# ───────────────────────── Phase 4: Container Runtime ───────────────────────
+info "Phase 4 — Container runtime installation"
+
+bash <(curl -fsSL "$BASE_URL/runtime/install-containerd.sh")
+bash <(curl -fsSL "$BASE_URL/runtime/config-crictl.sh")
+blank
 
 # ───────────────────────── Load version resolver ─────────────────────────
-RESOLVER_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/kubernetes/lib/k8s-version-resolver.sh"
-source <(curl -fsSL "$RESOLVER_URL") || {
+info "Resolving Kubernetes versions (environment context)"
+
+source <(curl -fsSL "$BASE_URL/lib/k8s-version-resolver.sh") || {
   error "Failed to load Kubernetes version resolver"
 }
+
+info "Kubernetes version context resolved"
+blank
+
+# ───────────────────────── Phase 5: Kubernetes Components ───────────────────
+info "Phase 5 — Kubernetes node components"
+
+bash <(curl -fsSL "$BASE_URL/packages/install-kubeadm-kubelet.sh")
+blank
 
 # ───────────────────────── Phase 6: Control Plane CLI Tooling ───────────
 info "Phase 6 — Installing control-plane CLI tools"
