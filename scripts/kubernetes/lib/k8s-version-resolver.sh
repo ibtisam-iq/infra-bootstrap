@@ -50,6 +50,7 @@ if ! [[ "$PATCH_TAG" =~ ^v${K8S_MAJOR_MINOR}\.[0-9]+$ ]]; then
   return 1 2>/dev/null || exit 1
 fi
 
+export K8S_VERSION="$K8S_MAJOR_MINOR"               # e.g. 1.35
 export K8S_MAJOR_MINOR="$K8S_VERSION"               # e.g. 1.35
 export K8S_IMAGE_TAG="${PATCH_TAG}"                 # e.g. v1.35.0
 export K8S_PATCH_VERSION="${PATCH_TAG#v}"           # Remove leading 'v'
