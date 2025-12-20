@@ -74,6 +74,50 @@ require_cmd() {
   command -v "$1" >/dev/null 2>&1 || error "Required command missing: $1"
 }
 
+# ===================== Prevent Privileged Execution =====================
+forbid_sudo() {
+
+  # Block ONLY when: running as root, invoked via sudo, and original user was NOT root
+  if [[ ${EUID:-$(id -u)} -eq 0 ]] \
+     && [[ -n "${SUDO_USER:-}" ]] \
+     && [[ "${SUDO_USER}" != "root" ]]; then
+    error "This script must NOT be run with sudo. Please run it as a normal user."
+  fi
+}
+
+# ===================== Privileged Execution Confirmation =====================
+confirm_sudo_execution() {
+
+  # Trigger ONLY when: running as root, invoked via sudo, and original user was NOT root
+  if [[ ${EUID:-$(id -u)} -eq 0 ]] \
+     && [[ -n "${SUDO_USER:-}" ]] \
+     && [[ "${SUDO_USER}" != "root" ]]; then
+
+    warn "This script is running with elevated privileges via sudo."
+
+    printf "%b[CONF]%b    Press Enter to continue, or Ctrl+C to abort..." \
+      "$C_YELLOW" "$C_RESET"
+    read -r
+    blank
+  fi
+}
+
+# ===================== Execution Visibility =====================
+print_execution_user() {
+  local effective_user invoking_user
+
+  # Effective user (who the process is actually running as)
+  effective_user="$(id -un 2>/dev/null || echo unknown)"
+
+  # Always print the effective execution user
+  info "Execution user: ${effective_user}"
+
+  # If running as root via sudo by a non-root user, print extra context
+  if [[ "${effective_user}" == "root" ]] && [[ -n "${SUDO_USER:-}" ]] && [[ "${SUDO_USER}" != "root" ]]; then
+    warn "Script invoked via sudo privileges by user '${SUDO_USER}'"
+  fi
+}
+
 # ========================== Remote Fetch =========================
 fetch() {
   local url=$1
