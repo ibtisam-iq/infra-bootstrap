@@ -93,8 +93,7 @@ confirm_sudo_execution() {
      && [[ -n "${SUDO_USER:-}" ]] \
      && [[ "${SUDO_USER}" != "root" ]]; then
 
-    warn "This script is running with elevated privileges via sudo."
-
+    # warn "This script is running with elevated privileges via sudo."
     printf "%b[CONF]%b    Press Enter to continue, or Ctrl+C to abort..." \
       "$C_YELLOW" "$C_RESET"
     read -r
@@ -115,6 +114,7 @@ print_execution_user() {
   # If running as root via sudo by a non-root user, print extra context
   if [[ "${effective_user}" == "root" ]] && [[ -n "${SUDO_USER:-}" ]] && [[ "${SUDO_USER}" != "root" ]]; then
     warn "Script invoked via sudo privileges by user '${SUDO_USER}'"
+    blank
   fi
 }
 
