@@ -9,12 +9,8 @@
 set -Eeuo pipefail
 IFS=$'\n\t'
 
-# ========================= Load Common Library ==================
-LIB_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/lib/common.sh"
-source <(curl -fsSL "$LIB_URL") || {
-  echo "FATAL: Unable to load common.sh"
-  exit 1
-}
+# Requires common.sh to be sourced first
+: "${C_RESET:?common.sh must be loaded first}"
 
 # ===================== Kubeconfig Resolution =====================
 ensure_kubeconfig() {
