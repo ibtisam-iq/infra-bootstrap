@@ -150,14 +150,14 @@ confirm_or_abort() {
   while [[ $attempt -le $max_attempts ]]; do
     read -rp "$prompt ($attempt of $max_attempts): " response
 
-    if [[ "$response" == "yes" ]]; then
+    if [[ "$response" == "YES" ]]; then
       return 0
     fi
     
     # Only warn if another attempt is still available
     if [[ $attempt -lt $max_attempts ]]; then
       blank
-      warn "Invalid input. You must type exactly 'yes' to proceed."
+      warn "Invalid input. You must type exactly 'YES' to proceed."
       blank
     fi
 
