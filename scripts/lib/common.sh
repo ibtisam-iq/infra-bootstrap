@@ -170,4 +170,4 @@ confirm_or_abort() {
   return 1
 }
 
-export BASE_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts"
+export K8S_BASE_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/kubernetes"
