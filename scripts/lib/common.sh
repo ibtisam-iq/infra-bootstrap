@@ -171,3 +171,16 @@ confirm_or_abort() {
 }
 
 export K8S_BASE_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/kubernetes"
+
+export K8S_CNI_URL="${K8S_BASE_URL}/cni"
+export INSTALL_CNI_URL="${K8S_CNI_URL}/install-cni.sh"
+
+export K8S_RUNTIME_URL="${K8S_BASE_URL}/runtime"
+export K8S_PACKAGES_URL="${K8S_BASE_URL}/packages"
+export K8S_MANIFESTS_URL="${K8S_BASE_URL}/manifests"
+export K8S_MAINTENANCE_URL="${K8S_BASE_URL}/maintenance"
+
+export VERSION_RESOLVER_URL="${K8S_BASE_URL}/lib/version-resolver.sh"
+export ENSURE_KUBECONFIG_URL="${K8S_BASE_URL}/lib/ensure_kubeconfig.sh"
+
+export INIT_CONTROL_PLANE_URL="${K8S_BASE_URL}/entrypoints/init-controlplane.sh"
