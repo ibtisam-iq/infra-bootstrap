@@ -169,3 +169,5 @@ confirm_or_abort() {
   blank
   return 1
 }
+
+export BASE_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts"
