@@ -138,3 +138,34 @@ banner() {
   blank
 }
 
+# ======================== Confirmation Prompt ========================
+
+confirm_or_abort() {
+  local prompt="$1"
+  local max_attempts="${2:-3}"
+
+  local attempt=1
+  local response
+
+  while [[ $attempt -le $max_attempts ]]; do
+    read -rp "$prompt ($attempt of $max_attempts): " response
+
+    if [[ "$response" == "yes" ]]; then
+      return 0
+    fi
+    
+    # Only warn if another attempt is still available
+    if [[ $attempt -lt $max_attempts ]]; then
+      blank
+      warn "Invalid input. You must type exactly 'yes' to proceed."
+      blank
+    fi
+
+    ((attempt++))
+  done
+  blank
+  warn "Maximum confirmation attempts exceeded."
+  warn "Operation aborted. No changes were made."
+  blank
+  return 1
+}
