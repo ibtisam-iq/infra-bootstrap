@@ -48,6 +48,8 @@ blank
 # ───────────────────────── Phase 1: Cluster Parameters ──────────────────────
 
 info "Phase 1 — Importing cluster parameters"
+blank
+
 source <(curl -fsSL "$BASE_URL/cluster/cluster-params.sh") || {
   error "Failed to load cluster parameters"
 }
@@ -116,7 +118,7 @@ blank
 # ───────────────────────── Phase 8: Pre-bootstrap Cleanup ───────────────
 info "Phase 8 — Pre-bootstrap cluster cleanup (guarded)"
 
-# bash <(curl -fsSL "$BASE_URL/maintenance/cleanup-cluster.sh")
+# bash <(curl -fsSL "$BASE_URL/maintenance/reset-cluster.sh")
 
 ok "Cluster cleanup completed (if required)"
 blank
