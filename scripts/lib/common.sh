@@ -175,6 +175,8 @@ export PREFLIGHT_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstr
 
 export K8S_CNI_URL="${K8S_BASE_URL}/cni"
 export INSTALL_CNI_URL="${K8S_CNI_URL}/install-cni.sh"
+export INSTALL_CALICO_URL="${K8S_CNI_URL}/install-calico.sh"
+export INSTALL_FLANNEL_URL="${K8S_CNI_URL}/install-flannel.sh"
 
 export K8S_RUNTIME_URL="${K8S_BASE_URL}/runtime"
 export K8S_PACKAGES_URL="${K8S_BASE_URL}/packages"
