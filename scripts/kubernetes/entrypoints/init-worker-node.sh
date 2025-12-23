@@ -28,14 +28,14 @@ source <(curl -fsSL "$LIB_URL") || {
   echo "FATAL: Unable to load common library"
   exit 1
 }
+
 require_root
 
 banner "Kubernetes — Initialize Worker Node"
 
 # ───────────────────────── Preflight (silent) ────────────────────────────────
 info "Running system preflight..."
-if bash <(curl -fsSL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/system-checks/preflight.sh) \
-    >/dev/null 2>&1; then
+if bash <(curl -fsSL $PREFLIGHT_URL) >/dev/null 2>&1; then
     ok "Preflight passed."
 else
     error "Preflight failed — node not suitable."
@@ -44,8 +44,10 @@ blank
 
 # ───────────────────────── Phase 1: Cluster Parameters ──────────────────────
 
-info "Phase 1 — Importing cluster parameters"
-source <(curl -fsSL "$BASE_URL/cluster/cluster-params.sh") || {
+info "Phase 1 — Importing cluster paramesters"
+blank
+
+source <(curl -fsSL "$K8S_BASE_URL/cluster/cluster-params.sh") || {
   error "Failed to load cluster parameters"
 }
 blank
@@ -60,29 +62,29 @@ blank
 # ───────────────────────── Phase 2: Node Preparation ────────────────────────
 info "Phase 2 — Node preparation"
 
-bash <(curl -fsSL "$BASE_URL/node/disable-swap.sh")
-bash <(curl -fsSL "$BASE_URL/node/load-kernel-modules.sh")
-bash <(curl -fsSL "$BASE_URL/node/apply-sysctl.sh")
+bash <(curl -fsSL "$K8S_BASE_URL/node/disable-swap.sh")
+bash <(curl -fsSL "$K8S_BASE_URL/node/load-kernel-modules.sh")
+bash <(curl -fsSL "$K8S_BASE_URL/node/apply-sysctl.sh")
 blank
 
 # ───────────────────────── Phase 3: Container Runtime Prerequisites ─────────
 info "Phase 3 — Container runtime prerequisites"
 
-bash <(curl -fsSL "$BASE_URL/runtime/install-cni-binaries.sh")
-bash <(curl -fsSL "$BASE_URL/runtime/install-crictl.sh")
+bash <(curl -fsSL "$K8S_RUNTIME_URL/install-cni-binaries.sh")
+bash <(curl -fsSL "$K8S_RUNTIME_URL/install-crictl.sh")
 blank
 
 # ───────────────────────── Phase 4: Container Runtime ───────────────────────
 info "Phase 4 — Container runtime installation"
 
-bash <(curl -fsSL "$BASE_URL/runtime/install-containerd.sh")
-bash <(curl -fsSL "$BASE_URL/runtime/config-crictl.sh")
+bash <(curl -fsSL "$K8S_RUNTIME_URL/install-containerd.sh")
+bash <(curl -fsSL "$K8S_RUNTIME_URL/config-crictl.sh")
 blank
 
 # ───────────────────────── Load version resolver ─────────────────────────
 info "Resolving Kubernetes versions (environment context)"
 
-source <(curl -fsSL "$BASE_URL/lib/k8s-version-resolver.sh") || {
+source <(curl -fsSL "$VERSION_RESOLVER_URL") || {
   error "Failed to load Kubernetes version resolver"
 }
 
@@ -92,7 +94,7 @@ blank
 # ───────────────────────── Phase 5: Kubernetes Components ───────────────────
 info "Phase 5 — Kubernetes node components"
 
-bash <(curl -fsSL "$BASE_URL/packages/install-kubeadm-kubelet.sh")
+bash <(curl -fsSL "$K8S_PACKAGES_URL/install-kubeadm-kubelet.sh")
 blank
 
 # ───────────────────────── Final State ──────────────────────────────────────
