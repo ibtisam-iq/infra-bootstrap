@@ -20,7 +20,6 @@
 
 set -Eeuo pipefail
 IFS=$'\n\t'
-BASE_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/kubernetes"
 
 # ───────────────────────── Load common library ─────────────────────────
 LIB_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/lib/common.sh"
