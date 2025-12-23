@@ -15,14 +15,15 @@ source <(curl -fsSL "$LIB_URL") || {
 }
 
 # ───────────────────────── Load version resolver ─────────────────────────
-RESOLVER_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/kubernetes/lib/k8s-version-resolver.sh"
-source <(curl -fsSL "$RESOLVER_URL") || {
+source <(curl -fsSL "$VERSION_RESOLVER_URL") || {
   error "Failed to load Kubernetes version resolver"
+  exit 1
 }
 
 # ============================================================================
 # kubectl
 # ============================================================================
+blank
 info "Kubernetes — Control Plane CLI Tools Installation"
 blank
 info "1) Installing kubectl..."
