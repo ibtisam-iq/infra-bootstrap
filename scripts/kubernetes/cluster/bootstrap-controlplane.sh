@@ -26,29 +26,30 @@ source <(curl -fsSL "$LIB_URL") || {
 
 require_root
 
-# ───────────────────────── Load version resolver ─────────────────────────
-RESOLVER_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/kubernetes/lib/k8s-version-resolver.sh"
-source <(curl -fsSL "$RESOLVER_URL") || {
-  error "Failed to load Kubernetes version resolver"
-}
-
-# Resolver exports:
-#   K8S_MAJOR_MINOR
-#   K8S_PATCH_VERSION
-#   K8S_IMAGE_TAG
-
 # ───────────────────────── Load cluster parameters ─────────────────────────
 info "Loading cluster parameters..."
-eval "$(curl -fsSL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/kubernetes/cluster-params.sh)"
+source "$(curl -fsSL $K8S_BASE_URL/cluster-params.sh)"
+blank
 
+# ───────────────────────── Validate cluster parameters ───────────────────────
 : "${CONTROL_PLANE_IP:?Missing CONTROL_PLANE_IP}"
 : "${NODE_NAME:?Missing NODE_NAME}"
 : "${POD_CIDR:?Missing POD_CIDR}"
+: "${K8S_VERSION:?Missing K8S_VERSION}"
+
+# ───────────────────────── Load version resolver ─────────────────────────
+source <(curl -fsSL "$VERSION_RESOLVER_URL") || {
+  error "Failed to load Kubernetes version resolver"
+}
+
+# ───────────────────────── Validate resolver outputs ───────────────────────
 : "${K8S_PATCH_VERSION:?Missing K8S_PATCH_VERSION}"
 : "${K8S_IMAGE_TAG:?Missing K8S_IMAGE_TAG}"
 
 ok "Cluster parameters loaded"
 blank
+
+# ───────────────────────── Display summary ─────────────────────────
 
 item "Control Plane IP"     "$CONTROL_PLANE_IP"
 item "Node Name"            "$NODE_NAME"
@@ -57,7 +58,7 @@ item "Kubernetes Version"   "$K8S_PATCH_VERSION"
 blank
 
 # ───────────────────────── kubeadm init ─────────────────────────
-section "Initializing Kubernetes control plane"
+info "Initializing Kubernetes control plane"
 
 info "Using Kubernetes version: ${K8S_IMAGE_TAG}"
 info "Pre-pulling Kubernetes control plane images"
@@ -80,33 +81,39 @@ kubeadm init \
   --kubernetes-version "${K8S_IMAGE_TAG}" \
   --node-name "${NODE_NAME}" \
   --cri-socket unix:///var/run/containerd/containerd.sock
+blank
 
 # ───────────────────────────── Post-init guidance ─────────────────────────────
-hr
-info "Next steps — choose your path"
-hr
-blank
+banner "Post-bootstrap guidance"
 
-printf "%bOption A (RECOMMENDED — Manual & Transparent)%b\n" "$C_BOLD" "$C_RESET"
-echo "• Use the kubeadm instructions printed above to:"
-echo "  - configure kubeconfig"
+printf "%bPrimary next step (RECOMMENDED)%b\n" "$C_BOLD" "$C_RESET"
+blank
+echo "• Follow the kubeadm instructions printed above to:"
+echo "  - configure kubeconfig for your user"
 echo "  - join worker or additional control-plane nodes"
-blank
-
-printf "%bOption B (Assisted — Not recommended for production)%b\n" "$C_BOLD" "$C_RESET"
-echo "• Configure kubeconfig automatically using infra-bootstrap:"
 echo
-echo "  curl -fsSL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/kubernetes/cluster/kubeconfig-helper.sh | bash"
+echo "• These instructions are authoritative and should be preferred."
 blank
 
-printf "%bOptional: Install a CNI using infra-bootstrap%b\n" "$C_BOLD" "$C_RESET"
-echo "• Choose and install a CNI (Calico / Flannel / Weave):"
+printf "%bOptional helper: kubeconfig setup%b\n" "$C_BOLD" "$C_RESET"
+blank
+echo "• infra-bootstrap provides a helper to configure kubeconfig safely."
+echo "• This helper:"
+echo "  - detects the real user (even if run with sudo)"
+echo "  - verifies kubectl access"
+echo "  - provides guidance if no CNI is installed"
 echo
-echo "  curl -fsSL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/kubernetes/cni/install-cni | bash"
+cmd "curl -fsSL $K8S_BASE_URL/cluster/kubeconfig-helper.sh | bash"
 blank
 
-hr
-ok "Control plane bootstrap completed"
+printf "%bOptional next step: install a CNI%b\n" "$C_BOLD" "$C_RESET"
 blank
+echo "• Kubernetes requires a CNI plugin before pods can be scheduled."
+echo "• Supported CNIs: Calico, Flannel"
+echo
+cmd "curl -fsSL $INSTALL_CNI_URL | bash"
+blank
+
+footer "Kubernetes control plane bootstrap completed"
 
 exit 0
