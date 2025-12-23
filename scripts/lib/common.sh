@@ -96,7 +96,8 @@ confirm_sudo_execution() {
     # warn "This script is running with elevated privileges via sudo."
     printf "%b[CONF]%b    Press Enter to continue, or Ctrl+C to abort..." \
       "$C_YELLOW" "$C_RESET"
-    read -r
+    # IMPORTANT: force read from terminal, not stdin
+    read -r _ </dev/tty
     blank
   fi
 }
