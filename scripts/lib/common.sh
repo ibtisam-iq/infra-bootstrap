@@ -47,7 +47,7 @@ hr() {
 
 # Full line coloring
 cmd() {
-  printf "%b%b[CMD ]    %s%b\n" \
+  printf "%b%b[CMD>]    %s%b\n" \
     "$C_BOLD" \
     "$C_CYAN" \
     "$*" \
@@ -171,6 +171,7 @@ confirm_or_abort() {
 }
 
 export K8S_BASE_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/kubernetes"
+export PREFLIGHT_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/system-checks/preflight.sh"
 
 export K8S_CNI_URL="${K8S_BASE_URL}/cni"
 export INSTALL_CNI_URL="${K8S_CNI_URL}/install-cni.sh"
