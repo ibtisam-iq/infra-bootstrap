@@ -122,7 +122,7 @@ if [[ ! -d "$CNI_BIN_DIR" ]] || [[ -z "$(ls -A "$CNI_BIN_DIR" 2>/dev/null)" ]]; 
   blank
   read -rp "Press Enter to install CNI binaries, or Ctrl+C to abort: " _
   blank
-  bash <(curl -fsSL "$K8S_RUNTIME_URL/install-cni-binaries.sh")
+  run_remote_script "$K8S_RUNTIME_URL/install-cni-binaries.sh" "CNI binaries installer"
   blank
 else
   ok "CNI binaries detected in $CNI_BIN_DIR"
@@ -206,14 +206,14 @@ fi
 
 if [[ "$FOUND_CALICO" == true ]]; then
   info "Resetting Calico CNI..."
-  bash <(curl -fsSL "$K8S_MAINTENANCE_URL/reset-calico.sh")
+  run_remote_script "$K8S_MAINTENANCE_URL/reset-calico.sh" "Reset Calico"
   ok "Calico reset completed"
   blank
 fi
 
 if [[ "$FOUND_FLANNEL" == true ]]; then
   info "Resetting Flannel CNI..."
-  bash <(curl -fsSL "$K8S_MAINTENANCE_URL/reset-flannel.sh")
+  run_remote_script "$K8S_MAINTENANCE_URL/reset-flannel.sh" "Reset Flannel"
   ok "Flannel reset completed"
   blank
 fi
@@ -235,12 +235,12 @@ while true; do
   case "$CHOICE" in
     1)
       info "Installing Calico..."
-      bash <(curl -fsSL "$K8S_CNI_URL/install-calico.sh")
+      run_remote_script "$INSTALL_CALICO_URL" "Install Calico"
       break
       ;;
     2)
       info "Installing Flannel..."
-      bash <(curl -fsSL "$K8S_CNI_URL/install-flannel.sh")
+      run_remote_script "$INSTALL_FLANNEL_URL" "Install Flannel"
       break
       ;;
     0)
