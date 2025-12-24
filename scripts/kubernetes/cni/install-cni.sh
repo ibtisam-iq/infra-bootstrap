@@ -21,7 +21,7 @@
 #   - Install selected CNI
 # ============================================================================
 
-#!/usr/bin/env bash
+
 set -Eeuo pipefail
 IFS=$'\n\t'
 

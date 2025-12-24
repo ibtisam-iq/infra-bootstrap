@@ -14,17 +14,41 @@
 set -Eeuo pipefail
 IFS=$'\n\t'
 
-# ───────────────────────── Load common library ─────────────────────────
+# ───────────────────────── Parse DRY RUN flag ───────────────────────────────
+DRY_RUN=0
+
+for arg in "$@"; do
+  case "$arg" in
+    --dry-run)
+      DRY_RUN=1
+      ;;
+  esac
+done
+
+export DRY_RUN
+
+# ───────────────────────── Load common library (bootstrap) ──────────────────
 LIB_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/lib/common.sh"
-source <(curl -fsSL "$LIB_URL") || {
-  echo "FATAL: Unable to load common library"
+
+TMP_LIB="$(mktemp -t infra-bootstrap-XXXXXXXX.sh)"
+curl -fsSL "$LIB_URL" -o "$TMP_LIB" || {
+  echo "FATAL: Unable to download common.sh from $LIB_URL"
   exit 1
 }
 
+source "$TMP_LIB" || {
+  echo "FATAL: Unable to source common.sh"
+  rm -f "$TMP_LIB"
+  exit 1
+}
+
+rm -f "$TMP_LIB"
+
+# ───────────────────────── Root requirement ─────────────────────────────────
+require_root
+
 # ───────────────────────── Validation ─────────────────────────
 : "${CONTAINERD_INSTALL_METHOD:?CONTAINERD_INSTALL_METHOD is not set}"
-
-BASE_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/kubernetes/runtime"
 
 info "Container runtime installation started"
 info "Selected method: $CONTAINERD_INSTALL_METHOD"
@@ -36,17 +60,17 @@ case "$CONTAINERD_INSTALL_METHOD" in
     info "Using package-managed containerd installation"
     blank
 
-    bash <(curl -fsSL "$BASE_URL/install-containerd-package.sh")
-    bash <(curl -fsSL "$BASE_URL/config-containerd-package.sh")
+    run_remote_script "$K8S_RUNTIME_URL/install-containerd-package.sh" "Install containerd (package-managed)"
+    run_remote_script "$K8S_RUNTIME_URL/config-containerd-package.sh" "Configure containerd (package-managed)"
     ;;
   
   binary)
     info "Using binary-managed containerd installation"
     blank
 
-    bash <(curl -fsSL "$BASE_URL/install-runc.sh")
-    bash <(curl -fsSL "$BASE_URL/install-containerd-binary.sh")
-    bash <(curl -fsSL "$BASE_URL/config-containerd-binary.sh")
+    run_remote_script "$K8S_RUNTIME_URL/install-runc.sh" "Install runc (binary-managed)"
+    run_remote_script "$K8S_RUNTIME_URL/install-containerd-binary.sh" "Install containerd (binary-managed)"
+    run_remote_script "$K8S_RUNTIME_URL/config-containerd-binary.sh" "Configure containerd (binary-managed)"
     ;;
   
   *)
