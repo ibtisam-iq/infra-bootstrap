@@ -72,7 +72,7 @@ confirm_sudo_execution
 # ───────────────────────── Load ensure_kubeconfig lib ───────────────────────
 source_remote_library "$ENSURE_KUBECONFIG_URL" "ensure_kubeconfig"
 
-exec </dev/tty || true
+
 
 # ───────────────────────── Constants ────────────────────────────────────────
 CNI_BIN_DIR="/opt/cni/bin"
@@ -94,7 +94,7 @@ echo "  • It can REMOVE only Calico or Flannel."
 echo "  • It will NOT remove or detect other CNIs."
 echo "  • If another CNI is installed, this script is NOT suitable."
 blank
-
+exec </dev/tty || true
 read -rp "Press Enter to continue, or Ctrl+C to abort: " _ < /dev/tty
 blank
 
@@ -122,7 +122,7 @@ info "Checking CNI binaries directory..."
 if [[ ! -d "$CNI_BIN_DIR" ]] || [[ -z "$(ls -A "$CNI_BIN_DIR" 2>/dev/null)" ]]; then
   warn "CNI binaries not found in $CNI_BIN_DIR"
   blank
-  read -rp "Press Enter to install CNI binaries, or Ctrl+C to abort: " _
+  read -rp "Press Enter to install CNI binaries, or Ctrl+C to abort: " _ < /dev/tty
   blank
   run_remote_script "$K8S_RUNTIME_URL/install-cni-binaries.sh" "CNI binaries installer"
   blank
@@ -151,7 +151,7 @@ if [[ "$CNI_FS_RESIDUE" == true ]]; then
   info "This may be leftover configuration from a previous installation."
   blank
 
-  read -rp "Press Enter to remove CNI configuration files, or Ctrl+C to abort: " _
+  read -rp "Press Enter to remove CNI configuration files, or Ctrl+C to abort: " _ < /dev/tty
   blank
 
   rm -f "$CNI_CONFIG_DIR"/*.conf "$CNI_CONFIG_DIR"/*.conflist 2>/dev/null || true
@@ -229,7 +229,7 @@ while true; do
   echo "  0) Exit"
   blank
 
-  read -rp "Enter your choice [1]: " CHOICE _
+  read -rp "Enter your choice [1]: " CHOICE _ < /dev/tty
   blank
 
   CHOICE="${CHOICE:-1}"
