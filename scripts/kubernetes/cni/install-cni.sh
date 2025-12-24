@@ -94,7 +94,7 @@ echo "  • It can REMOVE only Calico or Flannel."
 echo "  • It will NOT remove or detect other CNIs."
 echo "  • If another CNI is installed, this script is NOT suitable."
 blank
-exec </dev/tty || true
+#exec </dev/tty || true
 read -rp "Press Enter to continue, or Ctrl+C to abort: " _ < /dev/tty
 blank
 
