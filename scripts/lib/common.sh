@@ -203,6 +203,47 @@ run_remote_script() {
   fi
 }
 
+# ===================== Remote Library Loader =====================
+# Safely sources a remote shell library into the CURRENT shell.
+#
+# This is REQUIRED for:
+#   - common.sh dependencies
+#   - ensure_kubeconfig.sh
+#   - any file that defines functions/variables
+#
+# This function:
+#   - Downloads the library to a temp file
+#   - Sources it into the current shell
+#   - Cleans up the temp file
+#   - Works in curl | bash mode
+#
+
+source_remote_library() {
+  local url="$1"
+  local description="${2:-$(basename "$url")}"
+
+  [[ -n "$url" ]] || error "source_remote_library: URL required"
+
+  if [[ "$DRY_RUN" == "1" ]]; then
+    printf "%b[DRY ]%b    Would source library: %s\n" "$C_DIM" "$C_RESET" "$description"
+    printf "%b        URL: %s%b\n" "$C_DIM" "$url" "$C_RESET"
+    blank
+    return 0
+  fi
+
+  local tmp_file
+  tmp_file="$(mktemp -t infra-bootstrap-XXXXXXXX.sh)"
+
+  info "Loading library: $description"
+  curl -fsSL "$url" -o "$tmp_file" || error "Failed to download $url"
+
+  # Source into CURRENT shell
+  # shellcheck source=/dev/null
+  source "$tmp_file" || error "Failed to source $description"
+
+  rm -f "$tmp_file"
+}
+
 # ===================== Remote Execution Helpers ==================
 run_remote_local() {
   run_remote_script "$1" "$2"
