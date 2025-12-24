@@ -64,21 +64,10 @@ cmd() {
 
 # ========================= Section Heading ======================
 section() {
-  hr
-  printf "%b[INFO]%b    %s\n" "$C_BLUE" "$C_RESET" "$1"
-}
-
-footer() {
-  hr
-  printf "%b[ OK ]%b    %s\n\n" "$C_GREEN" "$C_RESET" "$1"
-}
-
-section0() {
-  hr
   info "$1"
 }
 
-footer0() {
+footer() {
   hr
   ok "$1"
   blank
@@ -264,14 +253,6 @@ safe_run_remote_sudo() {
 
 # ============================ UI ================================
 banner() {
-  # $1 = Title text
-  printf "\n%b%s%b\n" "$C_CYAN" "╔════════════════════════════════════════════════════════╗" "$C_RESET"
-  printf "%b║ infra-bootstrap — %s%b\n" "$C_CYAN" "$1" "$C_RESET"
-  printf "%b%s%b\n" "$C_CYAN" "╚════════════════════════════════════════════════════════╝" "$C_RESET"
-  blank
-}
-
-banner0() {
   printf "\n%b╔════════════════════════════════════════════════════════╗%b\n" "$C_CYAN" "$C_RESET"
   printf "%b║ infra-bootstrap — %s%b\n" "$C_CYAN" "$1" "$C_RESET"
   printf "%b╚════════════════════════════════════════════════════════╝%b\n" "$C_CYAN" "$C_RESET"
