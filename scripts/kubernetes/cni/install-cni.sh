@@ -67,7 +67,7 @@ print_execution_user
 confirm_sudo_execution
 
 # Enable interactive input only after framework & policy are known
-#exec </dev/tty || true
+exec </dev/tty || true
 
 # ───────────────────────── Load ensure_kubeconfig lib ───────────────────────
 source_remote_library "$ENSURE_KUBECONFIG_URL" "ensure_kubeconfig"
@@ -93,7 +93,7 @@ echo "  • It will NOT remove or detect other CNIs."
 echo "  • If another CNI is installed, this script is NOT suitable."
 blank
 
-read -rp "Press Enter to continue, or Ctrl+C to abort: " _ 
+read -rp "Press Enter to continue, or Ctrl+C to abort: " _ < /dev/tty
 blank
 
 # ───────────────────────── Phase 1: Cluster detection ───────────────────────
