@@ -18,6 +18,18 @@
 set -Eeuo pipefail
 IFS=$'\n\t'
 
+# ===================== Execution Mode Detection ==================
+# Detect curl | bash vs direct execution
+#
+if [[ ! -t 0 ]]; then
+  PIPE_MODE=1
+  TMP_BASE="$(mktemp -d -t infra-bootstrap-XXXXXXXX)"
+  trap 'rm -rf "$TMP_BASE" 2>/dev/null || true' EXIT
+else
+  PIPE_MODE=0
+  TMP_BASE=""
+fi
+
 # ========================= DRY RUN MODE =========================
 # Enable with:
 #   DRY_RUN=1
@@ -143,18 +155,6 @@ print_execution_user() {
   fi
 }
 
-# ===================== Execution Mode Detection ==================
-# Detect curl | bash vs direct execution
-#
-if [[ ! -t 0 ]]; then
-  PIPE_MODE=1
-  TMP_BASE="$(mktemp -d -t infra-bootstrap-XXXXXXXX)"
-  trap 'rm -rf "$TMP_BASE" 2>/dev/null || true' EXIT
-else
-  PIPE_MODE=0
-  TMP_BASE=""
-fi
-
 # ========================== Remote Fetch =========================
 fetch() {
   local url=$1
@@ -223,8 +223,9 @@ source_remote_library() {
   local tmp_file
   tmp_file="$(mktemp -t infra-bootstrap-XXXXXXXX.sh)"
 
-  info "Loading library: $description"
   curl -fsSL "$url" -o "$tmp_file" || error "Failed to download $url"
+  info "Library loaded: $description"
+  blank
 
   # Source into CURRENT shell
   # shellcheck source=/dev/null
