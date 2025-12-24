@@ -26,21 +26,11 @@ source <(curl -fsSL "$LIB_URL") || {
 
 require_root
 
-# ───────────────────────── Load cluster parameters ─────────────────────────
-info "Loading cluster parameters..."
-source "$(curl -fsSL $K8S_BASE_URL/cluster-params.sh)"
-blank
-
 # ───────────────────────── Validate cluster parameters ───────────────────────
 : "${CONTROL_PLANE_IP:?Missing CONTROL_PLANE_IP}"
 : "${NODE_NAME:?Missing NODE_NAME}"
 : "${POD_CIDR:?Missing POD_CIDR}"
 : "${K8S_VERSION:?Missing K8S_VERSION}"
-
-# ───────────────────────── Load version resolver ─────────────────────────
-source <(curl -fsSL "$VERSION_RESOLVER_URL") || {
-  error "Failed to load Kubernetes version resolver"
-}
 
 # ───────────────────────── Validate resolver outputs ───────────────────────
 : "${K8S_PATCH_VERSION:?Missing K8S_PATCH_VERSION}"
@@ -62,10 +52,12 @@ info "Initializing Kubernetes control plane"
 
 info "Using Kubernetes version: ${K8S_IMAGE_TAG}"
 info "Pre-pulling Kubernetes control plane images"
+blank
 
 kubeadm config images pull \
   --kubernetes-version "${K8S_IMAGE_TAG}" \
   --cri-socket unix:///var/run/containerd/containerd.sock
+blank
 
 ok "Control plane images pulled successfully"
 blank
