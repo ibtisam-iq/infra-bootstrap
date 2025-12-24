@@ -66,13 +66,8 @@ blank
 print_execution_user
 confirm_sudo_execution
 
-# Enable interactive input only after framework & policy are known
-#exec </dev/tty || true
-
 # ───────────────────────── Load ensure_kubeconfig lib ───────────────────────
 source_remote_library "$ENSURE_KUBECONFIG_URL" "ensure_kubeconfig"
-
-
 
 # ───────────────────────── Constants ────────────────────────────────────────
 CNI_BIN_DIR="/opt/cni/bin"
@@ -94,7 +89,7 @@ echo "  • It can REMOVE only Calico or Flannel."
 echo "  • It will NOT remove or detect other CNIs."
 echo "  • If another CNI is installed, this script is NOT suitable."
 blank
-#exec </dev/tty || true
+
 read -rp "Press Enter to continue, or Ctrl+C to abort: " _ < /dev/tty
 blank
 
