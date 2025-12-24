@@ -119,11 +119,11 @@ KUBECTL_V="$(kubectl version --client -o yaml 2>/dev/null | grep gitVersion | se
 HELM_V="$(helm version --short 2>/dev/null | cut -d'+' -f1 | sed 's/^v//')"
 K9S_V="$(k9s version --short 2>/dev/null | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' | head -n1)"
 
-hr
+
 item_ver "kubectl"   "${KUBECTL_V:-unknown}"
 item_ver "helm"      "${HELM_V:-unknown}"
 item_ver "k9s"       "${K9S_V:-unknown}"
-hr
+blank
 
 ok "Control plane CLI tooling ready"
 blank
