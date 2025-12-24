@@ -64,7 +64,7 @@ blank
 
 # ───────────────────────── Execution context ────────────────────────────────
 print_execution_user
-confirm_sudo_execution
+#confirm_sudo_execution
 
 # Enable interactive input only after framework & policy are known
 exec </dev/tty || true
