@@ -15,18 +15,38 @@
 set -Eeuo pipefail
 IFS=$'\n\t'
 
-# ───────────────────────── Load common library ──────────────────────────────
+# ───────────────────────── Parse DRY RUN flag ───────────────────────────────
+DRY_RUN=0
+
+for arg in "$@"; do
+  case "$arg" in
+    --dry-run)
+      DRY_RUN=1
+      ;;
+  esac
+done
+
+export DRY_RUN
+
+# ───────────────────────── Load common library (bootstrap) ──────────────────
 LIB_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/lib/common.sh"
-source <(curl -fsSL "$LIB_URL") || {
-  echo "FATAL: Unable to load common.sh"
+
+TMP_LIB="$(mktemp -t infra-bootstrap-XXXXXXXX.sh)"
+curl -fsSL "$LIB_URL" -o "$TMP_LIB" || {
+  echo "FATAL: Unable to download common.sh from $LIB_URL"
   exit 1
 }
 
-# ───────────────────────── Load ensure_kubeconfig lib ───────────────────────
-source <(curl -fsSL "$ENSURE_KUBECONFIG_URL") || {
-  echo "FATAL: Unable to load ensure_kubeconfig.sh"
+source "$TMP_LIB" || {
+  echo "FATAL: Unable to source common.sh"
+  rm -f "$TMP_LIB"
   exit 1
 }
+
+rm -f "$TMP_LIB"
+
+# ──────────────────────── Load ensure_kubeconfig ────────────────────────────
+source_remote_library "$ENSURE_KUBECONFIG_URL" "ensure_kubeconfig"
 
 # ───────────────────────── Constants ────────────────────────────────────────
 FLANNEL_MANIFEST_URL="https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml"

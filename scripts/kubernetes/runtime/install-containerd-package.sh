@@ -14,11 +14,40 @@
 set -Eeuo pipefail
 IFS=$'\n\t'
 
+# ───────────────────────── Parse DRY RUN flag ───────────────────────────────
+DRY_RUN=0
+
+for arg in "$@"; do
+  case "$arg" in
+    --dry-run)
+      DRY_RUN=1
+      ;;
+  esac
+done
+
+export DRY_RUN
+
+# ───────────────────────── Load common library (bootstrap) ──────────────────
 LIB_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/lib/common.sh"
-source <(curl -fsSL "$LIB_URL") || {
-  echo "FATAL: Unable to load common library"
+
+TMP_LIB="$(mktemp -t infra-bootstrap-XXXXXXXX.sh)"
+curl -fsSL "$LIB_URL" -o "$TMP_LIB" || {
+  echo "FATAL: Unable to download common.sh from $LIB_URL"
   exit 1
 }
+
+source "$TMP_LIB" || {
+  echo "FATAL: Unable to source common.sh"
+  rm -f "$TMP_LIB"
+  exit 1
+}
+
+rm -f "$TMP_LIB"
+
+# ───────────────────────── Root requirement ─────────────────────────────────
+require_root
+
+# ───────────────────────── Intro ─────────────────────────
 
 info "Container runtime installation"
 info "Method: PACKAGE-MANAGED (industry standard)"

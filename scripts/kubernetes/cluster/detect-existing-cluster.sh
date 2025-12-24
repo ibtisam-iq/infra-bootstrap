@@ -15,17 +15,38 @@
 set -Eeuo pipefail
 IFS=$'\n\t'
 
-# ───────────────────────── Load common library ──────────────────────────────
+# ───────────────────────── Parse DRY RUN flag ───────────────────────────────
+DRY_RUN=0
+
+for arg in "$@"; do
+  case "$arg" in
+    --dry-run)
+      DRY_RUN=1
+      ;;
+  esac
+done
+
+export DRY_RUN
+
+# ───────────────────────── Load common library (bootstrap) ──────────────────
 LIB_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/lib/common.sh"
-source <(curl -fsSL "$LIB_URL") || {
-  echo "FATAL: Unable to load common.sh"
+
+TMP_LIB="$(mktemp -t infra-bootstrap-XXXXXXXX.sh)"
+curl -fsSL "$LIB_URL" -o "$TMP_LIB" || {
+  echo "FATAL: Unable to download common.sh from $LIB_URL"
   exit 1
 }
 
-require_root
+source "$TMP_LIB" || {
+  echo "FATAL: Unable to source common.sh"
+  rm -f "$TMP_LIB"
+  exit 1
+}
 
-# Ensure interactive input works with curl | bash
-exec </dev/tty || true
+rm -f "$TMP_LIB"
+
+# ───────────────────────── Root requirement ─────────────────────────────────
+require_root
 
 # ───────────────────────── Internal State ───────────────────────────────────
 STRONG_FOUND=false          # Active cluster indicators, kubeadm init will fail. kubeadm reset offered.
@@ -121,14 +142,14 @@ if [[ "$STRONG_FOUND" == true ]]; then
   echo "  2) Press Enter to automatically reset the cluster (kubeadm reset)"
   blank
 
-  read -rp "Press Enter to continue with automatic reset, or Ctrl+C to abort: " _
+  read -rp "Press Enter to continue with automatic reset, or Ctrl+C to abort: " _ < /dev/tty || true
   blank
 
   blank
   info "Starting full Kubernetes cluster reset..."
   blank
 
-  bash <(curl -fsSL "$K8S_MAINTENANCE_URL/reset-cluster.sh")
+  run_remote_script "$K8S_MAINTENANCE_URL/reset-cluster.sh" "Cluster reset"
 
   ok "Cluster reset completed successfully"
   blank
@@ -155,7 +176,7 @@ echo "  1) Abort now and clean up manually"
 echo "  2) Press Enter to remove leftover state and continue"
 blank
 
-read -rp "Press Enter to clean up leftover state, or Ctrl+C to abort: " _
+read -rp "Press Enter to clean up leftover state, or Ctrl+C to abort: " _ < /dev/tty || true
 blank
 
 #if ! confirm_or_abort "Type 'YES' to confirm cleanup of leftover Kubernetes state"; then
