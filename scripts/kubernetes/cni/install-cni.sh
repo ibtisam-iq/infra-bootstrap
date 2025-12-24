@@ -21,27 +21,56 @@
 #   - Install selected CNI
 # ============================================================================
 
+#!/usr/bin/env bash
 set -Eeuo pipefail
 IFS=$'\n\t'
 
-# ───────────────────────── Load common library ──────────────────────────────
+# ───────────────────────── Parse DRY RUN flag ───────────────────────────────
+DRY_RUN=0
+
+for arg in "$@"; do
+  case "$arg" in
+    --dry-run)
+      DRY_RUN=1
+      ;;
+  esac
+done
+
+export DRY_RUN
+
+# ───────────────────────── Load common library (bootstrap) ──────────────────
 LIB_URL="https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/scripts/lib/common.sh"
-source <(curl -fsSL "$LIB_URL") || {
-  echo "FATAL: Unable to load common.sh"
+
+TMP_LIB="$(mktemp -t infra-bootstrap-XXXXXXXX.sh)"
+curl -fsSL "$LIB_URL" -o "$TMP_LIB" || {
+  echo "FATAL: Unable to download common.sh from $LIB_URL"
   exit 1
 }
 
-# ───────────────────────── Load ensure_kubeconfig lib ───────────────────────
-source <(curl -fsSL "$ENSURE_KUBECONFIG_URL") || {
-  echo "FATAL: Unable to load ensure_kubeconfig.sh"
+source "$TMP_LIB" || {
+  echo "FATAL: Unable to source common.sh"
+  rm -f "$TMP_LIB"
   exit 1
 }
 
+rm -f "$TMP_LIB"
+
+# ───────────────────────── Root requirement ─────────────────────────────────
 require_root
+
+# ───────────────────────── Framework ready ──────────────────────────────────
+info "Core library loaded. Ready to build safely and deliberately."
+blank
+
+# ───────────────────────── Execution context ────────────────────────────────
 print_execution_user
 confirm_sudo_execution
 
+# Enable interactive input only after framework & policy are known
 exec </dev/tty || true
+
+# ───────────────────────── Load ensure_kubeconfig lib ───────────────────────
+source_remote_library "$ENSURE_KUBECONFIG_URL" "ensure_kubeconfig"
 
 # ───────────────────────── Constants ────────────────────────────────────────
 CNI_BIN_DIR="/opt/cni/bin"
@@ -53,7 +82,7 @@ FLANNEL_LABEL="app=flannel"
 info "infra-bootstrap — CNI Installation"
 blank
 
-warn "DISCLAIMER"
+info "DISCLAIMER"
 blank
 echo "  • This script supports installation ONLY for the following CNIs:"
 echo "      - Calico"
@@ -64,7 +93,7 @@ echo "  • It will NOT remove or detect other CNIs."
 echo "  • If another CNI is installed, this script is NOT suitable."
 blank
 
-read -rp "Press Enter to continue, or Ctrl+C to abort: " _
+read -rp "Press Enter to continue, or Ctrl+C to abort: " _ 
 blank
 
 # ───────────────────────── Phase 1: Cluster detection ───────────────────────
