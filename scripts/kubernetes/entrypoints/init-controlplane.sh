@@ -79,7 +79,7 @@ blank
 info "Phase 1 — Importing cluster parameters"
 blank
 
-run_remote_script "$K8S_BASE_URL/cluster/cluster-params.sh" "Fetch cluster parameters" || {
+source_remote_library "$K8S_BASE_URL/cluster/cluster-params.sh" "Fetch cluster parameters" || {
   error "Failed to load cluster parameters"
 }
 blank
