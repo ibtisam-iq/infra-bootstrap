@@ -174,7 +174,7 @@ blank
 # ───────────────────────── Phase 8: Ensure Kubernetes Services ──────────
 info "Phase 8 — Ensuring Kubernetes services are active"
 
-run_remote_script "$K8S_BASE_URL/cluster/ensure-k8s-services" "Ensure Kubernetes services" || {
+run_remote_script "$K8S_BASE_URL/cluster/ensure-k8s-services.sh" "Ensure Kubernetes services" || {
   error "Failed to ensure Kubernetes services"
 }
 

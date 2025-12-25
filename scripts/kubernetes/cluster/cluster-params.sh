@@ -32,7 +32,7 @@ curl -fsSL "$LIB_URL" -o "$TMP_LIB" || {
   exit 1
 }
 
-source "$TMP_LIB" || {
+bash "$TMP_LIB" || {
   echo "FATAL: Unable to source common.sh"
   rm -f "$TMP_LIB"
   exit 1
