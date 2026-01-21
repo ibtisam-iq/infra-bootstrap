@@ -67,3 +67,17 @@
     text-decoration-color: #2196f3;  /* Blue underline in dark */
   }
 }
+
+/* Append " PKT" after the git revision date in the footer */
+.git-revision-date-localized-plugin::after {
+  content: " PKT";
+  font-weight: 600;
+  margin-left: 0.2em;  /* Small space before PKT */
+  color: var(--md-default-fg-color--light);
+}
+
+/* Optional: Slightly more subtle in footer for better visual balance */
+.md-footer-meta .git-revision-date-localized-plugin::after {
+  opacity: 0.85;
+  font-weight: 500;
+}
