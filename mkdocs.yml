@@ -1,7 +1,7 @@
 # Basic site metadata – required for GH Pages title/previews
 site_name: "Infra Bootstrap"
 site_description: "Comprehensive guide to bootstrapping Kubernetes, servers, and tools for modern infra."
-site_author: "Ibtisam IQ"  # NEW: For SEO/Open Graph on GH Pages
+site_author: "Muhammad Ibtisam"  # NEW: For SEO/Open Graph on GH Pages
 site_url: "https://bootstrap.ibtisam-iq.com"  # Your custom domain (if using; GH Pages supports CNAME)
 
 # Repository integration – enables "Edit this page" links on GH Pages
@@ -17,6 +17,9 @@ strict: true  # NEW: Enforce strict link checking during build/deploy (prevents 
 # Theme: Material with GH Pages-friendly features
 theme:
   name: material
+  # custom_dir: docs/overrides
+  favicon: images/favicon.ico
+  logo: images/favicon.svg
   language: en
   features:
     - navigation.sections  # Grouped sections (your CNCF-style)
@@ -24,6 +27,7 @@ theme:
     - navigation.top       # Back-to-top
     - navigation.indexing  # NEW: Improves search indexing for GH Pages crawlers
     - navigation.expand    # Auto-expand sections
+    - navigation.tabs.sticky  # Keeps tabs visible when scrolling
     - content.code.copy
     - content.code.annotate
     - content.tabs.link
@@ -89,11 +93,12 @@ plugins:
   - minify:
       minify_html: true  # Compresses output for faster GH Pages loads
   - git-revision-date-localized:
-      type: date
+      type: custom                  # Use custom formatting
+      custom_format: "%B %d, %Y %I:%M:%S %p"  # Your desired format (AM/PM)
+      enable_creation_date: false
+      fallback_to_build_date: false
       timezone: Asia/Karachi
-      locale: en
-      fallback_to_build_date: true  # Shows last updated date on GH Pages
-
+      locale: en                    # Keeps English month/day names
 
 # Extra content – enhances GH Pages sharing/SEO
 extra:
@@ -105,9 +110,7 @@ extra:
     - icon: fontawesome/solid/globe
       link: https://ibtisam-iq.com
   generator: false  # Hides "Built with MkDocs" (clean look)
-  copyright: "© 2025 Ibtisam IQ. Licensed under CC BY 4.0."  # Add your license
+  copyright: "© 2025 Ibtisam IQ. All rights reserved."  # NEW: Footer copyright
 
 extra_css:
   - stylesheets/extra.css  # Loads your custom styles
-
-
