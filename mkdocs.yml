@@ -38,8 +38,7 @@ theme:
     - search.suggest
     - toc.follow
     - search.highlight
-    # REMOVED: toc.integrate  # Keeps TOC on right, separate from left nav
-    - toc.follow
+    - toc.integrate  
     - search.share         # NEW: Share buttons work seamlessly on GH Pages
   palette:
     - scheme: default
@@ -114,3 +113,4 @@ extra:
 
 extra_css:
   - stylesheets/extra.css  # Loads your custom styles
+
