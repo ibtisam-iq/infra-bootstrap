@@ -216,7 +216,7 @@ The canonical build is defined in [`.github/workflows/build-ubuntu-rootfs.yml`](
 
 - Authenticates to GHCR via `secrets.GITHUB_TOKEN`.
 - Generates tags via `docker/metadata-action`: `latest` (default branch), `sha-<short-sha>`, `YYYY-MM-DD`.
-- Runs `docker/build-push-action` with `context: ./iximiuz/rootfs/ubuntu`, `platforms: linux/amd64`, `push: true` (non-PR events), and the `build-args` above.
+- Runs `docker/build-push-action` with `context: ./iximiuz/rootfs/ubuntu`, `platforms: linux/amd64,linux/arm64`, `push: true` (non-PR events), and the `build-args` above. This is the only image in the family built multi-arch, via `docker/setup-qemu-action`; every child image builds `linux/amd64` only.
 - Prints the final image digest on completion.
 
 ---
@@ -240,10 +240,10 @@ skopeo inspect docker://ghcr.io/ibtisam-iq/ubuntu-24-04-rootfs:latest \
 
 ### Correct: Boot in an iximiuz Manifest
 
-The only valid way to verify runtime behavior (systemd, SSH, prompt, welcome) is to boot the image inside an iximiuz microVM. Use or adapt an existing manifest:
+The only valid way to verify runtime behavior (systemd, SSH, prompt, welcome) is to boot the image inside an iximiuz microVM. This manifest is not in the repo, since the base is normally consumed through a child image. Write it yourself, using [`dev-machine.yml`](https://github.com/ibtisam-iq/silver-stack/blob/main/iximiuz/manifests/dev-machine.yml) as a working reference:
 
 ```yaml
-# iximiuz/manifests/ubuntu-base-test.yml
+# ubuntu-base-test.yml, created locally
 machines:
   - name: ubuntu-base
     drives:
@@ -253,8 +253,7 @@ machines:
 ```
 
 ```bash
-labctl playground create --base flexbox ubuntu-base \
-  -f ./iximiuz/manifests/ubuntu-base-test.yml
+labctl playground create --base flexbox ubuntu-base -f ./ubuntu-base-test.yml
 ```
 
 Once the VM is running, connect and verify:
@@ -297,7 +296,7 @@ Guidelines for child Dockerfiles:
 1. Start with `USER root` to install services and system packages.
 2. Enable services with `systemctl enable <service>` during build.
 3. Place `COPY welcome $HOME/.welcome` **after** all `RUN customize-bashrc.sh` steps.
-4. End with `USER root` so the platform boots the VM with correct permissions.
+4. End with `USER root` for **service** images, whose `CMD` starts systemd and therefore needs root under `docker run`. End with `USER $USER` for **workstation** images (`dev-machine`, `dev-cicd`) so the `docker run` binary-presence check validates that tools are reachable by the non-root user. The platform ignores this field either way: it boots the filesystem with its own kernel and systemd takes PID 1 as root regardless.
 5. Set `CMD ["/lib/systemd/systemd"]` **only** if the child image also needs to run as a standalone Docker container (e.g., for `docker run`-based testing). The ubuntu base itself must not have this.
 
 ### Optional: Direct Use as a Playground Rootfs
