@@ -231,14 +231,14 @@ Validates 8 sections without starting any services (systemd is not running durin
 
 | Section | What is checked |
 |---|---|
-| 1. System tools | `curl`, `wget` present |
-| 2. Java | `java` command, `JAVA_HOME`, `openjdk-21-jdk` package |
-| 3. Jenkins | `jenkins` package installed, `/usr/bin/jenkins` present |
-| 4. Nginx | `nginx` package, config file, site enabled symlink |
-| 5. Systemd units | `lab-init`, `nginx`, `jenkins` symlinks in `multi-user.target.wants/` |
-| 6. Post-setup scripts | `/usr/local/bin/install-pipeline-tools`, `/usr/local/bin/install-plugins` present and executable |
-| 7. Directories | `/var/lib/jenkins`, `/var/log/jenkins`, `/opt/jenkins-scripts/` |
-| 8. Interactive user | `$USER` account exists |
+| 1. System Tools | `curl`, `wget`, `git`, `vim` present |
+| 2. Java Installation | `java` and `javac` commands resolve |
+| 3. Jenkins Installation | `jenkins` package, `/var/lib/jenkins` and its `plugins/` directory, `jenkins` system user |
+| 4. Nginx Configuration | `/etc/nginx/sites-available/jenkins` present |
+| 5. Systemd Services | `lab-init`, `ssh`, `nginx`, `jenkins` symlinks in `multi-user.target.wants/` |
+| 6. SSH Configuration | `/etc/ssh/sshd_config` and `/usr/sbin/sshd` present |
+| 7. User Configuration | interactive `$USER` account exists |
+| 8. File Permissions | `/var/lib/jenkins` is owned by `jenkins` |
 
 If any check fails, the build fails with a non-zero exit.
 
