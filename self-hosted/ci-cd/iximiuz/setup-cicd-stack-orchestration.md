@@ -108,7 +108,7 @@ EXPOSE 22
 
 Key points:
 
-- **No `USER root` at the end**: unlike the service rootfs images, this image does not return to `root` before `CMD`. There is no `CMD` in the Dockerfile at all: `CMD ["/lib/systemd/systemd"]` is inherited from the base image.
+- **No `USER root` at the end**: unlike the service rootfs images, this image does not return to `root`. There is no `CMD` in the Dockerfile, and none is inherited either, because `ubuntu-24-04-rootfs` does not set one. The platform boots the filesystem with its own kernel and starts systemd as PID 1 regardless, so a `CMD` would only affect `docker run`, which this image is not built for. The service images set `CMD ["/lib/systemd/systemd"]` for exactly that reason: to make `docker run` fail honestly rather than drop you into a shell.
 - **No `SONARQUBE_PORT`, `NEXUS_PORT`, or service-specific build args**: the only build arg consumed is `USER=ibtisam`.
 - **All tools inherited** from `ubuntu-24-04-rootfs`: `arkade`, `jq`, `yq`, `fx`, `task`, `just`, `fzf`, `btop`, `cfssl`, `ripgrep`, `code-server`, and all base CLI tools.
 
