@@ -216,7 +216,7 @@ The Dockerfile performs the following sequence:
 - `USER $USER` and `ENV HOME=/home/$USER`
 - `COPY welcome $HOME/.welcome`: placed at this stage so the banner is not consumed by any non-interactive build step.
 - `customize-bashrc.sh` (bind mount): appends kubectl, docker, terraform, git, and utility aliases and helpers to `~/.bashrc`.
-- **`EXPOSE 22`**: documents the SSH port for iximiuz port-forwarding. SSH itself is managed by systemd inherited from the base image. SSH itself is managed by systemd inherited from the base image.
+- **`EXPOSE 22`**: documents the SSH port for iximiuz port-forwarding. SSH itself is managed by systemd inherited from the base image.
 
 !!! note
     The Dockerfile intentionally ends at `USER $USER`: not `USER root`. See [Key Decisions → `USER $USER` at the end is intentional](#key-decisions) for the full explanation.
